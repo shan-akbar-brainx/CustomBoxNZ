@@ -1,0 +1,318 @@
+<div data-section-id="{{ section.id }}" data-section-type="collection-slider-section">
+  <style>
+    #collection-slider-{{ section.id }} {background-color:{{section.settings.bg_fullwidth_color}};}  
+    #collection-slider-{{ section.id }} h3.title-widget, 
+    #collection-slider-{{ section.id }} .top-content,
+    #collection-slider-{{ section.id }} .bottom-content{
+      color: {{ section.settings.title_section_color }};
+    }
+    #collection-slider-{{ section.id }} .title-collection {
+      color: {{ section.settings.title_collection_color }};
+    }
+  </style>
+  <div id="collection-slider-{{ section.id }}" class="collection-slider" style="margin:{{section.settings.margin_section}};">
+    <div class="container"> 
+      {% if section.settings.show_top_title != blank %}
+        {% if section.settings.title != blank %}
+        <h3 class="title-widget show-top"> 
+          <span class="inner">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.title | split: '|' | first }}
+            {% endif %}
+          </span>
+        </h3> 
+        {% endif %}
+      {%else%}
+        <div class="slide-left">
+          {% if section.settings.top_content != blank %}
+          <span class="top-content">  
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.top_content | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.top_content | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.top_content | split: '|' | first }}
+            {% endif %} 
+          </span>
+          {% endif %}
+          {% if section.settings.title != blank %}
+          <h3 class="title-widget"> 
+            <span class="inner">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.title | split: '|' | first }}
+              {% endif %}
+            </span>
+          </h3> 
+          {% endif %}
+          {% if section.settings.show_nav != blank %}
+          <div class="owl-nav-custom nav-custom-{{ section.id }}">
+            <div class="owl-prev">{{ section.settings.nav_prev }}</div>
+            <div class="owl-next">{{ section.settings.nav_next }}</div>
+          </div>
+          {% endif %}
+          {% if section.settings.bottom_content != blank %}
+          <span class="bottom-content">  
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.bottom_content | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.bottom_content | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.bottom_content | split: '|' | first }}
+            {% endif %} 
+          </span>
+          {% endif %}
+        </div>
+      {% endif %} 
+      <div class="items-slide {% if section.settings.show_top_title != blank %}show-full{%endif%}">
+        <div class="data-carousel"  
+             data-auto="{{ section.settings.autoplay }}"
+             data-items="{{ section.settings.column }}"
+             data-1600="{{ section.settings.column }}"
+             data-1200="4"
+             data-992="3"
+             data-768="3"
+             data-640="2"
+             data-480="2"
+             data-320="2"
+             data-navcustom=".nav-custom-{{ section.id }}"
+             data-paging="{{ section.settings.show_paging }}"
+             data-nav="{{ section.settings.show_nav }}"
+             data-margin="{{ section.settings.item_margin }}"
+             data-prev='{{ section.settings.nav_prev }}' 
+             data-next='{{ section.settings.nav_next }}' style="display: none;"></div> 
+        <div class="owl-carousel">
+          {% for block in section.blocks %}
+          {%- assign collection = collections[block.settings.collection] -%}
+          {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+          <div class="item">
+            <a href="{{ block.settings.slider_link }}" class="single-image">
+              {% if block.settings.slider_image != blank %}
+              {% assign img_url = block.settings.slider_image | img_url: '266x285' %}
+              {% else %}
+              {% assign img_url = '266x285.png' | asset_url  %}
+              {% endif %}
+              <img data-src="{{ img_url }}" class="owl-lazy" width="266"/>
+              {% if section.settings.use_title != blank %}
+                <h3 class="title-collection">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                  <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ block.settings.title | split: '|' | first }}
+                  {% endif %}
+                </h3>
+              {% endif %} 
+              {% if section.settings.use_title == blank %} 
+                <h3 class="title-collection">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+                  <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ collection.title | split: '|' | first }}
+                  {% endif %}
+                </h3> 
+              {% endif %}
+            </a> 
+          </div>
+          {% endfor %}
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Collection Slider",
+  "settings": [
+    {
+      "type" : "header",
+      "content": "Config"
+    },  
+    {
+      "type": "text",
+      "id": "margin_section",
+      "label": "Margin Section",
+	  "default": "30px 0 30px 0",
+      "info": "Eg: 0px 10px 20px 30px"
+    },
+    {
+      "type": "color",
+      "id": "bg_fullwidth_color",
+      "label": "Background Fullwidth Color",
+      "default": "#fff"
+    }, 
+	{
+	  "type": "color",
+      "id": "title_section_color",
+      "label": "Title Section Color",
+      "default": "#090909"
+	}, 
+    {
+      "type": "color",
+      "id": "title_collection_color",
+      "label": "Title Collection Color",
+      "default": "#292929"
+    },
+    {
+      "type":"header",
+      "content":"Collection Slider"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Top categories this week"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_title",
+      "label": "Show Title On Top",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "top_content",
+      "label": "Top Content",
+      "default": "Featured"
+    },
+    {
+      "type": "text",
+      "id": "bottom_content",
+      "label": "Bottom Content",
+      "default": "FULL CATALOG"
+    },
+    {
+      "type": "text",
+      "id": "column",
+      "label": "Columns",
+      "default": "5"
+    }, 
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation",
+	  "default": true
+    },
+    {
+      "type": "text",
+      "id": "nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-arrow-left-products-header\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-arrow-right-products-header\"></i>"
+    }, 
+    {
+      "type": "text",
+      "id": "item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    },
+	{
+      "type": "checkbox",
+      "id": "use_title",
+      "label": "Use Custom Title Collection?",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Category slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "slider_image",
+          "label": "Slider Image"
+        },
+        {
+          "type": "url",
+          "id": "slider_link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title Collection",
+          "default": "Title Collection"
+        },
+		{
+          "type": "collection",
+          "id": "collection",
+          "label": "collection"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Collection Slider",
+    "category": "Collection",
+    "settings": { 
+
+    },
+    "blocks": [ 
+      {
+        "type": "image",
+		"settings": {
+          "title": "Televisions" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "title": "Home Theater & Audio" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "title": "Headphones" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "title": "Digital Cameras" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "title": "Cosnoles & Games" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "title": "Televisions" 
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,68 @@
+<style>
+  .html-block-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+  } 
+  .html-block-{{ section.id }} .block_content {
+    color: {{ section.settings.text_color }};
+  } 
+</style>
+<div data-section-id="{{ section.id }}" data-section-type="html-block-section"> 
+  <div class="html-block html-block-{{ section.id }}" style="margin:{{section.settings.margin_section}};">
+    <div class="container">
+      <div class="block_content">
+        {% if settings.language_enable %}
+        <span class="lang1">{{ section.settings.html_block | split: '|' | first }}</span>
+        <span class="lang2">{{ section.settings.html_block | split: '|' | last }}</span>
+        {% else %}
+        {{ section.settings.html_block | split: '|' | first }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Html Section", 
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0063d1"
+    },  
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#e6edf5"
+    },
+    {
+      "type": "text",
+      "id": "margin_section",
+      "label": "Margin Section",
+	  "default": "10px 0 10px 0",
+      "info": "Eg: 0px 10px 20px 30px"
+    },
+    {
+      "type": "html",
+      "id": "html_block",
+      "label": "Html Content",
+	  "default": "Download our new app today! Dont miss our mobile-only offers and shop with Android Play."
+    }
+  ], 
+  "presets": [{
+    "name": "HTML Section",
+    "category": "Html" 
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,503 @@
+{% if section.settings.brand_enable != blank %}
+<div data-section-id="{{ section.id }}" data-section-type="brands-slider-section">
+  <div id="brands-slider-{{ section.id }}" class="box_feature_brand">
+    <div class="container featured-brands">
+      <div class="box_brand"> 
+        <div class="brands-slider owl-no-narrow">
+          <div class="data-carousel"  
+               data-auto="{{ section.settings.autoplay }}"
+               data-items="{{ section.settings.columns }}"
+               data-1600="{{ section.settings.columns }}"
+               data-1200="5"
+               data-992="4"
+               data-768="3"
+               data-640="3"
+               data-480="2"
+               data-320="2"
+               data-paging="{{ section.settings.paging }}"
+               data-nav="{{ section.settings.navigation }}"
+               data-margin="{{ section.settings.margin }}"
+               data-prev='{{ section.settings.prev }}' 
+               data-next='{{ section.settings.next }}' style="display: none;"></div>
+        </div>
+        <div class="owl-carousel owl-middle-nav">
+          {% for block in section.blocks %}
+          <div class="item">
+            <a href="{{ block.settings.link }}">
+              {% if block.settings.image != blank %}
+              {% assign img_url = block.settings.image | img_url: '216x104' %}
+              {% else %}
+              {% assign img_url = '215x105.png' | asset_url %}
+              {% endif %}
+              <img src="{{ img_url }}" alt="{{ section.settings.image.alt }}" style="width:inherit;display: inline;"/>
+            </a>
+          </div>
+          {% endfor %}
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<footer class="footer-wrapper">
+  {% if section.settings.footer_top_enabled == 'yes' %}
+  <div class="footer-top">
+    <div class="container">
+      <div class="row">
+        <div class="{%if section.settings.footer_button_social != ''%}col-md-8{%else%}col-md-12{%endif%}">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="newsletter-content">
+                <i class="{{ settings.newsletter_footer_icon}}"></i>
+                <span class="content">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ settings.newsletter_footer_content | split: '[lang2]' | first }}</span>
+                  <span class="lang2">{{ settings.newsletter_footer_content | split: '[lang2]' | last }}</span>
+                  {% else %}
+                  {{ settings.newsletter_footer_content | split: '[lang2]' | first }}
+                  {% endif %}
+                </span> 
+              </div>
+            </div>
+            <div class="col-md-7">
+              {% if settings.newsletter_form_action != blank %}
+              {% assign form_action = settings.newsletter_form_action %}
+              {% else %}
+              {% assign form_action = '#' %}
+              {% endif %} 
+              <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form">
+                <div class="input-group">                        
+                  <input id="fc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}">
+                  <button type="submit" class="btn-button" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.subscribe"{% endif %}>{{ 'general.newsletter_form.subscribe' | t }}</button>
+                </div> 
+              </form>   
+            </div>
+          </div> 
+        </div>
+        {%if section.settings.footer_button_social != ''%}
+        <div class="col-md-4">
+          {{section.settings.footer_button_social}} 
+        </div>
+        {%endif%}
+      </div>
+    </div> 
+  </div>
+  {% endif %}
+  {% if section.settings.footer_middle_enabled == 'yes' %}
+  <div class="footer-middle">  
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="footer-logo">
+            {% if section.settings.footer_logo_enabled %}
+            <a href="/" class="logo">
+              {% if section.settings.footer_logo != blank %}
+              {% assign logo = section.settings.footer_logo | img_url: "master" %}
+              {% else %}
+              {% assign logo = 'logo-footer.png' | asset_url %}
+              {% endif %}
+              <img class="x1" src="{{ logo }}" alt="{{ shop.name }}" />
+            </a>
+            {% endif %} 
+          </div>
+          </div>
+          <div class="col-md-6">
+          <div class="footer-content">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="support-inner">
+                  <i class="{{section.settings.footer_support_icon}}"></i>
+                  <div class="content">
+                    {% if settings.language_enable %}
+                    <div class="lang1">{{ section.settings.footer_support_content | split: '[lang2]' | first }}</div>
+                    <div class="lang2">{{ section.settings.footer_support_content | split: '[lang2]' | last }}</div>
+                    {% else %}
+                    <div>{{ section.settings.footer_support_content | split: '[lang2]' | first }}</div>
+                    {% endif %}
+                  </div> 
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="payment-inner">
+                  <i class="{{section.settings.footer_payment_icon}}"></i>
+                  <div class="content">
+                    {% if settings.language_enable %}
+                    <div class="lang1">{{ section.settings.footer_payment_content | split: '[lang2]' | first }}</div>
+                    <div class="lang2">{{ section.settings.footer_payment_content | split: '[lang2]' | last }}</div>
+                    {% else %}
+                    {{ section.settings.footer_payment_content | split: '[lang2]' | first }}
+                    {% endif %}
+                    {% if section.settings.payment_image != blank %}
+                    {% assign payment_image = section.settings.payment_image | img_url %}
+                    {% else %}
+                    {% assign payment_image = 'payment-logo.png' | asset_url %}
+                    {% endif %}
+                    <img class="payment-logo" src="{{ payment_image }}" alt="" />
+                    <div class="secure-text">
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ section.settings.footer_secure_text | split: '|' | first }}</span>
+                      <span class="lang2">{{ section.settings.footer_secure_text | split: '|' | last }}</span>
+                      {% else %}
+                      {{ section.settings.footer_secure_text | split: '|' | first }}
+                      {% endif %}
+                    </div>
+                    {% if section.settings.payment_image != blank %}
+                    {% assign payment_image = section.settings.secure_image | img_url %}
+                    {% else %}
+                    {% assign payment_image = 'secure-logo.png' | asset_url %}
+                    {% endif %}
+                    <img class="secure-logo" src="{{ payment_image }}" alt="" />
+                  </div> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="footer-link">
+            <div class="row">
+              <div class="col-md-2">
+                <div class="block">
+                  <div class="block-title">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ section.settings.footer_link_title1 | split: '|' | first }}</span>
+                    <span class="lang2">{{ section.settings.footer_link_title1 | split: '|' | last }}</span>
+                    {% else %}
+                    {{ section.settings.footer_link_title1 | split: '|' | first }}
+                    {% endif %}
+                  </div>
+                  <div class="block-content"> 
+                    {% assign list = linklists[section.settings.footer_link_1] %}
+                    <ul class="footer-list">
+                      {% for link in list.links %}
+                      {%- assign row  = forloop.index | modulo:7 -%}
+                      {% if row == 1 %}
+                      <div class="group">
+                        {% endif %}
+                        <li> 
+                          <a href="{{ link.url }}"> 
+                            {% if settings.language_enable %}
+                            <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                            <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                            {% else %}
+                            {{ link.title | split: '|' | first }}
+                            {% endif %}
+                          </a>
+                        </li>
+                        {% if row == 0 or forloop.last %}
+                      </div> 
+                      {% endif %}
+                      {% endfor %}
+                    </ul> 
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-10 footer-link2">
+                <div class="block">
+                  <div class="block-title">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ section.settings.footer_link_title2 | split: '|' | first }}</span>
+                    <span class="lang2">{{ section.settings.footer_link_title2 | split: '|' | last }}</span>
+                    {% else %}
+                    {{ section.settings.footer_link_title2 | split: '|' | first }}
+                    {% endif %}
+                  </div>
+                  <div class="block-content">
+                    {% assign list = linklists[section.settings.footer_link_2] %}
+                    <ul class="footer-list">
+                      {% for link in list.links %}
+                      {%- assign row  = forloop.index | modulo:7 -%}
+                      {% if row == 1 and list.links.size > 7 %}
+                      <div class="group">
+                        {% endif %}
+                        <li> 
+                          <a href="{{ link.url }}"> 
+                            {% if settings.language_enable %}
+                            <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                            <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                            {% else %}
+                            {{ link.title | split: '|' | first }}
+                            {% endif %}
+                          </a>
+                        </li>
+                        {% if row == 0 or forloop.last %}
+                        {% if list.links.size > 7%}
+                      </div> 
+                      {% endif %}
+                      {% endif %}
+                      {% endfor %}
+                    </ul> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div> 
+  </div>
+  {% endif %} 
+  {% if section.settings.footer_bottom_enabled == 'yes' %}
+  <div class="footer-bottom">   
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="copyright">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.copyrights | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.copyrights | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.copyrights | split: '|' | first }}
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="custom-text">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.footer_bottom_html | split: '[lang2]' | first }}</span>
+            <span class="lang2">{{ section.settings.footer_bottom_html | split: '[lang2]' | last }}</span>
+            {% else %}
+            {{ section.settings.footer_bottom_html | split: '[lang2]' | first }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>   
+  </div>
+  {% endif %}
+  <div id="back-top" class="hidden-phone">
+    <a href="#top">
+      <div class="sticker-wrapper">
+        <div class="sticker">
+          <i class="icon-up-open"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Footer - Brands"
+    },
+	{
+      "type": "checkbox",
+      "id": "brand_enable",
+      "label": "Show Brand?", 
+ 	  "default": true
+    }, 
+	{
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay.",
+ 	  "default": "5000"
+    }, 
+    {
+      "type": "text",
+      "id": "columns",
+      "label": "Columns",
+      "default" : "6"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Item Margin",
+	  "default": "30"
+    },
+    {
+      "type": "checkbox",
+      "id": "paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Show Navigation"
+    },
+    {
+      "type": "text",
+      "id": "prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-arrow-left-products-header\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "next",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-arrow-right-products-header\"></i>"
+    }, 
+    {
+      "type": "header",
+      "content": "Footer - Top"
+    },
+    {
+      "type": "select",
+      "id": "footer_top_enabled",
+      "label": "Show Footer Top",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "html",
+      "id": "footer_button_social",
+      "label": "Social buttons html"
+    }, 
+    {
+      "type": "header",
+      "content": "Footer - Middle"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_enabled",
+      "label": "Show Footer Middle",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },  
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Footer Logo"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "footer_logo_enabled",
+      "label": "Show Footer Logo?",
+      "default": true
+    },  
+    {
+      "type": "text",
+      "id": "footer_support_icon",
+      "label": "Support Icon"
+    },  
+    {
+      "type": "html",
+      "id": "footer_support_content",
+      "label": "Support Content"
+    },  
+    {
+      "type": "text",
+      "id": "footer_payment_icon",
+      "label": "Payment Icon"
+    },   
+    {
+      "type": "html",
+      "id": "footer_payment_content",
+      "label": "Payment Content"
+    },  
+    {
+      "type": "image_picker",
+      "id": "payment_image",
+      "label": "Payment image"
+    }, 
+    {
+      "type": "text",
+      "id": "footer_secure_text",
+      "label": "Secure Text"
+    },    
+    {
+      "type": "image_picker",
+      "id": "secure_image",
+      "label": "Secure image"
+    }, 
+    {
+      "type": "text",
+      "id": "footer_link_title1",
+      "label": "Footer Link Title 1",
+	  "default": "FIND IT FAST"
+    },   
+    {
+      "type": "link_list",
+      "id": "footer_link_1",
+      "label": "Link list 1:"
+    },   
+    {
+      "type": "text",
+      "id": "footer_link_title2",
+      "label": "Footer Link Title 2",
+	  "default": "CUSTOMER CARE"
+    },   
+    {
+      "type": "link_list",
+      "id": "footer_link_2",
+      "label": "Link list 2:"
+    }, 
+    {
+      "type": "header",
+      "content": "Footer - Bottom"
+    }, 
+    {
+      "type": "select",
+      "id": "footer_bottom_enabled",
+      "label": "Show Footer Bottom",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    }, 
+    {
+      "type": "text",
+      "id": "copyrights",
+      "label": "Copyrights Text",
+      "default": "&copy;Copyright 2017 by Obest. All Rights Reserved."
+    },  
+    {
+      "type": "html",
+      "id": "footer_bottom_html",
+      "label": "Custom Html"
+    }
+  ], 
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Brand Image",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    } 
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
