@@ -84,7 +84,7 @@
     {{settings.custom_style_1}}
     {{settings.custom_style_2}}
   </style>
-{% include 'hulk_po_vd.liquid' %}</head> 
+</head> 
 <body id="{{ page_title | handle }}" class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} {% if customer %}customer-logged-in {% endif %} {% if template == 'collection' or template contains 'collection.' %}layout-{{settings.collection_list_mode}}{%endif%} {% if settings.home_sidebar_position != 'none' and template contains 'index' %}columns-{{settings.home_sidebar_position}}{% endif %}"> 
   <!-- begin site-header -->
   <div class="wrapper">
@@ -237,6 +237,5 @@
   {% if settings.admin_helper_panel != blank %}
   {{ 'admin-panel.js' | asset_url | script_tag }}
   {% endif %}
-  {% include 'hulkcode_common' %}
 </body>
 </html>
