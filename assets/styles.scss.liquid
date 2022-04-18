@@ -9807,6 +9807,22 @@ ul.form-list{
   margin: 10px 0px;
   display: flex;
   flex-direction: column;
+  max-width: 300px;
+}
+
+.custom-select-field{
+  height: 30px;
+  border: 1px solid rgb(118, 118, 118);
+  padding: 0 10px !important;
+}
+
+input.custom-input-field[type=number]{
+  height: 30px;
+  padding: 0 10px !important;
+}
+
+input.custom-quantity-field{
+  border: 1px solid rgb(118, 118, 118) !important;
 }
 
 .button-wrapper-content{
@@ -9815,6 +9831,78 @@ ul.form-list{
 
 .display-hidden{
   display: none !important;
+}
+
+.total-custom-price-wrapper, .unit-custom-price-wrapper{
+  margin-top: 20px;
+}
+
+.unit-custom-price, .total-custom-price{
+  display: inline-block;
+  font-size: 30px;
+  font-weight: 500;
+  color: #0063d1;
+  line-height: 36px;
+  margin-right: 12px;
+}
+
+.custom-price-title{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.custom-button-wrapper{
+  display: inline-block;
+}
+
+.custom-product-submit{
+  margin-top: 20px;
+  height: 55px;
+  padding: 14px 90px;
+}
+
+.custom-action-list{
+  padding-bottom: 10px;
+  margin-top: 0px;
+}
+
+button.custom-product-submit:hover{
+  background-color: darkorange;
+}
+
+button.custom-build-box-button{
+  margin-bottom: 25px;
+  padding: 14px 0;
+  width: 100%;
+  height: 36px;
+  line-height: 0px;
+}
+
+button.custom-build-box-button:hover{
+  background-color: darkorange;
+}
+
+.cursor-not-allowed{
+  cursor: not-allowed;
+}
+
+.pointer-events-none{
+  pointer-events: none;
+}
+
+.error-message{
+  color: red;
+}
+
+.fa {
+  margin-left: -12px;
+  margin-right: 8px;
+}
+
+button.custom-product-submit:disabled{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }
 
 @keyframes "circlespin" {
@@ -9936,6 +10024,9 @@ ul.form-list{
       }
     }
   }
+  .custom-product-submit{
+    padding: 14px 59px;
+  }
 }
 @media (min-width: 1199px){
   .header-container {
@@ -9980,6 +10071,9 @@ ul.form-list{
         }
       }
     }
+  }
+  .custom-product-submit{
+    padding: 14px 39px;
   }
 }
 @media (max-width:1589px) {
@@ -11126,6 +11220,9 @@ ul.form-list{
   .main-container {
     .sidebar {
       width: 100%;
+      @media(max-width: 767px){
+        clear: both;
+      }
     }
     .login_content, .account-create{ 
       .box-info{

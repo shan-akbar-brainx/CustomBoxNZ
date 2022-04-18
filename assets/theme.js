@@ -967,7 +967,7 @@ var SW = SW || {};
       });   
       $(document).on("click", ".btn-remove-cart", function(e) {
       	e.preventDefault();
-        SW.collection.removeCartInit($(this).data('id'));
+        SW.collection.removeCartInit($(this).data('lineitem'));
       }); 
       $(document).on("click", ".filter-bar a", function(e) {
         e.preventDefault();
@@ -1364,13 +1364,19 @@ var SW = SW || {};
             }, 500);
           },
           success: function(t) {
+            var itemPrice = 0;
+            if(t.properties && t.properties._calculated_price){
+              itemPrice = t.properties._calculated_price;
+            }else{
+              itemPrice = t.price;
+            }
             Shopify.getCart(function(e) {
               var i = parseInt(form.find('input[name="quantity"]').val()), 
                   box = $('#cart-box');
               box.find(".product-link").attr("href", t.url), 
                 box.find(".product-img").attr("src", Shopify.resizeImage(t.image, "medium")).attr("alt", SW.page.translateText(t.title)), 
                 box.find(".product-title .product-link").html(SW.page.translateText(t.title)), 
-                box.find(".product-price").html(Shopify.formatMoney(t.price, money_format)),    
+                box.find(".product-price").html(Shopify.formatMoney(itemPrice, money_format)),    
                 frontendData.enableCurrency && currenciesCallbackSpecial("#cart-box span.money");  
               setTimeout(function() {
                 $(".loader-container").hide();
@@ -1394,12 +1400,28 @@ var SW = SW || {};
       if (c.length) {
       	c.empty();
         t.empty();
+        var total_custom_price = 0;
+        $.each(cart, function(key,value){
+          if(key == 'items'){
+            if(value.length){
+              $.each(value, function(i, item) {
+                var itemPrice = 0;
+                  if(item.properties && item.properties._calculated_price){
+                    itemPrice = item.properties._calculated_price * 100;
+                  }else{
+                    itemPrice = item.price;
+                  }
+                  total_custom_price = total_custom_price + itemPrice * item.quantity;
+              });
+            }
+          }
+        });
         $.each(cart, function(key,value){
           if(key == 'items'){
           	var $html ='';
             if(value.length){
-              	t.html(Shopify.formatMoney(cart.total_price, money_format));
-              	d.html('<span class="cart-qty">'+cart.item_count+'</span><span class="cart-price">'+cartData.totalNumb+'<span class="price">'+Shopify.formatMoney(cart.total_price, money_format)+'</span></span>');
+              	t.html(Shopify.formatMoney(total_custom_price, money_format));
+              	d.html('<span class="cart-qty">'+cart.item_count+'</span><span class="cart-price">'+cartData.totalNumb+'<span class="price">'+Shopify.formatMoney(total_custom_price, money_format)+'</span></span>');
               	$html += '<div class="cart-content">';
               	if($('.header-container').hasClass('type20')){
                 $html += '<div class="total-count">';
@@ -1413,15 +1435,21 @@ var SW = SW || {};
                   $html += '<a class="product-image" href="'+ item.url +'"><img alt="'+ SW.page.translateText(item.title) +'" src="'+ Shopify.resizeImage(item.image, 'small') +'" /></a>';
                   $html += '<div class="product-details row-fluid show-grid">';
                   $html += '<p class="product-name"><a href="'+ item.url +'"><span>'+ SW.page.translateText(item.title) +'</span></a></p>';
-                  $html += '<div class="items"><span class="price">'+item.quantity+' × <span class="amount">'+ Shopify.formatMoney(item.price, money_format) +'</span></span></div>';
-                  $html += '<div class="access"><a href="javascript: void(0);" class="btn-remove btn-remove-cart" data-id="'+item.variant_id+'" title="'+cartData.removeItemLabel+'"><i class="icon-cancel"></i></a></div>';
+                  var itemPrice = 0;
+                  if(item.properties && item.properties._calculated_price){
+                    itemPrice = item.properties._calculated_price * 100;
+                  }else{
+                    itemPrice = item.price;
+                  }
+                  $html += '<div class="items"><span class="price">'+item.quantity+' × <span class="amount">'+ Shopify.formatMoney(itemPrice, money_format) +'</span></span></div>';
+                  $html += '<div class="access"><a href="javascript: void(0);" class="btn-remove btn-remove-cart" data-id="'+item.variant_id+'" data-lineitem="'+(i+1)+'" title="'+cartData.removeItemLabel+'"><i class="icon-cancel"></i></a></div>';
                   $html += '</div>';
                   $html += '</li>';
                 });
               	$html += '</ul>'; 
               	$html += '</div>';
               	$html += '<div class="cart-checkout">';
-              	$html += '<div class="cart-info"><p class="subtotal"><span class="label">'+cartData.totalLabel+'</span><span class="price">'+Shopify.formatMoney(cart.total_price, money_format)+'</span></p></div>';
+              	$html += '<div class="cart-info"><p class="subtotal"><span class="label">'+cartData.totalLabel+'</span><span class="price">'+Shopify.formatMoney(total_custom_price, money_format)+'</span></p></div>';
               	$html += '<div class="actions">';
               	if($('.header-container').hasClass('type20')){
               		$html += '<a href="/checkout" class="btn-button checkout-cart bordered uppercase"><span>'+cartData.buttonCheckout+'</span></a>';
@@ -1432,7 +1460,7 @@ var SW = SW || {};
               	$html += '</div>';
               	$html += '</div>';
             }else{ 
-              	t.html(Shopify.formatMoney(cart.total_price, money_format)); 
+              	t.html(Shopify.formatMoney(total_custom_price, money_format)); 
                 d.html('<span class="cart-qty">'+cart.item_count+'</span><span>'+cartData.totalNumb+'</span>');
               	$html += '<div class="cart-content">';
             	$html += '<p class="no-items-in-cart">'+cartData.noItemLabel+'</p>';
@@ -1450,11 +1478,11 @@ var SW = SW || {};
         currenciesCallbackSpecial('.icon-cart-header span.money');
       } 
     },
-    removeCartInit: function(id,r){ 
+    removeCartInit: function(lineitem,r){ 
       $.ajax({
       	type: 'POST',
         url: '/cart/change.js',
-        data:  'quantity=0&id='+id,
+        data:  'quantity=0&line='+lineitem,
         dataType: 'json', 
         beforeSend: function() {
           $(".cartloading").show();
@@ -1963,25 +1991,204 @@ var SW = SW || {};
   //geting price from api for custom box
   $( ".custom-product-form" ).on( "submit", function( event ) {
     event.preventDefault();
-    const data = new FormData(event.target);
-    const value = Object.fromEntries(data.entries());
-    
-    
-    $.ajax({
-      type: "POST",
-      url: "https://custom-box.herokuapp.com/api/v1/custom-box/get-price",
-      headers: {
-        'Content-Type':'application/json'
-      },
-      dataType: 'json',
-      data: JSON.stringify(value),
-      success: function(responce){
-        if(responce.Price){
-          $("#calculated_price").val(responce.Price);
-          $("#price > div > span").html("$" + responce.Price);
-          $(".actions").removeClass("display-hidden");
+    if(!$('form.custom-product-form').hasClass('has-error')){
+      $('p.price-error-message').html('');
+      $('button.custom-product-submit').attr('disabled','true');
+      $('button.custom-product-submit').html('<i class="fa fa-spinner fa-spin"></i>Calculating Price');
+      const data = new FormData(event.target);
+      const value = Object.fromEntries(data.entries());
+      var stringifiedData = JSON.stringify(value);
+      
+      stringifiedData = stringifiedData.replaceAll("properties[_","");
+      stringifiedData = stringifiedData.replaceAll("]","");
+      
+
+      $.ajax({
+        type: "POST",
+        url: "https://custom-box.herokuapp.com/api/v1/custom-box/get-price",
+        headers: {
+          'Content-Type':'application/json'
+        },
+        dataType: 'json',
+        data: stringifiedData,
+        success: function(responce){
+          $('button.custom-product-submit').attr('disabled', false);
+          $('button.custom-product-submit').html('Calculate Price');
+          if(responce.Price != false && responce.Price != "false"){
+            $("#calculated_price").val((responce.Price/value.quantity));
+            $(".unit-custom-price").html("$" + (responce.Price/value.quantity).toFixed(2));
+            $(".total-custom-price").html("$" + (responce.Price).toFixed(2));
+            $(".actions").removeClass("display-hidden");
+          }else{
+            $('p.price-error-message').html("Unable to fetch price, please select different options and try again.");
+          }
         }
-      }
-    });
+      });
+    }else{
+      $('html, body').animate({
+        scrollTop: $(".wrong-value").offset().top - 300
+      }, 1000);
+    }
   });
+
+  $('select.box-style').change(function(){
+    onOptionsChange();
+    var selectedStyle = $(this).val();
+    var maxLength = null;
+    var minLength = null;
+    var maxWidth = null;
+    var minWidth = null;
+    var maxHeight = null;
+    var minHeight = null;
+    if(selectedStyle == 'RSC'){
+      maxLength = null;
+      minLength = 75;
+      maxWidth = 1000;
+      minWidth = 40;
+      maxHeight = 1500;
+      minHeight = 86;
+      $(".include-lid-field").addClass("display-hidden");
+    }else if(selectedStyle == 'HSC'){
+      maxLength = null;
+      minLength = 75;
+      maxWidth = 1000;
+      minWidth = 40;
+      maxHeight = 1500;
+      minHeight = 86;
+      $(".include-lid-field").removeClass("display-hidden");
+      $("input#no").prop("checked", true);
+    }else if(selectedStyle == 'FOLF'){
+      maxLength = null;
+      minLength = 75;
+      maxWidth = 500;
+      minWidth = 20;
+      maxHeight = 1500;
+      minHeight = 86;
+      $(".include-lid-field").addClass("display-hidden");
+    }else if(selectedStyle == 'B&L'){
+      maxLength = null;
+      minLength = 150;
+      maxWidth = 1500;
+      minWidth = 86;
+      maxHeight = 500;
+      minHeight = 75;
+      $(".include-lid-field").removeClass("display-hidden");
+      $("input#yes").prop("checked", true);
+    }else if(selectedStyle == '5PF'){
+      maxLength = 1500;
+      minLength = 86;
+      maxWidth = null;
+      minWidth = 125;
+      maxHeight = 500;
+      minHeight = 75;
+      $(".include-lid-field").addClass("display-hidden");
+    }
+     //length
+      $("input.custom-length-field").attr({       
+        "max" : maxLength,
+        "min" : minLength
+     });
+     $("input.custom-length-field").val(minLength);
+     //width
+     $("input.custom-width-field").attr({
+      "max" : maxWidth,       
+      "min" : minWidth          
+     });
+     $("input.custom-width-field").val(minWidth);
+     //height
+     $("input.custom-height-field").attr({
+      "max" : maxHeight,       
+      "min" : minHeight          
+     });
+     $("input.custom-height-field").val(minHeight);
+  });
+
+  $('input.custom-length-field').change(function(){
+    onOptionsChange();
+    if(parseInt($(this).val()) < parseInt($('input.custom-width-field').val())){
+      $('p.length-error-message').html('Length must be equal to or greater than the width');
+      $('input.custom-length-field').addClass('wrong-value');
+      $('form.custom-product-form').addClass('has-error');
+    }else{
+      $('p.length-error-message').html('');
+      $('input.custom-length-field').removeClass('wrong-value');
+      $('form.custom-product-form').removeClass('has-error');
+    }
+  });
+
+  $('input.custom-width-field').change(function(){
+    onOptionsChange();
+    if(parseInt($(this).val()) > parseInt($('input.custom-length-field').val())){
+      $('p.width-error-message').html('The width must be less than or equal to the length');
+      $('input.custom-width-field').addClass('wrong-value');
+      $('form.custom-product-form').addClass('has-error');
+    }else{
+      $('p.width-error-message').html('');
+      $('input.custom-width-field').removeClass('wrong-value');
+      $('form.custom-product-form').removeClass('has-error');
+    }
+
+    if($('select.box-style').val() == '5PF'){
+      if((parseInt($(this).val()) < parseInt($('input.custom-height-field').val())) || (parseInt($(this).val()) + parseInt($('input.custom-height-field').val())) < 200 ){
+        if(parseInt($(this).val()) < parseInt($('input.custom-height-field').val())){
+          $('p.width-error-message').html('The width must be greater than or equal to the depth');
+        }
+        
+        if((parseInt($(this).val()) + parseInt($('input.custom-height-field').val())) < 200){
+          $('p.width-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.width-error-message').html());
+        }
+        $('input.custom-width-field').addClass('wrong-value');
+        $('form.custom-product-form').addClass('has-error');
+      }else{
+        $('p.width-error-message').html('');
+        $('input.custom-width-field').removeClass('wrong-value');
+        $('form.custom-product-form').removeClass('has-error');
+      }
+    }
+
+  });
+
+  $('input.custom-height-field').change(function(){
+    onOptionsChange();
+    if($('select.box-style').val() == 'B&L'){
+      var lengthHalf = parseInt(parseInt($('input.custom-length-field').val()) * 0.5);
+      if(parseInt($(this).val()) > lengthHalf){
+        $('p.height-error-message').html('The depth must be less than half the length');
+        $('input.custom-height-field').addClass('wrong-value');
+        $('form.custom-product-form').addClass('has-error');
+      }else{
+        $('p.height-error-message').html(''); 
+        $('input.custom-height-field').removeClass('wrong-value');
+        $('form.custom-product-form').removeClass('has-error');
+      }
+    }
+    if($('select.box-style').val() == '5PF'){
+      if((parseInt($(this).val()) > parseInt($('input.custom-width-field').val())) || (parseInt($(this).val()) + parseInt($('input.custom-width-field').val())) < 200){
+        if(parseInt($(this).val()) > parseInt($('input.custom-width-field').val())){
+          $('p.height-error-message').html('The depth must be less than or equal to width');
+        }
+        if((parseInt($(this).val()) + parseInt($('input.custom-width-field').val())) < 200){
+          $('p.height-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
+        }
+        $('input.custom-height-field').addClass('wrong-value');
+        $('form.custom-product-form').addClass('has-error');
+      }else{
+        $('p.height-error-message').html(''); 
+        $('input.custom-height-field').removeClass('wrong-value');
+        $('form.custom-product-form').removeClass('has-error');
+      }
+    }
+  });
+
+  $('select.board-grade, input.custom-quantity-field').change(function(){
+    onOptionsChange();
+  });
+
+  function onOptionsChange(){
+    $("#calculated_price").val("");
+    $(".unit-custom-price").html("$__");
+    $(".total-custom-price").html("$__");
+    $(".actions").addClass("display-hidden");
+  } 
+
 })(jQuery); 

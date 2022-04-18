@@ -62,7 +62,7 @@
     {% endif %}
   </div>
   <div class="details-area"> 
-    {% if settings.collection_product_price != blank %}
+    {% if settings.collection_product_price != blank and product.id != 7554597585133 %}
     <div class="price"> 
       {% if on_sale %}
       {% if product.price_varies %}
@@ -140,7 +140,7 @@
     {% endif %}  
     {% if settings.collection_actions != blank %}
     <div class="actions">  
-      {% if settings.collection_show_addtocart != blank %}
+      {% if settings.collection_show_addtocart != blank and product.id != 7554597585133 %}
       <div class="action-list addtocart">
         {% if product.available %}
         {% if product.variants.size > 1 %}
@@ -161,16 +161,23 @@
         </form>
         {% endif %}
         {% else %}
-        <a href="{{ product.url | within: collection }}" class="btn-cart"> 
-          <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span> 
-        </a>
+       
+          <a href="{{ product.url | within: collection }}" class="btn-cart"> 
+            <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span> 
+          </a>
+      
         {% endif %}
       </div>
+      {% endif %}
+      {% if product.id == 7554597585133 %}
+        <button class="custom-build-box-button" onclick="window.location.href='{{product.url}}'">Build your Box</button>
       {% endif %} 
-      <a href="javascript:void(0);" class="action-list quickview-icon quickview">
-        <i class="icon-compare"></i>
-        <span {% if settings.language_enable %}data-translate="products.product.quickview"{% endif %}>{{ 'products.product.quickview' | t }}</span> 
-      </a>
+      {% if product.id != 7554597585133 %} 
+        <a href="javascript:void(0);" class="action-list quickview-icon quickview">
+          <i class="icon-compare"></i>
+          <span {% if settings.language_enable %}data-translate="products.product.quickview"{% endif %}>{{ 'products.product.quickview' | t }}</span> 
+        </a>
+      {% endif %}
     </div> 
     {% endif %}
   </div>

@@ -113,9 +113,9 @@
                         {% endfor %}
                       </td>
                       <td class="a-center product-qty last" style="text-align:center;" data-label="{{ 'cart.label.quantity' | t }}">
-                        <div class="input-box">
-                          <input type="text" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0"> 
-                          <div class="plus-minus">
+                        <div class="input-box {%if item.id == 42360684380397 %} cursor-not-allowed {% endif %}">
+                          <input type="text" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" class="{%if item.id == 42360684380397 %} pointer-events-none {% endif %}"> 
+                          <div class="plus-minus {%if item.id == 42360684380397 %} pointer-events-none {% endif %}">
                             <div class="increase items" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">+</div>
                             <div class="reduced items" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">-</div>
                           </div>

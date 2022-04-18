@@ -1,6 +1,22 @@
 <div class="cart-container">
+  {%- assign total_custom_price = 0 -%}
+  {% for item in cart.items %}
+    {%- assign calculated_price = null -%}
+    {%- for p in item.properties -%}
+      {%- if p.first == "_calculated_price" and p.last != ""-%}
+        {%- assign calculated_price = p.last | times: 100 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if calculated_price != null -%}
+      {%- assign item_total_price = calculated_price | times: item.quantity -%}
+      {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+    {%- else -%}
+      {%- assign item_total_price = item.price | times: item.quantity -%}
+      {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+    {%- endif -%}
+  {% endfor %}
   <a href="javascript:;" class="icon-cart-header">
-    <i class="icon-shopping-bag-1"></i><span class="cart-total"><span class="cart-qty">{{ cart.item_count }}</span><span class="cart-price" {% if settings.language_enable %}data-translate="cart.header.your_cart"{% endif %}>{{ 'cart.header.your_cart' | t }}<span class="price"><span class="money">{{ cart.total_price | money }}</span></span></span></span>
+    <i class="icon-shopping-bag-1"></i><span class="cart-total"><span class="cart-qty">{{ cart.item_count }}</span><span class="cart-price" {% if settings.language_enable %}data-translate="cart.header.your_cart"{% endif %}>{{ 'cart.header.your_cart' | t }}<span class="price"><span class="money">{{ total_custom_price | money }}</span></span></span></span>
   </a> 
   <div class="cart-wrapper theme-border-color"> 
     <div class="cart-inner">
@@ -9,7 +25,14 @@
         <div class="cart-content"> 
           {% if cart.items != empty %}
           <ul class="clearfix">
+            {%- assign total_custom_price = 0 -%}
             {% for item in cart.items %}
+              {%- assign calculated_price = null -%}
+              {%- for p in item.properties -%}
+                {%- if p.first == "_calculated_price" and p.last != ""-%}
+                  {%- assign calculated_price = p.last | times: 100 -%}
+                {%- endif -%}
+              {%- endfor -%}
             <li class="item-cart">
               <a class="product-image" href="{{item.url }}">
                 <img src="{{ item | img_url: 'small' }}"  alt="{{ item.title | escape }}" />
@@ -31,10 +54,18 @@
                   </a>
                 </p>
                 <div class="items">
-                  <span class="price">{{ item.quantity }} × <span class="amount"><span class="money">{{ item.price | money }}</span></span></span>
+                  {%- if calculated_price != null -%}
+                    <span class="price">{{ item.quantity }} × <span class="amount"><span class="money">{{calculated_price | money}}</span></span></span>
+                    {%- assign item_total_price = calculated_price | times: item.quantity -%}
+                    {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                  {%- else -%}
+                    <span class="price">{{ item.quantity }} × <span class="amount"><span class="money">{{ item.price | money }}</span></span></span>
+                    {%- assign item_total_price = item.price | times: item.quantity -%}
+                    {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                  {%- endif -%}
                 </div> 
                 <div class="access">
-                  <a href="javascript:;" class="btn-remove btn-remove-cart" data-id="{{item.variant_id}}" title="{{ 'cart.header.remove_this_item' | t }}"><i class="icon-cancel"></i></a>
+                  <a href="javascript:;" class="btn-remove btn-remove-cart" data-id="{{item.variant_id}}" data-lineitem="{{forloop.index}}" title="{{ 'cart.header.remove_this_item' | t }}"><i class="icon-cancel"></i></a>
                 </div>
               </div> 
             </li>
@@ -49,7 +80,7 @@
           <div class="cart-info"> 
             <p class="subtotal">
               <span class="label" {% if settings.language_enable %}data-translate="cart.header.total"{% endif %}>{{ 'cart.header.total' | t }}</span>
-              <span class="price"><span class="money">{{ cart.total_price | money }}</span></span>
+              <span class="price"><span class="money">{{ total_custom_price | money }}</span></span>
             </p>
           </div> 
           <div class="actions">
