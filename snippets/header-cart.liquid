@@ -87,9 +87,9 @@
             <a href="/cart" class="btn-button view-cart">
               <span {% if settings.language_enable %}data-translate="cart.header.view_cart"{% endif %}>{{ 'cart.header.view_cart' | t }}</span>
             </a>
-            <a href="/checkout" class="btn-button checkout-cart">
+            <button type="button" onclick="customCheckout()" class="btn-button checkout-cart custom-checkout-button">
               <span {% if settings.language_enable %}data-translate="cart.header.checkout"{% endif %}>{{ 'cart.header.checkout' | t }}</span>
-            </a>
+            </button>
           </div> 
         </div>
         {% endif %}
@@ -97,3 +97,54 @@
     </div>
   </div>
 </div>
+<script>
+  function customCheckout(){
+    $('button.custom-checkout-button').attr('disabled','true');
+    $('button.custom-checkout-button').html('<i class="fa fa-spinner fa-spin"></i> Checkout');
+    var json_cart = null;
+    $.ajax({
+        type: "GET",
+        url: "/cart.js",
+        dataType: 'json',
+        async: false,
+        success: function(cart){
+          json_cart = cart;
+        }
+      });
+      var cart_items = json_cart.items;
+      var customProductPresent = false;
+      for (var i=0; i < cart_items.length; ++i){
+        if(cart_items[i].id == 42360684380397){
+          customProductPresent = true;
+          break;
+        }
+      }
+    const stringifiedObj = JSON.stringify(json_cart);
+    if(customProductPresent){
+      $.ajax({
+          type: "POST",
+          url: "https://custom-box.herokuapp.com/api/v1/custom-box/get-checkout-link?shop=customboxnz.myshopify.com",
+          headers: {
+            'Content-Type':'application/json'
+          },
+          dataType: 'json',
+          data: stringifiedObj,
+          success: function(responce){
+            
+            if(responce.checkoutUrl){
+              window.location.href = responce.checkoutUrl;
+            }else{
+              window.location.href = "/checkout"
+            }
+          },
+          error: function(responce){
+            $('button.custom-checkout-button').attr('disabled', false);
+            $('button.custom-checkout-button').html('Checkout');
+            alert("error occured unable to checkout");
+          }
+        });
+      }else{
+      window.location.href = "/checkout";
+    }
+  }
+</script>

@@ -178,7 +178,7 @@
                         </div> 
                         <div class="custom-product-field">
                           <label for="boxStyle">Box Style</label>
-                          <select class="custom-select-field box-style" id="boxStyle" name="properties[_boxStyle]" required>
+                          <select class="custom-select-field box-style" id="boxStyle" name="properties[boxStyle]" required>
                             <option value="" >Select a box style</option>
                             <option value="RSC">Regular Slotted Case (RSC)</option>
                             <option value="FOLF">Fully Overlapping Flap RSC (FOLF)</option>
@@ -189,7 +189,7 @@
                         </div>
                         <div class="custom-product-field">
                           <label for="boardGrade">Board Grade</label>
-                          <select class="custom-select-field board-grade" id="boardGrade" name="properties[_boardGrade]" required>
+                          <select class="custom-select-field board-grade" id="boardGrade" name="properties[boardGrade]" required>
                             <option value="" >Select a board</option>
                             <option value="KSC">Kraft Single Cushion B Flute</option>
                             <option value="KTC">Kraft Twin Cushion BC Flute</option>
@@ -198,24 +198,24 @@
                         </div>
                         <div class="custom-product-field">
                           <label for="length">Length mm</label>
-                          <input class="custom-input-field custom-length-field" type="number" id="length" name="properties[_length]" min="0" max="" value="" placeholder="0" required>
+                          <input class="custom-input-field custom-length-field" type="number" id="length" name="properties[length]" min="0" max="" value="" placeholder="0" required>
                           <p class="error-message length-error-message"></p>
                         </div>
                         <div class="custom-product-field">
                           <label for="width">Width mm</label>
-                          <input class="custom-input-field custom-width-field" type="number" id="width" name="properties[_width]" min="0" max="" value="" placeholder="0" required>
+                          <input class="custom-input-field custom-width-field" type="number" id="width" name="properties[width]" min="0" max="" value="" placeholder="0" required>
                           <p class="error-message width-error-message"></p>
                         </div>
                         <div class="custom-product-field">
                           <label for="height">Depth mm</label>
-                          <input class="custom-input-field custom-height-field" type="number" id="height" name="properties[_height]" min="0" max="" value="" placeholder="0" required>
+                          <input class="custom-input-field custom-height-field" type="number" id="height" name="properties[height]" min="0" max="" value="" placeholder="0" required>
                           <p class="error-message height-error-message"></p>
                         </div>
                         <div class="include-lid-field display-hidden">
                           <p><b>Include lid:</b></p>
-                          <input class="custom-input-field" type="radio" id="yes" name="properties[_includeLid]" value="true">
+                          <input class="custom-input-field" type="radio" id="yes" name="properties[includeLid]" value="true">
                           <label for="yes">Yes</label><br>
-                          <input class="custom-input-field" type="radio" id="no" name="properties[_includeLid]" checked value="false">
+                          <input class="custom-input-field" type="radio" id="no" name="properties[includeLid]" checked value="false">
                           <label for="no">No</label><br>
                         </div>
                         <div class="unit-custom-price-wrapper">
@@ -234,6 +234,7 @@
                                 <div class="reduced items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;result.dispatchEvent(new Event('change'));return false;">-</div>
                               </div>
                             </div>
+                            <p class="error-message quantity-error-message"></p>
                             <div class="total-custom-price-wrapper">
                               <span class="custom-price-title">Total Price: </span>
                               <span class="total-custom-price">$__</span>

@@ -1452,10 +1452,10 @@ var SW = SW || {};
               	$html += '<div class="cart-info"><p class="subtotal"><span class="label">'+cartData.totalLabel+'</span><span class="price">'+Shopify.formatMoney(total_custom_price, money_format)+'</span></p></div>';
               	$html += '<div class="actions">';
               	if($('.header-container').hasClass('type20')){
-              		$html += '<a href="/checkout" class="btn-button checkout-cart bordered uppercase"><span>'+cartData.buttonCheckout+'</span></a>';
+              		$html += '<button type="button" onclick="customCheckout()" class="btn-button checkout-cart custom-checkout-button bordered uppercase"><span>'+cartData.buttonCheckout+'</span></button>';
                 }else{
                 	$html += '<a href="/cart" class="btn-button view-cart"><span>'+cartData.buttonViewCart+'</span></a> ';
-              		$html += '<a href="/checkout" class="btn-button checkout-cart"><span>'+cartData.buttonCheckout+'</span></a>';
+              		$html += '<button type="button" onclick="customCheckout()" class="btn-button checkout-cart custom-checkout-button"><span>'+cartData.buttonCheckout+'</span></button>';
                 }
               	$html += '</div>';
               	$html += '</div>';
@@ -1999,9 +1999,9 @@ var SW = SW || {};
       const value = Object.fromEntries(data.entries());
       var stringifiedData = JSON.stringify(value);
       
-      stringifiedData = stringifiedData.replaceAll("properties[_","");
+      stringifiedData = stringifiedData.replaceAll("properties[","");
       stringifiedData = stringifiedData.replaceAll("]","");
-      
+      console.log(stringifiedData);
 
       $.ajax({
         type: "POST",
@@ -2015,11 +2015,13 @@ var SW = SW || {};
           $('button.custom-product-submit').attr('disabled', false);
           $('button.custom-product-submit').html('Calculate Price');
           if(responce.Price != false && responce.Price != "false"){
-            $("#calculated_price").val((responce.Price/value.quantity));
-            $(".unit-custom-price").html("$" + (responce.Price/value.quantity).toFixed(2));
-            $(".total-custom-price").html("$" + (responce.Price).toFixed(2));
+            var calculatedUnitPrice = (responce.Price/value.quantity).toPrecision(4);
+            $("#calculated_price").val(calculatedUnitPrice);
+            $(".unit-custom-price").html("$" + calculatedUnitPrice);
+            $(".total-custom-price").html("$" + (calculatedUnitPrice * value.quantity).toPrecision(4));
             $(".actions").removeClass("display-hidden");
           }else{
+            console.log(responce);
             $('p.price-error-message').html("Unable to fetch price, please select different options and try again.");
           }
         }
@@ -2105,8 +2107,21 @@ var SW = SW || {};
 
   $('input.custom-length-field').change(function(){
     onOptionsChange();
-    if(parseInt($(this).val()) < parseInt($('input.custom-width-field').val())){
-      $('p.length-error-message').html('Length must be equal to or greater than the width');
+    var min = parseInt($(this).attr("min"));
+    var max = parseInt($(this).attr("max"));
+    var value = parseInt($(this).val());
+    $('p.length-error-message').html('');
+    if((value < parseInt($('input.custom-width-field').val())) || value < min || value > max){
+      if(value < parseInt($('input.custom-width-field').val())){
+        $('p.length-error-message').html('Length must be equal to or greater than the width');
+      }
+      if(value < min){
+        $('p.length-error-message').html($('p.length-error-message').html() + '<br>' + 'Minimum length should be ' + min + ' mm.');
+      }
+      if(value > max){
+        $('p.length-error-message').html($('p.length-error-message').html() + '<br>' + 'Length should not be greater then ' + max + ' mm.');
+      }
+      
       $('input.custom-length-field').addClass('wrong-value');
       $('form.custom-product-form').addClass('has-error');
     }else{
@@ -2118,8 +2133,20 @@ var SW = SW || {};
 
   $('input.custom-width-field').change(function(){
     onOptionsChange();
-    if(parseInt($(this).val()) > parseInt($('input.custom-length-field').val())){
-      $('p.width-error-message').html('The width must be less than or equal to the length');
+    var min = parseInt($(this).attr("min"));
+    var max = parseInt($(this).attr("max"));
+    var value = parseInt($(this).val());
+    $('p.width-error-message').html('');
+    if((value > parseInt($('input.custom-length-field').val())) || value < min || value > max){
+      if(value > parseInt($('input.custom-length-field').val())){
+        $('p.width-error-message').html('The width must be less than or equal to the length');
+      }
+      if(value < min){
+        $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'Minimum width should be ' + min + ' mm.');
+      }
+      if(value > max){
+        $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'Width should not be greater than ' + max + ' mm.');
+      }
       $('input.custom-width-field').addClass('wrong-value');
       $('form.custom-product-form').addClass('has-error');
     }else{
@@ -2131,7 +2158,7 @@ var SW = SW || {};
     if($('select.box-style').val() == '5PF'){
       if((parseInt($(this).val()) < parseInt($('input.custom-height-field').val())) || (parseInt($(this).val()) + parseInt($('input.custom-height-field').val())) < 200 ){
         if(parseInt($(this).val()) < parseInt($('input.custom-height-field').val())){
-          $('p.width-error-message').html('The width must be greater than or equal to the depth');
+          $('p.width-error-message').html('The width must be greater than or equal to the depth.');
         }
         
         if((parseInt($(this).val()) + parseInt($('input.custom-height-field').val())) < 200){
@@ -2150,10 +2177,38 @@ var SW = SW || {};
 
   $('input.custom-height-field').change(function(){
     onOptionsChange();
+    var min = parseInt($(this).attr("min"));
+    var max = parseInt($(this).attr("max"));
+    var value = parseInt($(this).val());
+    $('p.height-error-message').html('');
+    if(value < min || value > max){
+      if(value < min){
+        $('p.height-error-message').html('Minimum Depth should be ' + min + ' mm.');
+      }
+      if(value > max){
+        $('p.height-error-message').html('Depth should not be greater then ' + max + ' mm.');
+      }
+      $('input.custom-height-field').addClass('wrong-value');
+      $('form.custom-product-form').addClass('has-error');
+    }else{
+      $('p.height-error-message').html(''); 
+      $('input.custom-height-field').removeClass('wrong-value');
+      $('form.custom-product-form').removeClass('has-error');
+    }
     if($('select.box-style').val() == 'B&L'){
+      $('p.height-error-message').html('');
       var lengthHalf = parseInt(parseInt($('input.custom-length-field').val()) * 0.5);
-      if(parseInt($(this).val()) > lengthHalf){
-        $('p.height-error-message').html('The depth must be less than half the length');
+      if(parseInt($(this).val()) > lengthHalf || value < min || value > max){
+        if(parseInt($(this).val()) > lengthHalf){
+          $('p.height-error-message').html('The depth must be less than half the length');
+        }
+        if(value < min){
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
+        }
+        if(value > max){
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
+        }
+        
         $('input.custom-height-field').addClass('wrong-value');
         $('form.custom-product-form').addClass('has-error');
       }else{
@@ -2163,12 +2218,19 @@ var SW = SW || {};
       }
     }
     if($('select.box-style').val() == '5PF'){
-      if((parseInt($(this).val()) > parseInt($('input.custom-width-field').val())) || (parseInt($(this).val()) + parseInt($('input.custom-width-field').val())) < 200){
+      $('p.height-error-message').html('');
+      if((parseInt($(this).val()) > parseInt($('input.custom-width-field').val())) || ((parseInt($(this).val()) + parseInt($('input.custom-width-field').val())) < 200) || value < min || value > max){
         if(parseInt($(this).val()) > parseInt($('input.custom-width-field').val())){
           $('p.height-error-message').html('The depth must be less than or equal to width');
         }
         if((parseInt($(this).val()) + parseInt($('input.custom-width-field').val())) < 200){
           $('p.height-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
+        }
+        if(value < min){
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
+        }
+        if(value > max){
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
         }
         $('input.custom-height-field').addClass('wrong-value');
         $('form.custom-product-form').addClass('has-error');
@@ -2180,7 +2242,21 @@ var SW = SW || {};
     }
   });
 
-  $('select.board-grade, input.custom-quantity-field').change(function(){
+  $('input.custom-input-field').change(function(){
+    onOptionsChange();
+    var value = parseInt($(this).val());
+    if(value < 1){
+      $('p.quantity-error-message').html('Please enter the correct quantity value.'); 
+      $('input.custom-quantity-field').addClass('wrong-value');
+      $('form.custom-product-form').addClass('has-error');
+    }else{
+      $('p.quantity-error-message').html(''); 
+      $('input.custom-quantity-field').removeClass('wrong-value');
+      $('form.custom-product-form').removeClass('has-error');
+    }
+  });
+
+  $('select.board-grade').change(function(){
     onOptionsChange();
   });
 

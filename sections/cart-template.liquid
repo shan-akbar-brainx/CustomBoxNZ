@@ -75,7 +75,7 @@
                           {%- if p.first == "_calculated_price" and p.last != ""-%}
                             {%- assign calculated_price = p.last | times: 100 -%}
                           {%- endif -%}
-            {%- unless p.last == blank -%}
+            {%- unless p.last == blank or p.first == "_calculated_price" -%}
               <li class="product-details__item product-details__item--property{%if property_size == 0%} hide{% endif %}" data-cart-item-property>
                 <span class="product-details__item-label" data-cart-item-property-name>{{ p.first }}: </span>
 
@@ -128,8 +128,8 @@
                   <tfoot>
                     <tr>
                       <td colspan="10">
-                        <a href="/" type="submit" class="btn-button bordered"><span {% if settings.language_enable %}data-translate="cart.general.continue"{% endif %}>{{ 'cart.general.continue' | t }}</span></a>
-                        <button type="submit" class="btn-button bordered btn-update tiny"><span {% if settings.language_enable %}data-translate="cart.general.update"{% endif %}>{{ 'cart.general.update' | t }}</span></button>                   
+                        <a href="/" type="submit" class="btn-button custom-button bordered"><span {% if settings.language_enable %}data-translate="cart.general.continue"{% endif %}>{{ 'cart.general.continue' | t }}</span></a>
+                        <button type="submit" class="btn-button custom-button bordered btn-update tiny"><span {% if settings.language_enable %}data-translate="cart.general.update"{% endif %}>{{ 'cart.general.update' | t }}</span></button>                   
                       </td>
                     </tr>
                   </tfoot>
@@ -176,7 +176,7 @@
                   </table>
                   <ul class="checkout-types">
                     <li>
-                      <input type="submit" name="checkout" class="btn-button" {% if settings.language_enable %}data-translate="cart.general.checkout"{% endif %} value="{{ 'cart.general.checkout' | t }}">
+                      <button type="button" name="checkout" class="btn-button custom-cart-page-checkout-button" onclick="customCheckout()" {% if settings.language_enable %}data-translate="cart.general.checkout"{% endif %} >{{ 'cart.general.checkout' | t }}</button>
                     </li>
                   </ul> 
                 </div>
@@ -254,6 +254,43 @@
   {% endif%}
   </div>  
 </div> 
+<script>
+  function customCheckout(){
+    var json_cart = {{ cart | json }};
+    var cart_items = json_cart.items;
+    var customProductPresent = false;
+    for (var i=0; i < cart_items.length; ++i){
+      if(cart_items[i].id == 42360684380397){
+        customProductPresent = true;
+        break;
+      }
+    }
+    const stringifiedObj = JSON.stringify(json_cart);
+    if(customProductPresent){
+      $('button.custom-cart-page-checkout-button').attr('disabled','true');
+      $('button.custom-cart-page-checkout-button').html('<i class="fa fa-spinner fa-spin"></i> Proceed to checkout');
+    $.ajax({
+        type: "POST",
+        url: "https://custom-box.herokuapp.com/api/v1/custom-box/get-checkout-link?shop=customboxnz.myshopify.com",
+        headers: {
+          'Content-Type':'application/json'
+        },
+        dataType: 'json',
+        data: stringifiedObj,
+        success: function(responce){
+          window.location.href = responce.checkoutUrl;
+        },
+        error: function(responce){
+          $('button.custom-cart-page-checkout-button').attr('disabled', false);
+          $('button.custom-cart-page-checkout-button').html('Proceed to checkout');
+          alert("error occured unable to checkout");
+        }
+      });
+    }else{
+      window.location.href = "/checkout";
+    }
+  }
+</script>
 {% schema %}
   {
     "name": "Cart page",
