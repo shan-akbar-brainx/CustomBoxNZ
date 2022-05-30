@@ -81,7 +81,7 @@
         {% endif %}
       </a>
     </h2>
-    {% if settings.collection_product_price != blank %}
+    {% if settings.collection_product_price != blank and product.id != 7554597585133 %}
     <div class="price">  
       {% if on_sale %}
       {% if product.price_varies %}
@@ -184,10 +184,11 @@
       {% else %}
       {{ description | split: '[lang2]' | first }}
       {% endif %}  
-    </div>  
+    </div>
+    
     {% if settings.collection_actions != blank %}
     <div class="actions">  
-      {% if settings.collection_show_addtocart != blank %}
+      {% if settings.collection_show_addtocart != blank and product.id != 7554597585133 %}
       <div class="action-list addtocart">
         {% if product.available %}
         {% if product.variants.size > 1 %}
@@ -213,11 +214,16 @@
         </a>
         {% endif %}
       </div>
+      {% endif %}
+      {% if product.id == 7554597585133 %}
+        <button class="custom-build-box-button" onclick="window.location.href='{{product.url}}'">Build your Box</button>
       {% endif %} 
-      <a href="javascript:void(0);" class="action-list quickview-icon quickview">
-        <i class="icon-compare"></i>
-        <span {% if settings.language_enable %}data-translate="products.product.quickview"{% endif %}>{{ 'products.product.quickview' | t }}</span> 
-      </a>
+      {% if product.id != 7554597585133 %}
+        <a href="javascript:void(0);" class="action-list quickview-icon quickview">
+          <i class="icon-compare"></i>
+          <span {% if settings.language_enable %}data-translate="products.product.quickview"{% endif %}>{{ 'products.product.quickview' | t }}</span> 
+        </a>
+      {% endif %}
     </div> 
     {% endif %}
     {%if settings.collection_show_sku != blank %}
@@ -243,7 +249,7 @@
       </span>
     </div> 
     {%endif%}
-    {% if settings.collection_product_price != blank %}
+    {% if settings.collection_product_price != blank and product.id != 7554597585133 %}
     <div class="price">  
       {% if on_sale %} 
       <div class="compare-price">
@@ -304,7 +310,7 @@
     {% endif %}
     {% if settings.collection_actions != blank %}
     <div class="actions">  
-      {% if settings.collection_show_addtocart != blank %}
+      {% if settings.collection_show_addtocart != blank and product.id != 7554597585133 %}
       <div class="action-list addtocart">
         {% if product.available %}
         {% if product.variants.size > 1 %}
@@ -331,10 +337,15 @@
         {% endif %}
       </div>
       {% endif %} 
+      {% if product.id == 7554597585133 %}
+        <button class="custom-build-box-button" onclick="window.location.href='{{product.url}}'">Build your Box</button> 
+      {% endif %} 
+      {% if product.id != 7554597585133 %}
       <a href="javascript:void(0);" class="action-list quickview-icon quickview">
-        <i class="icon-compare"></i>
+        <i class="icon-compare"></i> 
         <span {% if settings.language_enable %}data-translate="products.product.quickview"{% endif %}>{{ 'products.product.quickview' | t }}</span> 
       </a>
+      {% endif %}
     </div> 
     {% endif %}
   </div>

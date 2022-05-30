@@ -120,7 +120,7 @@
                       {% endif %}
                     </div> 
                     {% endif %}  
-                    <div class="middle-product-detail">
+                    <div class="middle-product-detail" style="display:none;">
                       {% if product.description contains '[countdown]' and settings.product_countdown != blank %}            
                       {% assign count_down_first = product.description | split:'[/countdown]' | first %}
                       {% assign count_down_final = count_down_first | split:'[countdown]' | last %} 
@@ -129,21 +129,7 @@
                       </div> 
                       {% endif %} 
                       {% if settings.product_availability %}
-                      <div class="product-inventory">  
-                        <span {% if settings.language_enable %}data-translate="products.product.availability"{% endif %}>{{ 'products.product.availability' | t }} </span> 
-                        <span class="in-stock">
-                          {% if product.selected_or_first_available_variant.inventory_management %}
-                          {% assign first_inventory = product.selected_or_first_available_variant.inventory_quantity %}
-                          {% if first_inventory > 0 %}
-                          {{first_inventory}} {{ 'products.product.in_stock' | t }}
-                          {% else %}
-                          {{ 'products.product.out_of_stock' | t }}
-                          {% endif %}
-                          {% else %}
-                          {{ 'products.product.many_in_stock' | t }}
-                          {% endif %}
-                        </span>
-                      </div> 
+                      
                       {% endif %} 
                       {% if settings.product_type %}
                       <div class="product-type">
@@ -176,7 +162,7 @@
                       </div> 
                     </div>
                     <div class="product-type-main">  
-                      <form class="product-form" id="product-main-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}"> 
+                      <form class="product-form custom-product-form" id="product-main-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}" data-errorcount="0"> 
                         <div id="product-variants" class="product-options" {% if product.options.size == 1 and product.options.first == 'Title' %}style="display: none;"{% endif %}> 
                           <select id="product-selectors" name="id" style="display: none;">
                             {% for variant in product.variants %}
@@ -190,29 +176,93 @@
                             {% endfor %}
                           </select> 
                         </div> 
-                       
-                        <div id="hulkapps_custom_options_{{ product.id }}"> </div>
+                        <div class="custom-product-field">
+                          <label for="boxStyle">Box Style</label>
+                          <select class="custom-select-field box-style" id="boxStyle" name="properties[boxStyle]" required>
+                            <option value="" >Select a box style</option>
+                            <option value="RSC">Regular Slotted Case (RSC)</option>
+                            <option value="FOLF">Fully Overlapping Flap RSC (FOLF)</option>
+                            <option value="HSC">Half Slotted Case (HSC)</option>
+                            <option value="B&L">Box and Lid (B&L)</option>
+                            <option value="5PF">5 Panel Folder (5PF)</option>
+                          </select>
+                        </div>
+                        <div class="custom-product-field">
+                          <label for="boardGrade">Board Grade</label>
+                          <select class="custom-select-field board-grade" id="boardGrade" name="properties[boardGrade]" required>
+                            <option value="" >Select a board</option>
+                            <option value="KSC">Kraft Single Cushion B Flute</option>
+                            <option value="KTC">Kraft Twin Cushion BC Flute</option>
+                            <option value="WSC">White Single Cushion B Flute</option>
+                          </select>
+                        </div>
+                        <div class="custom-product-field">
+                          <label for="length" class="custom-length-field-label custom-input-field-label">Length mm</label>
+                          <input class="custom-input-field custom-length-field" type="number" id="length" name="properties[length]" data-min="0" data-max="0" min="0"  value="" placeholder="0" required>
+                          <p class="error-message length-error-message"></p>
+                        </div>
+                        <div class="custom-product-field">
+                          <label for="width" class="custom-width-field-label custom-input-field-label">Width mm</label>
+                          <input class="custom-input-field custom-width-field" type="number" id="width" name="properties[width]" data-min="0" data-max="0" min="0"  value="" placeholder="0" required>
+                          <p class="error-message width-error-message"></p>
+                        </div>
+                        <div class="custom-product-field">
+                          <label for="height" class="custom-height-field-label custom-input-field-label">Depth mm</label>
+                          <input class="custom-input-field custom-height-field" type="number" id="height" name="properties[height]" data-min="0" data-max="0" min="0"  value="" placeholder="0" required>
+                          <p class="error-message height-error-message"></p>
+                        </div>
+                        <div class="include-lid-field display-hidden">
+                          <p><b>Include lid:</b></p>
+                          <input class="custom-input-field" type="radio" id="yes" name="properties[includeLid]" value="true">
+                          <label for="yes">Yes</label><br>
+                          <input class="custom-input-field" type="radio" id="no" name="properties[includeLid]" checked value="false">
+                          <label for="no">No</label><br>
+                        </div>
+                        <div class="error-box">
+                          <p class="error-message general-error-message"></p>
+                        </div>
+                        <div class="unit-custom-price-wrapper">
+                          <span class="custom-price-title">Unit Price: </span>
+                          <span class="unit-custom-price">$__</span>
+                        </div>
+                        <input type="hidden" id="calculated_price" name="properties[_calculated_price]" value="">
                         
                         <div class="product-options-bottom"> 
                           <div class="add-to-cart-box"> 
                             <span class="label" {% if settings.language_enable %}data-translate="products.product.quantity"{% endif %}>{{ 'products.product.quantity' | t }}:</span>
-                            <div class="input-box">
-                              <input type="text" id="qty" name="quantity" value="1" min="1" class="quantity-selector"> 
+                            <div class="input-box custom-quantity-field-wrapper">
+                              <input class="custom-input-field custom-quantity-field" type="text" id="qty" name="quantity" value="1" min="1" class="quantity-selector"> 
                               <div class="plus-minus">
-                                <div class="increase items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">+</div>
-                                <div class="reduced items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">-</div>
+                                <div class="increase items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;result.dispatchEvent(new Event('change'));return false;">+</div>
+                                <div class="reduced items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;result.dispatchEvent(new Event('change'));return false;">-</div>
                               </div>
                             </div>
-                            <div class="actions">
-                              <div class="action-list addtocart">
+                            <p class="error-message quantity-error-message"></p>
+                            <div class="total-custom-price-wrapper">
+                              <span class="custom-price-title">Total Price: </span>
+                              <span class="total-custom-price">$__</span>
+                            </div>
+                            <div>
+                              <p class="error-message price-error-message"></p>
+                            </div>
+                            
+                            <div class="custom-button-wrapper">
+                              <button type="submit" class="custom-product-submit">Calculate Price</button>
+                            </div> 
+                            <div class="actions display-hidden">
+                              <div class="action-list addtocart custom-action-list">
                                 <div class="button-wrapper">
+                                  
                                   {% if product.available %}
+                                  
                                   <div class="button-wrapper-content"> 
+                                  
                                     <button type="submit" name="add" class="btn-cart add-to-cart bordered uppercase">                      
                                       <span>
                                         <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
                                       </span>
                                     </button> 
+
                                   </div>
                                   {% else %} 
                                   <div class="button-wrapper-content">
