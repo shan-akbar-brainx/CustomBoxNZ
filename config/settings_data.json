@@ -1288,17 +1288,17 @@
     "blocks": {
       "10042746950867549768": {
         "type": "shopify:\/\/apps\/hulk-product-options\/blocks\/app-embed\/380168ef-9475-4244-a291-f66b189208b5",
-        "disabled": false,
-        "settings": {}
-      },
-      "558381514691908246": {
-        "type": "shopify:\/\/apps\/volumeboost-volume-discount\/blocks\/app-embed\/25745434-52e7-4378-88f1-890df18a0110",
-        "disabled": false,
+        "disabled": true,
         "settings": {}
       },
       "14656832010101544780": {
         "type": "shopify:\/\/apps\/advanced-product-options\/blocks\/app-embed-block\/a1199153-7462-4b5b-8a80-f0eefba85e99",
-        "disabled": false,
+        "disabled": true,
+        "settings": {}
+      },
+      "558381514691908246": {
+        "type": "shopify:\/\/apps\/volumeboost-volume-discount\/blocks\/app-embed\/25745434-52e7-4378-88f1-890df18a0110",
+        "disabled": true,
         "settings": {}
       }
     }
