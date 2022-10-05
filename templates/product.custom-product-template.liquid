@@ -162,7 +162,7 @@
                       </div> 
                     </div>
                     <div class="product-type-main">  
-                      <form class="product-form custom-product-form" id="product-main-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}" data-errorcount="0"> 
+                      <form class="product-form custom-product-form" id="product-main-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}" data-errorcount="0" data-triggerchange="0"> 
                         <div id="product-variants" class="product-options" {% if product.options.size == 1 and product.options.first == 'Title' %}style="display: none;"{% endif %}> 
                           <select id="product-selectors" name="id" style="display: none;">
                             {% for variant in product.variants %}
@@ -179,7 +179,7 @@
                         <div class="custom-product-field">
                           <label for="boxStyle">Box Style</label>
                           <select class="custom-select-field box-style" id="boxStyle" name="properties[boxStyle]" required>
-                            <option value="" >Select a box style</option>
+                            <option value="default" >Select a box style</option>
                             <option value="RSC">Regular Slotted Case (RSC)</option>
                             <option value="FOLF">Fully Overlapping Flap RSC (FOLF)</option>
                             <option value="HSC">Half Slotted Case (HSC)</option>
@@ -194,22 +194,23 @@
                             <option value="KSC">Kraft Single Cushion B Flute</option>
                             <option value="KTC">Kraft Twin Cushion BC Flute</option>
                             <option value="WSC">White Single Cushion B Flute</option>
-                          </select>
+                          </select> 
                         </div>
                         <div class="custom-product-field">
                           <label for="length" class="custom-length-field-label custom-input-field-label">Length mm</label>
-                          <input class="custom-input-field custom-length-field" type="number" id="length" name="properties[length]" data-min="0" data-max="0" min="0"  value="" placeholder="0" required>
+                          <input class="custom-input-field custom-length-field" type="number" id="length" name="properties[length]" data-min="0" data-max="0" min="0"  value="0" placeholder="0" required>
                           <p class="error-message length-error-message"></p>
                         </div>
                         <div class="custom-product-field">
                           <label for="width" class="custom-width-field-label custom-input-field-label">Width mm</label>
-                          <input class="custom-input-field custom-width-field" type="number" id="width" name="properties[width]" data-min="0" data-max="0" min="0"  value="" placeholder="0" required>
+                          <input class="custom-input-field custom-width-field" type="number" id="width" name="properties[width]" data-min="0" data-max="0" min="0"  value="0" placeholder="0" required>
                           <p class="error-message width-error-message"></p>
                         </div>
                         <div class="custom-product-field">
                           <label for="height" class="custom-height-field-label custom-input-field-label">Depth mm</label>
-                          <input class="custom-input-field custom-height-field" type="number" id="height" name="properties[height]" data-min="0" data-max="0" min="0"  value="" placeholder="0" required>
+                          <input class="custom-input-field custom-height-field" type="number" id="height" name="properties[height]" data-min="0" data-max="0" min="0"  value="0" placeholder="0" required>
                           <p class="error-message height-error-message"></p>
+                          <p class="note-message height-note-message"></p>
                         </div>
                         <div class="include-lid-field display-hidden">
                           <p><b>Include lid:</b></p>
