@@ -2099,9 +2099,9 @@ var SW = SW || {};
       maxLength = 1500;
       minLength = 100;
       maxWidth = null;
-      minWidth = 125;
+      minWidth = 75;
       maxHeight = 500;
-      minHeight = 65;
+      minHeight = 20;
       $(".include-lid-field").addClass("display-hidden");
     }
     $("label.custom-length-field-label").html("Length mm");
@@ -2136,12 +2136,12 @@ var SW = SW || {};
     }
   });
 
-  $('input.custom-length-field').change(function(){
+  function lengthChangeFunction(){
     if($('select.box-style').val() != 'default'){
       onOptionsChange();
-      var min = parseInt($(this).data("min"));
-      var max = parseInt($(this).data("max"));
-      var value = parseInt($(this).val());
+      var min = parseInt($("input.custom-length-field").data("min"));
+      var max = parseInt($("input.custom-length-field").data("max"));
+      var value = parseInt($("input.custom-length-field").val());
       $('p.length-error-message').html('');
       if((value < parseInt($('input.custom-width-field').val())) || value < min || value > max){
         if(value < parseInt($('input.custom-width-field').val())){
@@ -2177,14 +2177,14 @@ var SW = SW || {};
         }
       }
     }
-  });
+  }
 
-  $('input.custom-width-field').change(function(){
+  function widthChangeFunction(){
     if($('select.box-style').val() != 'default'){
       onOptionsChange();
-      var min = parseInt($(this).data("min"));
-      var max = parseInt($(this).data("max"));
-      var value = parseInt($(this).val());
+      var min = parseInt($("input.custom-width-field").data("min"));
+      var max = parseInt($("input.custom-width-field").data("max"));
+      var value = parseInt($("input.custom-width-field").val());
       $('p.width-error-message').html('');
       if((value > parseInt($('input.custom-length-field').val())) || value < min || value > max){
         if(value > parseInt($('input.custom-length-field').val())){
@@ -2221,13 +2221,15 @@ var SW = SW || {};
       }
 
       if($('select.box-style').val() == '5PF'){
-        if((parseInt($(this).val()) < parseInt($('input.custom-height-field').val())) || (parseInt($(this).val()) + parseInt($('input.custom-height-field').val())) < 200 ){
-          if(parseInt($(this).val()) < parseInt($('input.custom-height-field').val())){
-            $('p.width-error-message').html('The width must be greater than or equal to the depth.');
+        var height_value = parseInt($('input.custom-height-field').val());
+        height_value = height_value || 0;
+        if((parseInt($("input.custom-width-field").val()) < height_value) || (parseInt($("input.custom-width-field").val()) + height_value) < 200 ){
+          if(parseInt($("input.custom-width-field").val()) < height_value){
+            $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'The width must be greater than or equal to the depth.');
           }
           
-          if((parseInt($(this).val()) + parseInt($('input.custom-height-field').val())) < 200){
-            $('p.width-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.width-error-message').html());
+          if((parseInt($("input.custom-width-field").val()) + height_value) < 200){
+            $('p.width-error-message').html($('p.width-error-message').html() + '<br>' + 'The combined width and depth must be greater than or equal to 200mm.');
           }
           if(!$('input.custom-width-field').hasClass('wrong-value')){
             $('input.custom-width-field').addClass('wrong-value');
@@ -2254,14 +2256,14 @@ var SW = SW || {};
         }
       }
     }  
-  });
+  }
 
-  $('input.custom-height-field').change(function(){
-    if($('select.box-style').val() != 'default'){
+ function heightChangeFunction(){
+  if($('select.box-style').val() != 'default'){
     onOptionsChange();
-    var min = parseInt($(this).data("min"));
-    var max = parseInt($(this).data("max"));
-    var value = parseInt($(this).val());
+    var min = parseInt($("input.custom-height-field").data("min"));
+    var max = parseInt($("input.custom-height-field").data("max"));
+    var value = parseInt($("input.custom-height-field").val());
     $('p.height-error-message').html('');
     if(value < min || value > max){
       if(value < min){
@@ -2281,25 +2283,23 @@ var SW = SW || {};
         }
       }
     }else{
-
       if($('input.custom-height-field').hasClass('wrong-value')){
         $('p.height-error-message').html('');
         $('input.custom-height-field').removeClass('wrong-value');
         $('form.custom-product-form').removeClass('has-error');
         var errorCount = $('form.custom-product-form').data("errorcount");
         errorCount -= 1;
-        $('form.custom-product-form').data("errorcount", errorCount);
+        $('form.custom-product-form').data("errorcount", errorCount); 
         if(errorCount == 0){
           $('p.general-error-message').html('');
         }
       }
-
     }
     if($('select.box-style').val() == 'B&L'){
       $('p.height-error-message').html('');
       var lengthHalf = parseInt(parseInt($('input.custom-length-field').val()) * 0.5);
-      if(parseInt($(this).val()) > lengthHalf || value < min || value > max){
-        if(parseInt($(this).val()) > lengthHalf){
+      if(parseInt($("input.custom-height-field").val()) > lengthHalf || value < min || value > max){
+        if(parseInt($("input.custom-height-field").val()) > lengthHalf){
           $('p.height-error-message').html('The depth must be less than half the length');
         }
         if(value < min){
@@ -2333,18 +2333,21 @@ var SW = SW || {};
         }
       }
     }
-    if($('select.box-style').val() == '5PF'){
+      if($('select.box-style').val() == '5PF'){
+        if(value < 75){
+          $('p.height-note-message').html('NOTE: If the required depth is less than 75mm then we can produce a product down to a minimum of 20mm, however the flaps will join in the middle and not on the side. Please contact us if this is not suitable.');
+        }else{
+          $('p.height-note-message').html('');
+        }
         $('p.height-error-message').html('');
-        if((parseInt($(this).val()) > parseInt($('input.custom-width-field').val())) || ((parseInt($(this).val()) + parseInt($('input.custom-width-field').val())) < 200) || value < min || value > max){
-          if(parseInt($(this).val()) > parseInt($('input.custom-width-field').val())){
+        if((parseInt($("input.custom-height-field").val()) > parseInt($('input.custom-width-field').val())) || ((parseInt($("input.custom-height-field").val()) + parseInt($('input.custom-width-field').val())) < 200) || value < min || value > max){
+          if(parseInt($("input.custom-height-field").val()) > parseInt($('input.custom-width-field').val())){
             $('p.height-error-message').html('The depth must be less than or equal to width');
           }
-          if((parseInt($(this).val()) + parseInt($('input.custom-width-field').val())) < 200){
+          if((parseInt($("input.custom-height-field").val()) + parseInt($('input.custom-width-field').val())) < 200){
             $('p.height-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
           }
-          if(value < min){
-            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'If the required length is less than 75mm then we can produce a product down to a minimum of 20mm, however the flaps will join in the middle and not on the side. Please contact us if this is not suitable.');
-          }
+         
           if(value > max){
             $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
           }
@@ -2373,11 +2376,13 @@ var SW = SW || {};
         }
       }
     }
-  });
+ }
 
   $('input.custom-input-field').change(function(){
-    
-    onOptionsChange();
+
+    lengthChangeFunction();
+    widthChangeFunction();
+    heightChangeFunction();
    
   });
 
@@ -2398,9 +2403,6 @@ var SW = SW || {};
         var errorCount = $('form.custom-product-form').data("errorcount");
         errorCount += 1;
         $('form.custom-product-form').data("errorcount", errorCount);
-        if(errorCount == 1){
-          $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
-        }
       }
     }else{
       if($('input.custom-quantity-field').hasClass('wrong-value')){
@@ -2410,9 +2412,6 @@ var SW = SW || {};
         var errorCount = $('form.custom-product-form').data("errorcount");
         errorCount -= 1;
         $('form.custom-product-form').data("errorcount", errorCount);
-        if(errorCount == 0){
-          $('p.general-error-message').html('');
-        }
       }
     }
    

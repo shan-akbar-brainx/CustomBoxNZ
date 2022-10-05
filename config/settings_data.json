@@ -1277,11 +1277,21 @@
           "nav_prev": "<i class=\"icon-arrow-left-products-header\"><\/i>",
           "nav_next": "<i class=\"icon-arrow-right-products-header\"><\/i>"
         }
+      },
+      "166149663612abc662": {
+        "type": "html-section",
+        "settings": {
+          "bg_color": "#ffffff",
+          "text_color": "#191919",
+          "margin_section": "40px 20px 80px 0",
+          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h1 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\"> Custom Cardboard Boxes <\/h1>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nCustomBox is a family-owned packaging distributor in Lower Hutt. We’ve been operating since 1975 and provide a straightforward solution for small-run customized corrugated boxes. CustomBox specializes in low-volume orders and provides a number of packaging options to meet your specifications with no set-up expenses. Our response time is normally 5-7 days and we will offer you the precise amount you require.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; float:left;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Your Own Box<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Custom-cardboard-boxes.jpg?v=1642716891\" alt=\"Custom Boxes\" width=\"500\" height=\"300\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
+        }
       }
     },
     "content_for_index": [
       "1495635272785",
       "1498207395632",
+      "166149663612abc662",
       "1498503602228",
       "1498808587294"
     ],
