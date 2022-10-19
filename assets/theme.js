@@ -2296,7 +2296,6 @@ var SW = SW || {};
       }
     }
     if($('select.box-style').val() == 'B&L'){
-      $('p.height-error-message').html('');
       var lengthHalf = parseInt(parseInt($('input.custom-length-field').val()) * 0.5);
       if(parseInt($("input.custom-height-field").val()) > lengthHalf || value < min || value > max){
         if(parseInt($("input.custom-height-field").val()) > lengthHalf){
@@ -2351,6 +2350,11 @@ var SW = SW || {};
           if(value > max){
             $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
           }
+
+          if(value < min){
+            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
+          }
+          
           if(!$('input.custom-height-field').hasClass('wrong-value')){
             $('input.custom-height-field').addClass('wrong-value');
             $('form.custom-product-form').addClass('has-error');
