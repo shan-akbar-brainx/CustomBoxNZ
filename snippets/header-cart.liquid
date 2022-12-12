@@ -1,6 +1,22 @@
 <div class="cart-container">
+  {%- assign total_custom_price = 0 -%}
+  {% for item in cart.items %}
+    {%- assign calculated_price = null -%}
+    {%- for p in item.properties -%}
+      {%- if p.first == "_calculated_price" and p.last != ""-%}
+        {%- assign calculated_price = p.last | times: 100 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if calculated_price != null -%}
+      {%- assign item_total_price = calculated_price | times: item.quantity -%}
+      {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+    {%- else -%}
+      {%- assign item_total_price = item.price | times: item.quantity -%}
+      {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+    {%- endif -%}
+  {% endfor %}
   <a href="javascript:;" class="icon-cart-header">
-    <span class="cart-total"><span class="cart-qty">{{ cart.item_count }}</span><span class="cart-price" {% if settings.language_enable %}data-translate="cart.header.your_cart"{% endif %}>{{ 'cart.header.your_cart' | t }}<span class="price"><span class="money">{{ cart.total_price | money }}</span></span></span></span>
+    <i class="icon-shopping-bag-1"></i><span class="cart-total"><span class="cart-qty">{{ cart.item_count }}</span><span class="cart-price" {% if settings.language_enable %}data-translate="cart.header.your_cart"{% endif %}>{{ 'cart.header.your_cart' | t }}<span class="price"><span class="money">{{ total_custom_price | money }}</span></span></span></span>
   </a> 
   <div class="cart-wrapper theme-border-color"> 
     <div class="cart-inner">
@@ -9,8 +25,15 @@
         <div class="cart-content"> 
           {% if cart.items != empty %}
           <ul class="clearfix">
+            {%- assign total_custom_price = 0 -%}
             {% for item in cart.items %}
-            <li  data-hulkapps-lineitem class="item-cart">
+              {%- assign calculated_price = null -%}
+              {%- for p in item.properties -%}
+                {%- if p.first == "_calculated_price" and p.last != ""-%}
+                  {%- assign calculated_price = p.last | times: 100 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            <li class="item-cart">
               <a class="product-image" href="{{item.url }}">
                 <img src="{{ item | img_url: 'small' }}"  alt="{{ item.title | escape }}" />
               </a>
@@ -31,10 +54,18 @@
                   </a>
                 </p>
                 <div class="items">
-                  <span  data-hulkapps-ci-price data-key='{{item.key}}' class="price">{{ item.quantity }} × <span class="amount"><span class="money">{{ item.price | money }}</span></span></span>
+                  {%- if calculated_price != null -%}
+                    <span class="price">{{ item.quantity }} × <span class="amount"><span class="money">{{calculated_price | money}}</span></span></span>
+                    {%- assign item_total_price = calculated_price | times: item.quantity -%}
+                    {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                  {%- else -%}
+                    <span class="price">{{ item.quantity }} × <span class="amount"><span class="money">{{ item.price | money }}</span></span></span>
+                    {%- assign item_total_price = item.price | times: item.quantity -%}
+                    {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                  {%- endif -%}
                 </div> 
                 <div class="access">
-                  <a href="javascript:;" class="btn-remove btn-remove-cart" data-id="{{item.variant_id}}" title="{{ 'cart.header.remove_this_item' | t }}"><i class="icon-cancel"></i></a>
+                  <a href="javascript:;" class="btn-remove btn-remove-cart" data-id="{{item.variant_id}}" data-lineitem="{{forloop.index}}" title="{{ 'cart.header.remove_this_item' | t }}"><i class="icon-cancel"></i></a>
                 </div>
               </div> 
             </li>
@@ -49,16 +80,16 @@
           <div class="cart-info"> 
             <p class="subtotal">
               <span class="label" {% if settings.language_enable %}data-translate="cart.header.total"{% endif %}>{{ 'cart.header.total' | t }}</span>
-              <span  data-hulkapps-cart-total class="price"><span class="money">{{ cart.total_price | money }}</span></span>
+              <span class="price"><span class="money">{{ total_custom_price | money }}</span></span>
             </p>
           </div> 
           <div class="actions">
             <a href="/cart" class="btn-button view-cart">
               <span {% if settings.language_enable %}data-translate="cart.header.view_cart"{% endif %}>{{ 'cart.header.view_cart' | t }}</span>
             </a>
-            <a href="/checkout" class="btn-button checkout-cart">
+            <button type="button" onclick="customCheckout()" class="btn-button checkout-cart custom-checkout-button">
               <span {% if settings.language_enable %}data-translate="cart.header.checkout"{% endif %}>{{ 'cart.header.checkout' | t }}</span>
-            </a>
+            </button>
           </div> 
         </div>
         {% endif %}
@@ -66,3 +97,55 @@
     </div>
   </div>
 </div>
+<script>
+  function customCheckout(){
+    $('button.custom-checkout-button').attr('disabled','true');
+    $('button.custom-checkout-button').html('<i class="fa fa-spinner fa-spin"></i>');
+    var json_cart = null;
+    $.ajax({
+        type: "GET",
+        url: "/cart.js",
+        dataType: 'json',
+        async: false,
+        success: function(cart){
+          json_cart = cart;
+        }
+      });
+      var cart_items = json_cart.items;
+      var customProductPresent = false;
+      for (var i=0; i < cart_items.length; ++i){
+        if(cart_items[i].id == 43254622945517){
+          customProductPresent = true;
+          break;
+        }
+      }
+    const stringifiedObj = JSON.stringify(json_cart);
+    
+    if(customProductPresent){
+      $.ajax({
+          type: "POST",
+          url: "https://custombox.mediagiant.co.nz/api/v1/custom-box/get-checkout-link?shop=customboxnz.myshopify.com",
+          headers: {
+            'Content-Type':'application/json'
+          },
+          dataType: 'json',
+          data: stringifiedObj,
+          success: function(responce){
+            
+            if(responce.checkoutUrl){
+              window.location.href = responce.checkoutUrl;
+            }else{
+              window.location.href = "/checkout"
+            }
+          },
+          error: function(responce){
+            $('button.custom-checkout-button').attr('disabled', false);
+            $('button.custom-checkout-button').html('Checkout');
+            alert("error occured unable to checkout");
+          }
+        });
+      }else{
+      window.location.href = "/checkout";
+    }
+  }
+</script>

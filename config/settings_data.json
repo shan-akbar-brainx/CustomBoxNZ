@@ -11,11 +11,11 @@
     "default_currency": "NZD",
     "theme_color": "#f16321",
     "custom_general": "1",
-    "text_color": "#191919",
-    "color_link": "#191919",
+    "text_color": "#444444",
+    "color_link": "#444444",
     "color_link_hover": "#444444",
     "button_background_color": "#ffffff",
-    "button_text_color": "#000000",
+    "button_text_color": "#f16321",
     "button_hover_background_color": "#f16321",
     "button_hover_text_color": "#ffffff",
     "add_to_cart_text_color": "#f16321",
@@ -72,7 +72,7 @@
     "footer_middle_links_hover_color": "#626262",
     "footer_middle_block_title_color": "#1f1f1f",
     "footer_middle_links_icon_color": "#777777",
-    "footer_bottom_background_color": "#f16321",
+    "footer_bottom_background_color": "#000000",
     "footer_bottom_text_font_color": "#ffffff",
     "footer_bottom_links_color": "#ffffff",
     "footer_bottom_links_hover_color": "#777777",
@@ -607,11 +607,11 @@
     "product_prev_text": "<i class=\"icon-arrow-left-products-header\"><\/i>",
     "product_next_text": "<i class=\"icon-arrow-right-products-header\"><\/i>",
     "product_countdown": false,
-    "product_availability": false,
+    "product_availability": true,
     "product_sku": true,
     "product_type": false,
     "product_vendor": false,
-    "product_short_desc": "2",
+    "product_short_desc": "1",
     "product_color_swatches_enable": false,
     "product_tags": false,
     "product_aspect_ratio": "1",
@@ -624,9 +624,9 @@
     "media_zoom_lightbox_enable": true,
     "tab_custom_title": "Custom Tab",
     "tab_custom_content": "<ul>\r\n<li>Any Product types that You want - Simple, Configurable, Bundled and Grouped Products<\/li>\r\n<li>Downloadable\/Digital Products, Virtual Products<\/li>\r\n<li>Inventory Management with Backordered items<\/li>\r\n<li>Customer Personalized Products - upload text for embroidery, monogramming, etc.<\/li>\r\n<li>Create Store-specific attributes on the fly<\/li>\r\n<li>Advanced Pricing Rules and support for Special Prices<\/li>\r\n<li>Tax Rates per location, customer group and product type<\/li>\r\n<li>Detailed Configuration Options in Theme Admin Penl<\/li>\r\n<\/ul>",
-    "disable_tab": true,
-    "disable_tab_review": true,
-    "disable_tab_custom": true,
+    "disable_tab": false,
+    "disable_tab_review": false,
+    "disable_tab_custom": false,
     "tab_size_chart_enable": false,
     "tab_size_chart_title": "Size Chart",
     "related_product_display": true,
@@ -640,7 +640,7 @@
     "related_product_nav_next": "<i class=\"icon-arrow-right-products-header\"><\/i>",
     "related_product_column": "6",
     "related_product_limit": "8",
-    "product_sidebar_position": "none",
+    "product_sidebar_position": "left",
     "product_show_menusidebar": false,
     "product_sidebar_menu": "sidebar-menu-collection",
     "product_show_banner1": false,
@@ -649,25 +649,25 @@
     "product_content_banner2": "",
     "product_show_banner3": false,
     "product_content_banner3": "",
-    "product_html_siderbar": "",
-    "disable_sidebar_category": true,
+    "product_html_siderbar": "<div class=\"homepage-bar\">\n  <div class=\"backgroud_home_bar\">\n    <div class=\"block_content\"> \n      <div class=\"col-md-12\">\n        <i class=\"icon-free-delivery\"><\/i>\n        <div class=\"text-area\">\n          <h3>Free Delivery<\/h3>\n          <p>from $50<\/p>\n        <\/div> \n      <\/div> \n      <div class=\"col-md-12\">\n        <i class=\"icon-feedback\"><\/i>\n        <div class=\"text-area\">\n          <h3>99 % Customer<\/h3>\n          <p>Feedbacks<\/p>\n        <\/div> \n      <\/div> \n      <div class=\"col-md-12\">\n        <i class=\"icon-free-return\"><\/i>\n        <div class=\"text-area\">\n          <h3>365 Days<\/h3>\n          <p>for free return<\/p>\n        <\/div> \n      <\/div> \n      <div class=\"col-md-12\">\n        <i class=\"icon-safe-payments\"><\/i>\n        <div class=\"text-area\">\n          <h3>Payment<\/h3>\n          <p>Secure System<\/p>\n        <\/div> \n      <\/div> \n      <div class=\"col-md-12\">\n        <i class=\"icon-best-brands\"><\/i>\n        <div class=\"text-area\">\n          <h3>Only Best<\/h3>\n          <p>Brands<\/p>\n        <\/div> \n      <\/div> \n    <\/div>\n  <\/div>\n<\/div>",
+    "disable_sidebar_category": false,
     "collection_alternative_image": true,
     "collection_aspect_ratio": "1",
     "collection_ratio_width": "300",
     "collection_ratio_height": "250",
     "collection_product_price": true,
     "collection_actions": true,
-    "collection_columns": "4",
+    "collection_columns": "5",
     "collection_list_mode": "grid",
     "collection_show_addtocart": true,
-    "collection_show_addtolinks": false,
+    "collection_show_addtolinks": true,
     "collection_show_sku": true,
-    "collection_show_stock": false,
+    "collection_show_stock": true,
     "collection_show_ratings": false,
     "collection_show_discount": true,
     "collection_grid_color_swatch": false,
     "collection_infinite_scrolling": false,
-    "porto_settings_category_grid_one_column_mobile": true,
+    "porto_settings_category_grid_one_column_mobile": false,
     "collection_sidebar_filters": "groups",
     "filtering_1": false,
     "filtering_heading_1": "Price",
@@ -675,7 +675,7 @@
     "filtering_2": false,
     "filtering_heading_2": "Color",
     "filtering_filters_2": "Black,\r\nBlue,\r\nBrown,\r\nCharcoal,\r\nGreen,\r\nTaupe,\r\nGarden,\r\nGrey,\r\nIndigo,\r\nIvory,\r\nKhaki,\r\nOatmeal,\r\nOrange,\r\nPink,\r\nPurple,\r\nRed,\r\nRoyal Blue,\r\nSilver,\r\nTaupe,\r\nWhite",
-    "filtering_3": false,
+    "filtering_3": true,
     "filtering_heading_3": "Size",
     "filtering_filters_3": "S,\r\nM,\r\nL,\r\nXL,\r\n2XL,\r\n3XL",
     "filtering_4": false,
@@ -684,9 +684,9 @@
     "filtering_5": false,
     "filtering_heading_5": "Inch",
     "filtering_filters_5": "14\",\n15\",\n16\",\n55\",\n40\",\n60\",\n65\",\n70\"",
-    "filtering_6": true,
-    "filtering_heading_6": "Collections",
-    "filtering_filters_6": "Gift Boxes,\nCraft Cardboard Boxes",
+    "filtering_6": false,
+    "filtering_heading_6": "",
+    "filtering_filters_6": "",
     "filtering_7": false,
     "filtering_heading_7": "",
     "filtering_filters_7": "",
@@ -774,10 +774,10 @@
     "checkout_input_background_color_mode": "white",
     "checkout_sidebar_background_image": "",
     "checkout_sidebar_background_color": "#fafafa",
-    "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
-    "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
-    "checkout_accent_color": "#f16321",
-    "checkout_button_color": "#f16321",
+    "checkout_heading_font": "Helvetica Neue",
+    "checkout_body_font": "Helvetica Neue",
+    "checkout_accent_color": "#0083c1",
+    "checkout_button_color": "#0083c1",
     "checkout_error_color": "#ff6d6d",
     "facebook_link": "https:\/\/www.facebook.com\/envato",
     "smartwave_flickrphotos_apikey": "",
@@ -1085,7 +1085,7 @@
             "type": "image",
             "settings": {
               "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/Banner-2.jpg",
+              "background_image": "shopify:\/\/shop_images\/Custom-cardboard-boxes.jpg",
               "background_image_position": "left",
               "image_use": "0",
               "content_position": "left",
@@ -1093,73 +1093,22 @@
               "title_slide": "<span style=\"font-weight:500;color:white;\">Custom made packaging cartons <br> for any quantity, any size<\/span>",
               "content_slide": "<span style='color:white;\"'>Specialising in small quantities and with no set-up costs, <br> CustomBox provides a range of packaging styles to meet your needs.<\/span>",
               "button_text_slide": "Products",
-              "button_link_slide": "shopify:\/\/collections\/all",
-              "content_bottom_slide": ""
-            }
-          },
-          "0438a129-1077-42f3-a2c3-d84282de6b09": {
-            "type": "image",
-            "settings": {
-              "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/guy-stacking-cardboard-boxes.jpg",
-              "background_image_position": "left",
-              "image_use": "0",
-              "content_position": "left",
-              "offset_content": "20%",
-              "title_slide": "<span style=\"font-weight:500;color:white;\">We have stock boxes on hand ready<\/span>",
-              "content_slide": "<span style='color:white;\"'>Check out all the stock boxes we offer<\/span>",
-              "button_text_slide": "View Stock Boxes",
-              "button_link_slide": "shopify:\/\/collections\/craft-cardboard-boxes",
-              "content_bottom_slide": ""
-            }
-          },
-          "fc960362-ad31-41e5-8736-ab84eda3cdec": {
-            "type": "image",
-            "settings": {
-              "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/person-putting-box-together.jpg",
-              "background_image_position": "left",
-              "image_use": "0",
-              "content_position": "left",
-              "offset_content": "20%",
-              "title_slide": "<span style=\"font-weight:500;color:white;\">Want your logo on your box?<\/span>",
-              "content_slide": "<span style='color:white;\"'>We can now print on boxes with your logo.<\/span>",
-              "button_text_slide": "Get In Touch",
-              "button_link_slide": "shopify:\/\/pages\/contact",
-              "content_bottom_slide": ""
-            }
-          },
-          "6b621b16-82de-4177-a58d-41d6644dbd4b": {
-            "type": "image",
-            "settings": {
-              "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/whole-lot-of-boxes-stacked-up3.jpg",
-              "background_image_position": "center",
-              "image_use": "0",
-              "content_position": "left",
-              "offset_content": "20%",
-              "title_slide": "<span style=\"font-weight:500;color:white;\">Need a large quantity?<\/span>",
-              "content_slide": "<span style='color:white;\"'>Get in touch with us for large quantities.<\/span>",
-              "button_text_slide": "Enquire Now",
-              "button_link_slide": "shopify:\/\/pages\/contact",
+              "button_link_slide": "",
               "content_bottom_slide": ""
             }
           }
         },
         "block_order": [
-          "1495635272785-0",
-          "0438a129-1077-42f3-a2c3-d84282de6b09",
-          "fc960362-ad31-41e5-8736-ab84eda3cdec",
-          "6b621b16-82de-4177-a58d-41d6644dbd4b"
+          "1495635272785-0"
         ],
         "settings": {
           "margin_section": "0 0 0 0",
           "slide_layout": "fullwidth",
           "fullwidth_height": "563px",
           "slide_transition": "slide",
-          "auto_speed": "8000",
+          "auto_speed": "50000000",
           "show_paging": false,
-          "show_nav": true,
+          "show_nav": false,
           "nav_prev": "<i class=\"icon-chevron-left\"><\/i>",
           "nav_next": "<i class=\"icon-chevron-right\"><\/i>"
         }
@@ -1220,7 +1169,7 @@
           "bg_section_color": "#ffffff",
           "icon_content_color": "",
           "text_content_color": "",
-          "border_color_block": "#ffffff",
+          "border_color_block": "",
           "margin_section": "30px 30px 30px 30px"
         }
       },
@@ -1230,11 +1179,11 @@
           "bg_section_color": "#ffffff",
           "title_color": "#313131",
           "margin_section": "30px 0 30px 0",
-          "title": "Stock Cardboard Boxes",
-          "collection": "craft-cardboard-boxes",
+          "title": "Video Cameras &amp; Photography",
+          "collection": "video-cameras-photography",
           "product_type": "2",
           "hide_action": "1",
-          "show_rating": false,
+          "show_rating": true,
           "collection_limit": "8",
           "collection_column": "4",
           "collection_carousel": true,
@@ -1253,7 +1202,7 @@
             "type": "image",
             "settings": {
               "banner_image": "shopify:\/\/shop_images\/Orange-Box.jpg",
-              "content": "<span style=\"font-weight:500;display:inline-block;color:white;padding-top:12px;\">Shop Custom Cardboard Boxes Now.<\/span>",
+              "content": "<span style=\"font-weight:500;display:inline-block;color:white;padding-top:12px;\">Shop now to find savings on everything you need<br>for the big game.<\/span>",
               "content_position": "right",
               "offset_content": "4%",
               "button_text": "Browse",
@@ -1264,7 +1213,7 @@
           "1498808587294-1": {
             "type": "image",
             "settings": {
-              "banner_image": "shopify:\/\/shop_images\/machine-wih-orange-logo.jpg",
+              "banner_image": "shopify:\/\/shop_images\/machine.jpg",
               "content": "",
               "content_position": "left",
               "offset_content": "9%",
@@ -1299,10 +1248,10 @@
           "footer_logo": "shopify:\/\/shop_images\/cb_logo.png",
           "footer_logo_enabled": true,
           "footer_support_icon": "icon-call-us-footer",
-          "footer_support_content": "<p style=\"font-size:15px;font-weight:500;letter-spacing: -0.025em;color:#1f1f1f;line-height:23px;\">GOT QUESTION? CALL US!<\/p>\n<p style=\"font-size:22px;font-weight:500;letter-spacing: -0.015em;line-height:21px;\">0508 334 466<\/p>\n<p>14-20 Downer Street\nLower Hutt\nWellington 5010 <\/p>\n<p><i class=\"icon-map-marker\"><\/i><a href=\"https:\/\/goo.gl\/maps\/7sLW9ZXQotMEnrfq6\" target=\"_blank\">Find us on map<\/a><\/p>",
+          "footer_support_content": "<p style=\"font-size:15px;font-weight:500;letter-spacing: -0.025em;color:#1f1f1f;line-height:23px;\">GOT QUESTION? CALL US!<\/p>\n<p style=\"font-size:22px;font-weight:500;letter-spacing: -0.015em;line-height:21px;\">0508 334 466<\/p>\n<p>14-20 Downer Street\nLower Hutt\nWellington 5010 <\/p>\n<p><i class=\"icon-map-marker\"><\/i>Find is on map<\/p>",
           "footer_payment_icon": "icon-safe-payments",
-          "footer_payment_content": "<span style=\"font-size:15px;font-weight:500;letter-spacing: -0.025em;color:#1f1f1f;line-height:23px;\">QUICK LINKS<\/span>\n<br><br>\n<ul>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/box-styles-1\/\">Box Styles<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/choosing-a-box\/\">Choosing a Box<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/collections\/all\/\">Stock Boxes<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/about\/\">About Us<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/contact\/\">Contact Us<\/a><\/li>\n<\/ul>",
-          "footer_secure_text": "",
+          "footer_payment_content": "<span style=\"font-size:15px;font-weight:500;letter-spacing: -0.025em;color:#1f1f1f;line-height:23px;\">WE'RE USING SAFE PAYMENTS<\/span>",
+          "footer_secure_text": "Secured by:",
           "footer_link_title1": "",
           "footer_link_1": "",
           "footer_link_title2": "A Division of Packaging Products Ltd",
@@ -1316,45 +1265,20 @@
         "type": "cart-template",
         "settings": {
           "cart_notes_enable": true,
-          "custom_html": "",
+          "custom_html": "<div class=\"cart-info\">\n  <span><i class=\"icon-free-return\"><\/i> <b>30 Days<\/b> for free return<\/span>\n  <span><i class=\"icon-safe-payments\"><\/i> <b>Secure Payment<\/b> System<\/span>\n  <span><i class=\"icon-call-us-footer\"><\/i> <b>Call us<\/b> 801 017 917<\/span>\n<\/div>",
           "product_slide": true,
           "title": "You May Be Interested also in",
           "collection": "new-arrivals",
-          "limit": "4",
-          "column": "4",
-          "autoplay": "",
-          "show_paging": false,
-          "show_nav": false,
+          "limit": "8",
+          "column": "7",
+          "autoplay": "5000",
+          "show_paging": true,
+          "show_nav": true,
           "nav_prev": "<i class=\"icon-arrow-left-products-header\"><\/i>",
           "nav_next": "<i class=\"icon-arrow-right-products-header\"><\/i>"
         }
       },
-      "16493840662a31cfcf": {
-        "type": "text-section",
-        "disabled": true,
-        "blocks": {
-          "16493840662a31cfcf-0": {
-            "type": "item-block",
-            "settings": {
-              "item_title": "Welcome to Custom Box",
-              "item_icon": "",
-              "item_text": "Packaging Products Ltd.’s CustomBox business is a wholly-owned subsidiary of the company (PPL). We are a Lower Hutt-based family-owned packaging wholesaler that has been in business since 1975. We provide a simple solution for small-run bespoke corrugated boxes.\nCustomBox specialises in small volumes and offers a variety of packaging choices to match your needs with no set-up fees. Our response periods are typically 5-7 days, and we will provide the exact amount that you want!"
-            }
-          }
-        },
-        "block_order": [
-          "16493840662a31cfcf-0"
-        ],
-        "settings": {
-          "bg_content_color": "#f9f9f9",
-          "bg_section_color": "#f9f9f9",
-          "icon_content_color": "",
-          "text_content_color": "",
-          "border_color_block": "rgba(0,0,0,0)",
-          "margin_section": "40px 0 40px 0"
-        }
-      },
-      "1650506621f842f34d": {
+      "166149663612abc662": {
         "type": "html-section",
         "settings": {
           "bg_color": "#ffffff",
@@ -1362,105 +1286,31 @@
           "margin_section": "40px 20px 80px 0",
           "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h1 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\"> Custom Cardboard Boxes <\/h1>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nCustomBox is a family-owned packaging distributor in Lower Hutt. We’ve been operating since 1975 and provide a straightforward solution for small-run customized corrugated boxes. CustomBox specializes in low-volume orders and provides a number of packaging options to meet your specifications with no set-up expenses. Our response time is normally 5-7 days and we will offer you the precise amount you require.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; float:left;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Your Own Box<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Custom-cardboard-boxes.jpg?v=1642716891\" alt=\"Custom Boxes\" width=\"500\" height=\"300\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
         }
-      },
-      "165810664011be3309": {
-        "type": "video-background",
-        "disabled": true,
-        "blocks": {
-          "165810664011be3309-0": {
-            "type": "video",
-            "settings": {
-              "video_link": "https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/3543757125774f34be5a945d9f693c1e.mp4",
-              "video_image": "shopify:\/\/shop_images\/Home-Banner.jpg",
-              "overlay_opacity": 44,
-              "title": "Custom Made Packaging Boxes For Any Quantity, Any Size",
-              "text": "<p>Specialising in small quantities and with no set-up costs, CustomBox provides a range of packaging styles to meet your needs.<\/p>",
-              "color_text": "#ffffff",
-              "button_label": "SHOP NOW",
-              "button_link": "shopify:\/\/collections\/all",
-              "color_btn_bg": "#f16321",
-              "color_btn_text": "#ffffff"
-            }
-          }
-        },
-        "block_order": [
-          "165810664011be3309-0"
-        ],
-        "settings": {
-        }
-      },
-      "1661121890ba36cc61": {
-        "type": "banner-fullwidth",
-        "disabled": true,
-        "blocks": {
-          "1661121890ba36cc61-0": {
-            "type": "image",
-            "settings": {
-              "use_background": "color",
-              "banner_background_color": "#eeeeee",
-              "class_banner_content": "",
-              "content": "Design Your Own Box",
-              "button_text": "Design Now",
-              "button_link": "shopify:\/\/products\/custom-box"
-            }
-          }
-        },
-        "block_order": [
-          "1661121890ba36cc61-0"
-        ],
-        "settings": {
-          "margin_section": "30px 0 30px 0",
-          "full_width_banner": true,
-          "height_banner": "150px"
-        }
-      },
-      "166112243412667c8f": {
-        "type": "html-section",
-        "settings": {
-          "bg_color": "#f16321",
-          "text_color": "#ffffff",
-          "margin_section": "20px 0 20px 0",
-          "html_block": "<h2 style=\"padding-top: 40px; padding-bottom: 10px;\">Need a Custom Box? <br>Design Your Own Box<\/h2>\n<a style=\"background-color: white; color: #f16321; border-radius: 4px; margin-bottom: 40px;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Now<\/a>"
-        }
-      },
-      "1661298231936b37c8": {
-        "type": "html-section",
-        "settings": {
-          "bg_color": "#ffffff",
-          "text_color": "#191919",
-          "margin_section": "30px 0 10px 0",
-          "html_block": "<h3 style=\"padding-bottom:15px;\">See How We Create &amp; Build Our Boxes<\/h3>\n<iframe width=\"600\" height=\"340\" src=\"https:\/\/www.youtube.com\/embed\/Ty4CumOht8Y\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"\"><\/iframe>"
-        }
       }
     },
     "content_for_index": [
-      "165810664011be3309",
       "1495635272785",
       "1498207395632",
-      "1661121890ba36cc61",
-      "1650506621f842f34d",
-      "166112243412667c8f",
-      "16493840662a31cfcf",
+      "166149663612abc662",
       "1498503602228",
-      "1661298231936b37c8",
       "1498808587294"
     ],
     "blocks": {
-      "558381514691908246": {
-        "type": "shopify:\/\/apps\/volumeboost-volume-discount\/blocks\/app-embed\/25745434-52e7-4378-88f1-890df18a0110",
-        "disabled": false,
-        "settings": {
-        }
-      },
       "10042746950867549768": {
         "type": "shopify:\/\/apps\/hulk-product-options\/blocks\/app-embed\/380168ef-9475-4244-a291-f66b189208b5",
-        "disabled": false,
+        "disabled": true,
         "settings": {
         }
       },
       "14656832010101544780": {
         "type": "shopify:\/\/apps\/advanced-product-options\/blocks\/app-embed-block\/a1199153-7462-4b5b-8a80-f0eefba85e99",
-        "disabled": false,
+        "disabled": true,
+        "settings": {
+        }
+      },
+      "558381514691908246": {
+        "type": "shopify:\/\/apps\/volumeboost-volume-discount\/blocks\/app-embed\/25745434-52e7-4378-88f1-890df18a0110",
+        "disabled": true,
         "settings": {
         }
       }

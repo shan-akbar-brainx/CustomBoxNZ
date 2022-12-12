@@ -130,7 +130,7 @@
                     {% if section.settings.payment_image != blank %}
                     {% assign payment_image = section.settings.payment_image | img_url %}
                     {% else %}
-                    {% assign payment_image = '' | asset_url %}
+                    {% assign payment_image = 'payment-logo.png' | asset_url %}
                     {% endif %}
                     <img class="payment-logo" src="{{ payment_image }}" alt="" />
                     <div class="secure-text">
@@ -144,7 +144,7 @@
                     {% if section.settings.payment_image != blank %}
                     {% assign payment_image = section.settings.secure_image | img_url %}
                     {% else %}
-                    {% assign payment_image = '' | asset_url %}
+                    {% assign payment_image = 'secure-logo.png' | asset_url %}
                     {% endif %}
                     <img class="secure-logo" src="{{ payment_image }}" alt="" />
                   </div> 
