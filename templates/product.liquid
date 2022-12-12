@@ -81,7 +81,7 @@
                     <div class="review-product-details">
                       <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
                     </div>  
-                    {% include 'addthis' %}
+<!--                     {% include 'addthis' %} -->
                     {% if settings.product_short_desc %}
                     <div class="short-description-detail">
                       {% if settings.product_short_desc %}
@@ -190,7 +190,7 @@
                             {% endfor %}
                           </select> 
                         </div> 
-                       
+                        
                         <div id="hulkapps_custom_options_{{ product.id }}"> </div>
                         
                         <div class="product-options-bottom"> 
@@ -226,9 +226,9 @@
                                   {% endif %}
                                 </div>
                               </div>
-                              <div class="action-list wishlist wishlist-{{product.id}}">
+<!--                               <div class="action-list wishlist wishlist-{{product.id}}">
                                 {% include 'wishlist-product-detail'%}
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                         </div>

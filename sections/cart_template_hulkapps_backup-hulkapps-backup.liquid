@@ -16,7 +16,7 @@
                   </thead>               
                   <tbody>
                     {% for item in cart.items %}
-                    <tr data-hulkapps-lineitem >
+                    <tr>
                       <td class="text-left pr-img-td hidden-xs" data-label="{{ 'customer.order.product' | t }}" style="width:110px;">
                         <a href="{{ item.url | within: collections.all }}">
                           <img class="cart__image" src="{{ item | img_url: '107', scale: 1 }}" alt="{{ item.title | escape }}">
@@ -147,7 +147,7 @@
                           <strong {% if settings.language_enable %}data-translate="cart.general.grandtotal"{% endif %}>{{ 'cart.general.grandtotal' | t }}</strong>
                         </td>
                         <td class="a-right">
-                          <strong><span  data-hulkapps-cart-total class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ cart.total_price | money }}</span></span></span></strong>
+                          <strong><span class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ cart.total_price | money }}</span></span></span></strong>
                         </td>
                       </tr>
                     </tfoot>
@@ -155,7 +155,7 @@
                       <tr>
                         <td class="a-right" colspan="1" {% if settings.language_enable %}data-translate="cart.general.subtotal"{% endif %}>{{ 'cart.general.subtotal' | t }}</td>
                         <td class="a-right">
-                          <span  data-hulkapps-cart-total class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ cart.total_price | money }}</span></span></span>    
+                          <span class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ cart.total_price | money }}</span></span></span>    
                         </td>
                       </tr>
                     </tbody>

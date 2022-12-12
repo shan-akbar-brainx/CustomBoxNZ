@@ -1,6 +1,6 @@
 <div class="cart-container">
   <a href="javascript:;" class="icon-cart-header">
-    <span class="cart-total"><span class="cart-qty">{{ cart.item_count }}</span><span class="cart-price" {% if settings.language_enable %}data-translate="cart.header.your_cart"{% endif %}>{{ 'cart.header.your_cart' | t }}<span class="price"><span class="money">{{ cart.total_price | money }}</span></span></span></span>
+    <i class="icon-shopping-bag-1"></i><span class="cart-total"><span class="cart-qty">{{ cart.item_count }}</span><span class="cart-price" {% if settings.language_enable %}data-translate="cart.header.your_cart"{% endif %}>{{ 'cart.header.your_cart' | t }}<span class="price"><span class="money">{{ cart.total_price | money }}</span></span></span></span>
   </a> 
   <div class="cart-wrapper theme-border-color"> 
     <div class="cart-inner">
@@ -49,7 +49,7 @@
           <div class="cart-info"> 
             <p class="subtotal">
               <span class="label" {% if settings.language_enable %}data-translate="cart.header.total"{% endif %}>{{ 'cart.header.total' | t }}</span>
-              <span  data-hulkapps-cart-total class="price"><span class="money">{{ cart.total_price | money }}</span></span>
+              <span class="price"><span class="money">{{ cart.total_price | money }}</span></span>
             </p>
           </div> 
           <div class="actions">

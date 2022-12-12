@@ -7,7 +7,6 @@
   <meta charset="utf-8">  
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
   <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" type="image/png" /> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   {% if template contains 'index' %}
   {% if page_title != blank and page_title != 'Welcome' %}
   <title>{{ page_title }}</title>
@@ -85,7 +84,7 @@
     {{settings.custom_style_1}}
     {{settings.custom_style_2}}
   </style>
-</head> 
+{% include 'hulk_po_vd.liquid' %}</head> 
 <body id="{{ page_title | handle }}" class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} {% if customer %}customer-logged-in {% endif %} {% if template == 'collection' or template contains 'collection.' %}layout-{{settings.collection_list_mode}}{%endif%} {% if settings.home_sidebar_position != 'none' and template contains 'index' %}columns-{{settings.home_sidebar_position}}{% endif %}"> 
   <!-- begin site-header -->
   <div class="wrapper">
@@ -238,5 +237,6 @@
   {% if settings.admin_helper_panel != blank %}
   {{ 'admin-panel.js' | asset_url | script_tag }}
   {% endif %}
+  {% include 'hulkcode_common' %}
 </body>
 </html>
