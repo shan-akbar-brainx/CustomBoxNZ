@@ -5,7 +5,7 @@
       <div class="checkout-cart">  
         <div class="cart-inner"> 
           <form action="/cart" method="post" novalidate class="cart table-wrap">
-            {%- assign total_custom_price = 0 -%}
+          {%- assign total_custom_price = 0 -%}
             <div class="col-sm-12 col-md-8 col-lg-9">
               <div class="cart-table-wrap">
                 <table class="data-table full cart-table">
@@ -16,9 +16,8 @@
                     <th rowspan="1" class="text-center" style="text-align:center;" {% if settings.language_enable %}data-translate="cart.label.quantity"{% endif %}>{{ 'cart.label.quantity' | t }}</th> 
                   </thead>               
                   <tbody>
-                   
                     {% for item in cart.items %}
-                    <tr>
+                    <tr data-hulkapps-lineitem >
                       <td class="text-left pr-img-td hidden-xs" data-label="{{ 'customer.order.product' | t }}" style="width:110px;">
                         <a href="{{ item.url | within: collections.all }}">
                           <img class="cart__image" src="{{ item | img_url: '107', scale: 1 }}" alt="{{ item.title | escape }}">
@@ -72,7 +71,7 @@
                           {% endif %}
                           {% endunless %}
                           {% endfor %}{%- endcomment -%}{%- for p in item.properties -%}
-                          {%- if p.first == "_calculated_price" and p.last != ""-%}
+                            {%- if p.first == "_calculated_price" and p.last != ""-%}
                             {%- assign calculated_price = p.last | times: 100 -%}
                           {%- endif -%}
             {%- unless p.last == blank or p.first == "_calculated_price" -%}
@@ -98,24 +97,26 @@
                       </td>
                       <td data-label="{{ 'cart.label.price' | t }}" style="text-align:center;">
                         <span class="cart-price">
-                          {%- if calculated_price != null -%}
-                            <span class="money"><span class='hulkapps-cart-item-price' data-key='{{item.key}}'>{{ calculated_price | money}}</span></span>
-                            {%- assign item_total_price = calculated_price | times: item.quantity -%}
-                            {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
-                          {%- else -%}
-                            <span class="money"><span class='hulkapps-cart-item-price' data-key='{{item.key}}'>{{ item.price | money }}</span></span>
-                            {%- assign item_total_price = item.price | times: item.quantity -%}
-                            {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
-                          {%- endif -%}
-                          </span>
+                          <span class="money"><span class='hulkapps-cart-item-price' data-key='{{item.key}}'>{{ item.price | money }}</span></span>
+                        </span>
+                        {%- if calculated_price != null -%}
+                        <span class="money"><span class='hulkapps-cart-item-price' data-key='{{item.key}}'>{{ calculated_price | money}}</span></span>
+                        {%- assign item_total_price = calculated_price | times: item.quantity -%}
+                        {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                      {%- else -%}
+                        <span class="money"><span class='hulkapps-cart-item-price' data-key='{{item.key}}'>{{ item.price | money }}</span></span>
+                        {%- assign item_total_price = item.price | times: item.quantity -%}
+                        {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                      {%- endif -%}
+                      </span>
                         {% for discount in item.discounts %}
                         <div class="cart-item__discount medium-up--hide">{{ discount.title }}</div>
                         {% endfor %}
                       </td>
                       <td class="a-center product-qty last" style="text-align:center;" data-label="{{ 'cart.label.quantity' | t }}">
-                        <div class="input-box {%if item.id == 42360684380397 %} cursor-not-allowed {% endif %}">
-                          <input type="text" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" class="{%if item.id == 42360684380397 %} pointer-events-none {% endif %}"> 
-                          <div class="plus-minus {%if item.id == 42360684380397 %} pointer-events-none {% endif %}">
+                      <div class="input-box {%if item.id == 43254622945517 %} cursor-not-allowed {% endif %}">
+                      <input type="text" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" class="{%if item.id == 43254622945517 %} pointer-events-none {% endif %}"> 
+                      <div class="plus-minus {%if item.id == 43254622945517 %} pointer-events-none {% endif %}">
                             <div class="increase items" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">+</div>
                             <div class="reduced items" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">-</div>
                           </div>
@@ -128,8 +129,8 @@
                   <tfoot>
                     <tr>
                       <td colspan="10">
-                        <a href="/" type="submit" class="btn-button custom-button bordered"><span {% if settings.language_enable %}data-translate="cart.general.continue"{% endif %}>{{ 'cart.general.continue' | t }}</span></a>
-                        <button type="submit" class="btn-button custom-button bordered btn-update tiny"><span {% if settings.language_enable %}data-translate="cart.general.update"{% endif %}>{{ 'cart.general.update' | t }}</span></button>                   
+                      <a href="/" type="submit" class="btn-button custom-button bordered"><span {% if settings.language_enable %}data-translate="cart.general.continue"{% endif %}>{{ 'cart.general.continue' | t }}</span></a>
+                    <button type="submit" class="btn-button custom-button bordered btn-update tiny"><span {% if settings.language_enable %}data-translate="cart.general.update"{% endif %}>{{ 'cart.general.update' | t }}</span></button>
                       </td>
                     </tr>
                   </tfoot>
@@ -161,7 +162,7 @@
                           <strong {% if settings.language_enable %}data-translate="cart.general.grandtotal"{% endif %}>{{ 'cart.general.grandtotal' | t }}</strong>
                         </td>
                         <td class="a-right">
-                          <strong><span class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ total_custom_price | money}}</span></span></span></strong>
+                          <strong><span  data-hulkapps-cart-total class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ total_custom_price | money }}</span></span></span></strong>
                         </td>
                       </tr>
                     </tfoot>
@@ -169,14 +170,14 @@
                       <tr>
                         <td class="a-right" colspan="1" {% if settings.language_enable %}data-translate="cart.general.subtotal"{% endif %}>{{ 'cart.general.subtotal' | t }}</td>
                         <td class="a-right">
-                          <span class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ total_custom_price | money}}</span></span></span>    
+                          <span  data-hulkapps-cart-total class="price"><span class="money"><span class='hulkapps-cart-original-total'>{{ total_custom_price  | money }}</span></span></span>    
                         </td>
                       </tr>
                     </tbody>
                   </table>
                   <ul class="checkout-types">
                     <li>
-                      <button type="button" name="checkout" class="btn-button custom-cart-page-checkout-button" onclick="customCheckout()" {% if settings.language_enable %}data-translate="cart.general.checkout"{% endif %} >{{ 'cart.general.checkout' | t }}</button>
+                    <button type="button" name="checkout" class="btn-button custom-cart-page-checkout-button" onclick="customCheckout()" {% if settings.language_enable %}data-translate="cart.general.checkout"{% endif %} >{{ 'cart.general.checkout' | t }}</button>
                     </li>
                   </ul> 
                 </div>
@@ -256,11 +257,12 @@
 </div> 
 <script>
   function customCheckout(){
+    console.log("custom-checkout");
     var json_cart = {{ cart | json }};
     var cart_items = json_cart.items;
     var customProductPresent = false;
     for (var i=0; i < cart_items.length; ++i){
-      if(cart_items[i].id == 42360684380397){
+      if(cart_items[i].id == 43254622945517){
         customProductPresent = true;
         break;
       }
@@ -268,10 +270,10 @@
     const stringifiedObj = JSON.stringify(json_cart);
     if(customProductPresent){
       $('button.custom-cart-page-checkout-button').attr('disabled','true');
-      $('button.custom-cart-page-checkout-button').html('<i class="fa fa-spinner fa-spin"></i> Proceed to checkout');
+      $('button.custom-cart-page-checkout-button').html('<i class="fa fa-spinner fa-spin"></i>');
     $.ajax({
         type: "POST",
-        url: "https://custom-box.herokuapp.com/api/v1/custom-box/get-checkout-link?shop=customboxnz.myshopify.com",
+        url: "https://custombox.mediagiant.co.nz/api/v1/custom-box/get-checkout-link?shop=customboxnz.myshopify.com",
         headers: {
           'Content-Type':'application/json'
         },
@@ -279,6 +281,7 @@
         data: stringifiedObj,
         success: function(responce){
           window.location.href = responce.checkoutUrl;
+          console.log(responce.checkoutUrl);
         },
         error: function(responce){
           $('button.custom-cart-page-checkout-button').attr('disabled', false);
