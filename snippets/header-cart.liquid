@@ -38,7 +38,7 @@
             <ul class="clearfix">
               {%- assign total_custom_price = 0 -%}
               {% for item in cart.items %}
-                <li data-hulkapps-lineitem class="item-cart">
+                <li class="item-cart">
                   {%- assign calculated_price = null -%}
                   {%- for p in item.properties -%}
                     {%- if p.first == "_calculated_price" and p.last != "" -%}
@@ -70,10 +70,7 @@
                     <div class="items">
 
                       {%- if calculated_price != null -%}
-                        <span
-                          data-hulkapps-ci-price
-                          data-key='{{item.key}}'
-                          class="price">{{ item.quantity }} ×
+                        <span data-key='{{item.key}}' class="price">{{ item.quantity }} ×
                           <span class="amount">
                             <span class="money">{{ calculated_price | money }}</span>
                           </span>
@@ -81,10 +78,7 @@
                         {%- assign item_total_price = calculated_price | times: item.quantity -%}
                         {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
                       {%- else -%}
-                        <span
-                          data-hulkapps-ci-price
-                          data-key='{{item.key}}'
-                          class="price">{{ item.quantity }} ×
+                        <span data-key='{{item.key}}' class="price">{{ item.quantity }} ×
                           <span class="amount">
                             <span class="money">{{ item.price | money }}</span>
                           </span>
@@ -116,7 +110,7 @@
             <div class="cart-info">
               <p class="subtotal">
                 <span class="label" {% if settings.language_enable %}data-translate="cart.header.total"{% endif %}>{{ 'cart.header.total' | t }}</span>
-                <span data-hulkapps-cart-total class="price">
+                <span class="price">
                   <span class="money">{{ total_custom_price | money }}</span>
                 </span>
               </p>

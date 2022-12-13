@@ -79,7 +79,7 @@
         {% if section.settings.logo_use_image %}
           <a href="/" class="logo">
             {% if section.settings.logo != blank %}
-              {% assign logo = section.settings.logo | img_url: image_logo_size %}
+              {% assign logo = section.settings.logo | img_url: 'large' %}
             {% else %}
               {% assign logo = 'logo.png' | asset_url %}
             {% endif %}
@@ -111,7 +111,8 @@
                     <i class="icon-favorites"></i>
                   </a>
                 {% else %}
-                  <a href="/account/login">
+                  <a
+                    href="/account/login">
                     <i class="icon-favorites"></i>
                   </a>
                 {% endif %}

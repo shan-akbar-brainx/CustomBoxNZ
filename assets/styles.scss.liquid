@@ -631,7 +631,7 @@ div.limited_wrap {
       position:relative;
       top:3px;
       font-size: 36px;
-      display: inline-block;
+      display: none;
       vertical-align: middle;
     }
     .cart-total {
@@ -8656,10 +8656,10 @@ body:not(.template-index) {
       .title {display: block;padding-bottom: 10px;}
     }
     .review-product-details{
-/*       margin-bottom: 15px;
+      margin-bottom: 15px;
       height: 20px;
       line-height: 1.25;
-      margin-top: 3px; */
+      margin-top: 3px;
       .spr-badge-starrating{
         margin:0;
         .spr-icon{
@@ -10003,6 +10003,9 @@ p.height-note-message{
 } 
 
 @media (min-width: 768px){
+  .header-container.type4 .dropdown-menu{
+    display: none;
+  }
   .container {
     width: 100%;
   } 
@@ -10068,7 +10071,7 @@ p.height-note-message{
 @media (min-width: 1199px){
   .header-container {
     &.type4, &.type5, &.type6{
-      .dropdown-menu, .search-area{display:none;} 
+       .search-area{display:none;} 
     }
   }
   .header-container.type5{
@@ -10436,7 +10439,7 @@ p.height-note-message{
         font-size: 26px;
         line-height: 53px;
         position: absolute;
-        right: 195px;
+        right: 111px;
         top: 0;
       }
       #search_mini_form {display:none;
@@ -10807,6 +10810,7 @@ p.height-note-message{
   }
 }
 @media (max-width: 767px) {
+  
   .collection-banner .half-content{
   	    float: none !important;
   }
@@ -10875,7 +10879,7 @@ p.height-note-message{
       } 
       .wrapper-top-menu {display:none;}
       .search-area a.search-icon {
-        right:61px;
+        right:110px;
       }
       .wishlist-area{display:none;}
     }
@@ -11332,6 +11336,9 @@ p.height-note-message{
   } 
 } 
 @media (max-width: 767px){
+  .mini-cart .icon-cart-header i {
+    display: inline-block;
+  }
   button,.btn-button,.btn{
     width: 100%;
   }
