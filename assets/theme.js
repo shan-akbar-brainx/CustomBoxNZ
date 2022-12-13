@@ -1420,8 +1420,8 @@ var SW = SW || {};
           if(key == 'items'){
           	var $html ='';
             if(value.length){
-              	t.html(Shopify.formatMoney(total_custom_price, money_format));
-              	d.html('<span class="cart-qty">'+cart.item_count+'</span><span class="cart-price">'+cartData.totalNumb+'<span class="price">'+Shopify.formatMoney(total_custom_price, money_format)+'</span></span>');
+              t.html(Shopify.formatMoney(total_custom_price, money_format));
+              d.html('<span class="cart-qty">'+cart.item_count+'</span><span class="cart-price">'+cartData.totalNumb+'<span class="price">'+Shopify.formatMoney(total_custom_price, money_format)+'</span></span>');
               	$html += '<div class="cart-content">';
               	if($('.header-container').hasClass('type20')){
                 $html += '<div class="total-count">';
@@ -1443,13 +1443,14 @@ var SW = SW || {};
                   }
                   $html += '<div class="items"><span class="price">'+item.quantity+' × <span class="amount">'+ Shopify.formatMoney(itemPrice, money_format) +'</span></span></div>';
                   $html += '<div class="access"><a href="javascript: void(0);" class="btn-remove btn-remove-cart" data-id="'+item.variant_id+'" data-lineitem="'+(i+1)+'" title="'+cartData.removeItemLabel+'"><i class="icon-cancel"></i></a></div>';
+
                   $html += '</div>';
                   $html += '</li>';
                 });
               	$html += '</ul>'; 
               	$html += '</div>';
               	$html += '<div class="cart-checkout">';
-              	$html += '<div class="cart-info"><p class="subtotal"><span class="label">'+cartData.totalLabel+'</span><span class="price">'+Shopify.formatMoney(total_custom_price, money_format)+'</span></p></div>';
+                $html += '<div class="cart-info"><p class="subtotal"><span class="label">'+cartData.totalLabel+'</span><span class="price">'+Shopify.formatMoney(total_custom_price, money_format)+'</span></p></div>';
               	$html += '<div class="actions">';
               	if($('.header-container').hasClass('type20')){
               		$html += '<button type="button" onclick="customCheckout()" class="btn-button checkout-cart custom-checkout-button bordered uppercase"><span>'+cartData.buttonCheckout+'</span></button>';
@@ -1460,7 +1461,7 @@ var SW = SW || {};
               	$html += '</div>';
               	$html += '</div>';
             }else{ 
-              	t.html(Shopify.formatMoney(total_custom_price, money_format)); 
+              t.html(Shopify.formatMoney(total_custom_price, money_format)); 
                 d.html('<span class="cart-qty">'+cart.item_count+'</span><span>'+cartData.totalNumb+'</span>');
               	$html += '<div class="cart-content">';
             	$html += '<p class="no-items-in-cart">'+cartData.noItemLabel+'</p>';
@@ -2000,7 +2001,7 @@ var SW = SW || {};
       const data = new FormData(event.target);
       const value = Object.fromEntries(data.entries());
       var stringifiedData = JSON.stringify(value);
-      
+
       stringifiedData = stringifiedData.replaceAll("properties[","");
       stringifiedData = stringifiedData.replaceAll("]","");
       console.log(stringifiedData);
@@ -2023,15 +2024,15 @@ var SW = SW || {};
             $(".unit-custom-price").html("$" + calculatedUnitPrice);
             $(".total-custom-price").html("$" + (responce.totalRate).toFixed(2));
             $(".actions").removeClass("display-hidden");
-            
-            
+
+
           }else{
             if(responce.totalRate == 0 || responce.totalRate == null ){
               $('p.general-error-message').html("The dimensions entered do not fit the size of the board. <br> Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }else{
               $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }
-             
+
           }
         },
       error: function(xhr, status, error){
@@ -2117,7 +2118,7 @@ var SW = SW || {};
       }else{
         $("label.custom-length-field-label").html("Length mm <span>(" + minLength + " - " + maxLength + ")</span>"); 
       }
-        
+
       //width
       $("input.custom-width-field").data("min", minWidth);
       $("input.custom-width-field").data("max", maxWidth);
@@ -2228,7 +2229,7 @@ var SW = SW || {};
           if(parseInt($("input.custom-width-field").val()) < height_value){
             $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'The width must be greater than or equal to the depth.');
           }
-          
+
           if((parseInt($("input.custom-width-field").val()) + height_value) < 200){
             $('p.width-error-message').html($('p.width-error-message').html() + '<br>' + 'The combined width and depth must be greater than or equal to 200mm.');
           }
@@ -2308,7 +2309,7 @@ var SW = SW || {};
         if(value > max){
           $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
         }
-        
+
         if(!$('input.custom-height-field').hasClass('wrong-value')){
           $('input.custom-height-field').addClass('wrong-value');
           $('form.custom-product-form').addClass('has-error');
@@ -2347,7 +2348,7 @@ var SW = SW || {};
           if((parseInt($("input.custom-height-field").val()) + parseInt($('input.custom-width-field').val())) < 200){
             $('p.height-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
           }
-         
+
           if(value > max){
             $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
           }
@@ -2355,7 +2356,7 @@ var SW = SW || {};
           if(value < min){
             $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
           }
-          
+
           if(!$('input.custom-height-field').hasClass('wrong-value')){
             $('input.custom-height-field').addClass('wrong-value');
             $('form.custom-product-form').addClass('has-error');
@@ -2388,7 +2389,7 @@ var SW = SW || {};
     lengthChangeFunction();
     widthChangeFunction();
     heightChangeFunction();
-   
+
   });
 
   $('input.custom-quantity-field').change(function(){
@@ -2419,7 +2420,7 @@ var SW = SW || {};
         $('form.custom-product-form').data("errorcount", errorCount);
       }
     }
-   
+
   });
 
   $('select.board-grade').change(function(){
@@ -2450,5 +2451,4 @@ var SW = SW || {};
     $('form.custom-product-form').data("errorcount", 0);
     $('form.custom-product-form').removeClass('has-error');
   }
-
 })(jQuery); 
