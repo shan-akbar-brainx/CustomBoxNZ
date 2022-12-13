@@ -1993,7 +1993,8 @@ var SW = SW || {};
   $( ".custom-product-form" ).on( "submit", function( event ) {
     event.preventDefault();
     var errorCount = $('form.custom-product-form').data("errorcount");
-    if(errorCount == 0){
+
+    if(!errorCount){
       $('p.price-error-message').html('');
       $('p.general-error-message').html('');
       $('button.custom-product-submit').attr('disabled','true');
