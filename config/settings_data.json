@@ -1069,11 +1069,11 @@
           "header_wishlist": false,
           "language_flag": "no",
           "logo_use_image": true,
-          "logo_width": "250",
+          "logo_width": "150",
           "logo": "shopify:\/\/shop_images\/cb_logo.png",
           "logo_sticky_use_image": true,
-          "logo_sticky_width": "250",
-          "logo_sticky": "shopify:\/\/shop_images\/cb_logo.png",
+          "logo_sticky_width": "150px",
+          "logo_sticky": "shopify:\/\/shop_images\/CB-logo-tall.png",
           "sticky_header_enable": "enable",
           "sticky_header_on_mobile": "enable"
         }
@@ -1090,7 +1090,7 @@
               "image_use": "0",
               "content_position": "left",
               "offset_content": "21%",
-              "title_slide": "<span style=\"font-weight:500;color:white;\">Custom made packaging cartons <br> for any quantity, any size<\/span>",
+              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Custom made packaging cartons <br> for any quantity, any size<\/span>",
               "content_slide": "<span style='color:white;\"'>Specialising in small quantities and with no set-up costs, <br> CustomBox provides a range of packaging styles to meet your needs.<\/span>",
               "button_text_slide": "Products",
               "button_link_slide": "shopify:\/\/collections\/all",
@@ -1106,7 +1106,7 @@
               "image_use": "0",
               "content_position": "left",
               "offset_content": "20%",
-              "title_slide": "<span style=\"font-weight:500;color:white;\">We have stock boxes on hand ready<\/span>",
+              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">We have stock boxes on hand ready<\/span>",
               "content_slide": "<span style='color:white;\"'>Check out all the stock boxes we offer<\/span>",
               "button_text_slide": "View Stock Boxes",
               "button_link_slide": "shopify:\/\/collections\/craft-cardboard-boxes",
@@ -1122,7 +1122,7 @@
               "image_use": "0",
               "content_position": "left",
               "offset_content": "20%",
-              "title_slide": "<span style=\"font-weight:500;color:white;\">Want your logo on your box?<\/span>",
+              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Want your logo on your box?<\/span>",
               "content_slide": "<span style='color:white;\"'>We can now print on boxes with your logo.<\/span>",
               "button_text_slide": "Get In Touch",
               "button_link_slide": "shopify:\/\/pages\/contact",
@@ -1138,7 +1138,7 @@
               "image_use": "0",
               "content_position": "left",
               "offset_content": "20%",
-              "title_slide": "<span style=\"font-weight:500;color:white;\">Need a large quantity?<\/span>",
+              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Need a large quantity?<\/span>",
               "content_slide": "<span style='color:white;\"'>Get in touch with us for large quantities.<\/span>",
               "button_text_slide": "Enquire Now",
               "button_link_slide": "shopify:\/\/pages\/contact",
@@ -1428,8 +1428,8 @@
         "settings": {
           "bg_color": "#ffffff",
           "text_color": "#191919",
-          "margin_section": "30px 0 10px 0",
-          "html_block": "<h3 style=\"padding-bottom:15px;\">See How We Create &amp; Build Our Boxes<\/h3>\n<iframe width=\"600\" height=\"340\" src=\"https:\/\/www.youtube.com\/embed\/Ty4CumOht8Y\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"\"><\/iframe>"
+          "margin_section": "60px 0 10px 0",
+          "html_block": "<h3 style=\"padding-bottom:15px;font-size:30px;\">See How We Create &amp; Build Our Boxes<\/h3>\n<iframe width=\"600\" height=\"340\" src=\"https:\/\/www.youtube.com\/embed\/Ty4CumOht8Y\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"\"><\/iframe>"
         }
       }
     },
