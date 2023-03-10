@@ -14,11 +14,11 @@ function convertFormToJSON(form) {
       
       var errorCount = $('form.custom-product-form').data("errorcount");
       if(!errorCount){
-        $(".custom-product-form").validate().element("#boxStyle");
-        $(".custom-product-form").validate().element("#boardGrade");
-        $(".custom-product-form").validate().element("#length");
-        $(".custom-product-form").validate().element("#width");
-        $(".custom-product-form").validate().element("#height");
+        var boxStyleValidation = $(".custom-product-form").validate().element("#boxStyle");
+        var boxGradeValidation = $(".custom-product-form").validate().element("#boardGrade");
+        var boxLengthValidation = $(".custom-product-form").validate().element("#length");
+        var boxWidthValidation = $(".custom-product-form").validate().element("#width");
+        var boxHeightValidation = $(".custom-product-form").validate().element("#height");
         $(".custom-product-form").validate().element("#ContactFormName");
         $(".custom-product-form").validate().element("#ContactFormEmail");
         $(".custom-product-form").validate().element("#ContactFormMessage");
@@ -35,6 +35,13 @@ function convertFormToJSON(form) {
             $('#qty').attr('name', 'contact[Quantity]');
           $('form.custom-product-form').submit();
           localStorage.setItem('contact-form-posted', 'true');
+        }else{
+          if( !boxStyleValidation || !boxGradeValidation || !boxLengthValidation || !boxWidthValidation || !boxHeightValidation){
+            $('html, body').animate({
+              scrollTop: $("#product-main-form").offset().top - 300
+            }, 1000);
+          }
+          
         }
      
       }else{
@@ -42,74 +49,6 @@ function convertFormToJSON(form) {
           scrollTop: $(".wrong-value").offset().top - 300
         }, 1000);
       }   
-  });
-
-  $( ".custom-product-submit" ).on( "click", function( event ) {
-    
-    $(".custom-product-form").validate().element("#boxStyle");
-    $(".custom-product-form").validate().element("#boardGrade");
-    $(".custom-product-form").validate().element("#length");
-    $(".custom-product-form").validate().element("#width");
-    $(".custom-product-form").validate().element("#height");
-    var formValid = $('form.custom-product-form').valid();
-    if(formValid){
-      var errorCount = $('form.custom-product-form').data("errorcount");
-
-      if(!errorCount){
-        $('p.price-error-message').html('');
-        $('p.general-error-message').html('');
-        $('button.custom-product-submit').attr('disabled','true');
-        $('button.custom-product-submit').html('<i class="fa fa-spinner fa-spin"></i>');
-        var value = convertFormToJSON($('form.custom-product-form'));
-        var stringifiedData = JSON.stringify(value);
-        stringifiedData = stringifiedData.replaceAll("properties[","");
-        stringifiedData = stringifiedData.replaceAll("]","");
-
-        $.ajax({
-          type: "POST",
-          url: "https://custombox.mediagiant.co.nz/api/v1/custom-box/get-price?shop=customboxnz.myshopify.com",
-          headers: {
-            'Content-Type':'application/json'
-          },
-          dataType: 'json',
-          data: stringifiedData,
-          success: function(responce){
-            $('button.custom-product-submit').attr('disabled', false);
-            $('button.custom-product-submit').html('Calculate Price');
-
-            if((responce.totalRate != false && responce.totalRate != "false") && (responce.totalRate != 0 && responce.totalRate != null)){
-              var calculatedUnitPrice = (responce.totalRate/value.quantity).toFixed(2);
-              $("#calculated_price").val(calculatedUnitPrice);
-              $(".unit-custom-price").html("$" + calculatedUnitPrice);
-              $(".total-custom-price").html("$" + (responce.totalRate).toFixed(2));
-              $(".custom-contact-form-wrapper").show();
-            
-            }else{
-              if(responce.totalRate == 0 || responce.totalRate == null ){
-                $('p.general-error-message').html("The dimensions entered do not fit the size of the board. <br> Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
-              }else{
-                $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
-              }
-
-            }
-          },
-        error: function(xhr, status, error){
-          $('button.custom-product-submit').attr('disabled', false);
-          $('button.custom-product-submit').html('Calculate Price');
-          if(xhr.status == 400 || xhr.status == 500 ){
-            $('p.general-error-message').html("The dimensions entered do not fit the size of the board. <br> Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
-          }else{
-            $('p.general-error-message').html("Some unusual error happened, please try again.");
-          }
-        }
-
-        });
-      }else{
-        $('html, body').animate({
-          scrollTop: $(".wrong-value").offset().top - 300
-        }, 1000);
-      }
-    }
   });
 
   $('select.box-style').change(function(){

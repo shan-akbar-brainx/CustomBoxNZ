@@ -4,6 +4,7 @@
 {% include 'breadcrumb' %} 
 {% assign media_col = settings.product_image_size %} 
 {% assign main_col = 12 | minus: settings.product_image_size %}
+
  
 <div class="product-main">   
   <div class="container">
@@ -251,14 +252,11 @@
                             <div>
                               <p class="error-message price-error-message"></p>
                             </div>
-                            
-                            <div class="custom-button-wrapper">
-                              <button type="button" class="custom-product-submit">Calculate Price</button>
-                            </div> 
+                         
                           </div>
                         </div>
                         
-                        <div class="custom-contact-form-wrapper">
+                        <div class="custom-contact-form-quote-wrapper">
                           <p class="contact-us-message">Please Contact Us for a special quote.</p>
                           <input type="hidden" class="contact-form-hidden-input" name="form_type" value="contact">
                           <input type="hidden" name="utf8" value="✓">
