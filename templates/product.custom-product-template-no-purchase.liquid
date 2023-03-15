@@ -5,7 +5,6 @@
 {% assign media_col = settings.product_image_size %} 
 {% assign main_col = 12 | minus: settings.product_image_size %}
 
- 
 <div class="product-main">   
   <div class="container">
     <div class="box_product_page">
@@ -228,10 +227,7 @@
                         <div class="error-box">
                           <p class="error-message general-error-message"></p>
                         </div>
-                        <div class="unit-custom-price-wrapper">
-                          <span class="custom-price-title">Unit Price: </span>
-                          <span class="unit-custom-price">$__</span>
-                        </div>
+                        
                         <input type="hidden" id="calculated_price" name="properties[_calculated_price]" value="">
                         
                         <div class="product-options-bottom"> 
@@ -245,10 +241,6 @@
                               </div>
                             </div>
                             <p class="error-message quantity-error-message"></p>
-                            <div class="total-custom-price-wrapper">
-                              <span class="custom-price-title">Total Price: </span>
-                              <span class="total-custom-price">$__</span>
-                            </div>
                             <div>
                               <p class="error-message price-error-message"></p>
                             </div>

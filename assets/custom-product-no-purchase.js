@@ -14,16 +14,16 @@ function convertFormToJSON(form) {
       
       var errorCount = $('form.custom-product-form').data("errorcount");
       if(!errorCount){
-        var boxStyleValidation = $(".custom-product-form").validate().element("#boxStyle");
-        var boxGradeValidation = $(".custom-product-form").validate().element("#boardGrade");
-        var boxLengthValidation = $(".custom-product-form").validate().element("#length");
-        var boxWidthValidation = $(".custom-product-form").validate().element("#width");
-        var boxHeightValidation = $(".custom-product-form").validate().element("#height");
-        $(".custom-product-form").validate().element("#ContactFormName");
-        $(".custom-product-form").validate().element("#ContactFormEmail");
-        $(".custom-product-form").validate().element("#ContactFormMessage");
+          var boxStyleValidation = $(".custom-product-form").validate().element("#boxStyle");
+          var boxGradeValidation = $(".custom-product-form").validate().element("#boardGrade");
+          var boxLengthValidation = $(".custom-product-form").validate().element("#length");
+          var boxWidthValidation = $(".custom-product-form").validate().element("#width");
+          var boxHeightValidation = $(".custom-product-form").validate().element("#height");
+          $(".custom-product-form").validate().element("#ContactFormName");
+          $(".custom-product-form").validate().element("#ContactFormEmail");
+          $(".custom-product-form").validate().element("#ContactFormMessage");
         
-        var formValid = $('form.custom-product-form').valid();
+          var formValid = $('form.custom-product-form').valid();
         if(formValid){
             $('#boxStyle').attr('name', 'contact[Box Style]');
             $('#boardGrade').attr('name', 'contact[Board Grade]');
@@ -33,8 +33,8 @@ function convertFormToJSON(form) {
             $('#yes').attr('name', 'contact[Include Lid]');
             $('#no').attr('name', 'contact[Include Lid]');
             $('#qty').attr('name', 'contact[Quantity]');
-          $('form.custom-product-form').submit();
-          localStorage.setItem('contact-form-posted', 'true');
+            $('form.custom-product-form').submit();
+            localStorage.setItem('contact-form-posted', 'true');
         }else{
           if( !boxStyleValidation || !boxGradeValidation || !boxLengthValidation || !boxWidthValidation || !boxHeightValidation){
             $('html, body').animate({
