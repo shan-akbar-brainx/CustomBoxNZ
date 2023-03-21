@@ -68,12 +68,12 @@ function convertFormToJSON(form) {
           success: function(responce){
             $('button.custom-product-submit').attr('disabled', false);
             $('button.custom-product-submit').html('Calculate Price');
-
+            
             if((responce.totalRate != false && responce.totalRate != "false") && (responce.totalRate != 0 && responce.totalRate != null)){
               var calculatedUnitPrice = (responce.totalRate/value.quantity).toFixed(2);
               $("#calculated_price").val(calculatedUnitPrice);
               $(".unit-custom-price").html("$" + calculatedUnitPrice);
-              $(".total-custom-price").html("$" + (responce.totalRate).toFixed(2));
+              $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
               $(".actions").removeClass("display-hidden");
 
 
