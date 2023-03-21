@@ -1,0 +1,953 @@
+; (function ($) {
+
+    $.fn.BoxDesign = function () {
+
+        return this.each(function (i, el) {
+
+            var b = $(this),
+                form = $('#product-main-form'),
+                widthInput = b.find('input#width'),
+                lengthInput = b.find('input[name=properties[length]]'),
+                depthInput = b.find('input[name=properties[height]]'),
+                styleInput = b.find('select[name=properties[boxStyle]]'),
+                boardInput = b.find('select[name=properties[boardGrade]]'),
+                lidInput = b.find('input[name=properties[includeLid]]'),
+                quantityInput = b.find('input[name=quantity]'),
+
+                drawMethod = 'RSCDraw',
+                isSwapped = false,
+
+                quantityMinimum = 1,
+                glue = 0,
+                includeLid = 0,
+                totalLength = 0,
+                totalWidth = 0,
+                style = null,
+                board = null,
+
+                dimensions = {
+                    width: 0,
+                    length: 0,
+                    depth: 0
+                },
+                // maxQuantity = CB.maxQuantity,
+                maxQuantity = 250,
+
+                genericMessage = "Don't give up! <br />"
+                    + "We may be able to produce boxes outside these specifications. "
+                    + "Please contact <a href=\"mailto::CBoxSales@packprod.co.nz\">CBoxSales@packprod.co.nz</a> "
+                    + "or telephone us on 0508 334 466.",
+
+                design = {
+
+                    /**
+                     * removes all attr starting wiht data-parsley-*
+                     */
+                    clearValidation: function () {
+                        var reg = /^data\-parsley\-(.+)$/;
+                        $.each([widthInput, lengthInput, depthInput], function () {
+                            var self = this,
+                                attrsToDelete = [],
+                                attrs = $(self).get(0).attributes;
+
+                            $.each(attrs, function () {
+                                if ((/^data\-parsley\-(.+)$/).test(this.name)) {
+                                    attrsToDelete.push[this.name];
+                                }
+                            });
+
+                            $.each(attrsToDelete, function (index, attrName) {
+                                $(self).removeAttr(attrName);
+                            });
+
+                        });
+                    },
+
+                    /**
+                     * applies common parsley validation
+                     */
+                    commonValidation: function () {
+                        $.each([widthInput, lengthInput, depthInput], function () {
+                            $(this).attr({
+                                'data-parsley-type': 'integer',
+                                // 'data-parsley-trigger': 'change',
+                                //'data-parsley-trigger': 'keyup',
+                                'data-parsley-fitboard': true
+                            });
+                        });
+
+                        //depthInput.attr({'data-parsley-fitboard': '1' });
+                    },
+
+                    setStyle: function () {
+                        if (!styleInput.val().length || CB.styles[styleInput.val()] === "undefined") {
+                            style = null;
+                            return
+                        }
+                        style = CB.styles[styleInput.val()];
+
+                        drawMethod = style.Code + 'Draw';
+                        if (typeof (design[drawMethod]) === "undefined" || typeof (design[drawMethod]) !== "function") {
+                            return;
+                        }
+
+                        form.find('#IncludeLid').toggle(style.CanHaveLid == '1');
+                        if (style.CanHaveLidDefault == 'yes') {
+                            $('#Form_DesignForm_IncludeLid_1').prop("checked", true)
+                        } else {
+                            $('#Form_DesignForm_IncludeLid_0').prop("checked", true)
+                        }
+
+                        design.clearValidation();
+
+                        widthInput.removeAttr('data-parsley-lengthgreaterthanwidth');
+                        depthInput.removeAttr('data-parsley-depthlessthanwidth');
+                        depthInput.removeAttr('data-parsley-fpfmax');
+                        depthInput.removeAttr('data-parsley-depthlessthanwidth');
+                        depthInput.removeAttr('data-parsley-depthlessthanhalfwidth');
+                        depthInput.removeAttr('data-parsley-depthlessthanhalflength');
+                        depthInput.removeAttr('data-parsley-widthgreaterthandepth');
+
+                        design.commonValidation();
+
+                        widthInput
+                            .attr('data-parsley-boxmin', style.WidthMin)
+                            .attr('data-parsley-boxmin-message', 'Please enter a width greater than ' + style.WidthMin + 'mm')
+                            .attr('data-parsley-boxmax', style.WidthMax)
+                            .attr('data-parsley-boxmax-message', 'Please enter a width less than ' + style.WidthMax + 'mm');
+
+                        lengthInput
+                            .attr('data-parsley-boxmin', style.LengthMin)
+                            .attr('data-parsley-boxmin-message', 'Please enter a length greater than ' + style.LengthMin + 'mm')
+                            .attr('data-parsley-boxmax', style.LengthMax)
+                            .attr('data-parsley-boxmax-message', 'Please enter a length less than ' + style.LengthMax + 'mm');
+
+                        // not maximum length validation for RSC, HSC or FOLF
+                        if (style.Code == 'RSC' || style.Code == 'HSC' || style.Code == 'FOLF') {
+                            lengthInput
+                                .removeAttr('data-parsley-boxmax')
+                                .removeAttr('data-parsley-boxmax-message');
+                        }
+
+                        depthInput
+                            .attr('data-parsley-boxmin', style.DepthMin)
+                            .attr('data-parsley-boxmin-message', 'Please enter a depth greater than ' + style.DepthMin + 'mm')
+                            .attr('data-parsley-boxmax', style.DepthMax)
+                            .attr('data-parsley-boxmax-message', 'Please enter a depth less than ' + style.DepthMax + 'mm');
+
+
+                        // RSC, HSC and FOLF have "length must be greater than width" rule
+                        if (style.Code == 'RSC' || style.Code == 'HSC' || style.Code == 'FOLF') {
+                            widthInput.attr('data-parsley-lengthgreaterthanwidth', true);
+                        }
+
+                        else if (style.Code == 'BL') {
+                            widthInput.attr('data-parsley-lengthgreaterthanwidth', true);
+                            depthInput.attr('data-parsley-depthlessthanhalflength', true);
+                        }
+
+                        else if (style.Code == 'FPF') {
+                            widthInput.attr('data-parsley-lengthgreaterthanwidth', true);
+                            depthInput.attr('data-parsley-widthgreaterthandepth', true);
+                            depthInput.attr('data-parsley-fpfmax', true);
+                        }
+
+                        var valid = dimensions.width && dimensions.length && dimensions.depth && board;
+
+                        //design.validateDraw();
+                        if (valid) {
+                            design.validateDimensions();
+                        }
+
+                        design.redraw();
+                    },
+
+                    setBoard: function () {
+                        if (!boardInput.val().length || CB.boards[boardInput.val()] === "undefined") {
+                            style = null;
+                            return;
+                        }
+
+                        board = CB.boards[boardInput.val()];
+                        board.GlueStripWidth = parseInt(board.GlueStripWidth);
+
+                        design.redraw();
+                    },
+
+                    setDimensions: function () {
+                        var w = parseInt(widthInput.val());
+                        var l = parseInt(lengthInput.val());
+                        dimensions.depth = parseInt(depthInput.val());
+                        dimensions.width = w;
+                        dimensions.length = l;
+                        isSwapped = false;
+
+                        // if(w && l) {
+                        //     if(w > l) {
+                        //         dimensions.width = w;
+                        //         dimensions.length = l;
+                        //         isSwapped = false;
+                        //     } else {
+                        //         dimensions.width = l;
+                        //         dimensions.length = w;
+                        //         isSwapped = true;
+                        //     }
+                        // }
+
+                        design.redraw();
+                    },
+
+                    validateDimensions: function () {
+                        widthInput.parsley().validate();
+                        lengthInput.parsley().validate();
+                        depthInput.parsley().validate();
+                    },
+
+                    validateDraw: function () {
+                        var valid = styleInput.parsley().isValid() &&
+                            boardInput.parsley().isValid() &&
+                            widthInput.parsley().isValid() &&
+                            lengthInput.parsley().isValid() &&
+                            depthInput.parsley().isValid();
+                        return valid;
+                    },
+
+                    redraw: function () {
+                        $('.diagram').hide();
+
+                        var valid = design.validateDraw();
+                        if (valid) {
+                            design[drawMethod].call();
+                        }
+                    },
+
+                    showGenericMessage: function (message) {
+                        if (typeof message !== typeof undefined && message) {
+                            message = message + ' ' + genericMessage;
+                        } else {
+                            message = genericMessage;
+                        }
+
+                        form.find('.errorholder').html(message).show();
+                        $('.diagram').hide();
+                    },
+
+                    hideGenericMessage: function () {
+                        if (form.attr('has-length-min-error')
+                            || form.attr('has-width-min-error')
+                            || form.attr('has-depth-min-error')
+                            || form.attr('has-length-max-error')
+                            || form.attr('has-width-max-error')
+                            || form.attr('has-depth-max-error')
+                            || form.attr('has-fitboard-error')
+                            || form.attr('has-lengthgreaterthanwidth-error')
+                            || form.attr('has-depthlessthanhalfwidth-error')
+                            || form.attr('has-widthgreaterthandepth-error')
+                            || form.attr('has-depthlessthanwidth-error')
+                            || form.attr('has-fpfmax-error')
+
+                        ) {
+                            return;
+                        } else {
+                            form.find('.errorholder').text('').hide();
+                        }
+                    },
+
+                    bindEvents: function () {
+
+                        styleInput.on('change', function () {
+                            design.setStyle();
+                        });
+
+                        boardInput.on('change', function () {
+                            design.setBoard();
+                        });
+
+                        quantityInput.on('change', function () {
+                            if (parseInt($(this).val()) > parseInt(maxQuantity)) {
+                                form.find('.messageholder').show();
+                            } else {
+                                form.find('.messageholder').hide();
+                            }
+                        })
+
+                        $.each([widthInput, lengthInput, depthInput], function () {
+                            // $(this).on('change keyup', function() {
+                            $(this).on('change', function () {
+                                design.setDimensions();
+                            });
+                        });
+
+                        form.find('.action').on('click', function (e) {
+                            e.preventDefault();
+
+                            if ($(this).prop('disabled')) return true;
+
+                            var valid = form.parsley().validate();
+                            if (valid) {
+                                $(this).val('Fetching quote...').prop('disabled', true);
+
+                                design.submitForm(form);
+                            }
+                        });
+
+                        form.parsley({
+                            errorsContainer: function (el) {
+                                return el.$element.parent().parent();
+                            }
+                        });
+
+                        window.Parsley.addValidator('boxmin', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                var name = parsleyField.$element.attr('name').toLowerCase();
+
+                                if (value < requirement) {
+                                    form.attr('has-' + name + '-min-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-' + name + '-min-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            priority: 3
+                        });
+
+                        window.Parsley.addValidator('boxmax', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                var name = parsleyField.$element.attr('name').toLowerCase();
+                                console.log('boxmax', value, requirement);
+
+                                if (value > requirement) {
+                                    form.attr('has-' + name + '-max-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-' + name + '-max-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            priority: 3
+                        });
+
+                        // fit dimensions to the board
+                        window.Parsley.addValidator('fitboard', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                var message = "The dimensions entered do not fit the size of the board. ";
+
+                                if (style && board && dimensions.width && dimensions.length && dimensions.depth
+                                    && typeof (design[style.Code + 'Board']) === "function"
+                                ) {
+
+                                    // call the board sizing method
+                                    design[style.Code + 'Board'].call();
+
+                                    if (totalLength > parseInt(board.SheetLength) && totalWidth > parseInt(board.SheetWidth)) {
+                                        form.attr('has-fitboard-error', true);
+                                        design.showGenericMessage(message);
+                                        return false;
+                                    }
+                                }
+
+                                form.removeAttr('has-fitboard-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            messages: {
+                                en: 'These dimensions do not fit the board chosen. ',
+                            },
+                            priority: 6
+                        });
+
+
+                        window.Parsley.addValidator('lengthgreaterthanwidth', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                if (style && dimensions.width && dimensions.length
+                                    && dimensions.length < dimensions.width
+                                ) {
+                                    form.attr('has-lengthgreaterthanwidth-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-lengthgreaterthanwidth-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            messages: {
+                                en: 'The width must be less than or equal to the length',
+                            },
+                            priority: 6
+                        });
+
+                        window.Parsley.addValidator('depthlessthanhalfwidth', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                if (style && dimensions.width && dimensions.depth
+                                    && dimensions.depth > dimensions.width / 2
+                                ) {
+                                    form.attr('has-depthlessthanhalfwidth-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-depthlessthanhalfwidth-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            messages: {
+                                en: 'The depth must be less than half the width',
+                            },
+                            priority: 5
+                        });
+
+                        window.Parsley.addValidator('depthlessthanhalflength', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                if (style && dimensions.length && dimensions.length
+                                    && dimensions.depth > dimensions.length / 2
+                                ) {
+                                    form.attr('has-depthlessthanhalflength-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-depthlessthanhalflength-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            messages: {
+                                en: 'The depth must be less than half the length',
+                            },
+                            priority: 5
+                        });
+
+                        // various validation only for Five panel fold (FPF)
+                        window.Parsley.addValidator('fpfmax', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement) {
+
+                                if (style && board && dimensions.width && dimensions.length && dimensions.depth
+                                    && dimensions.width + dimensions.depth < 200
+                                ) {
+                                    form.attr('has-fpfmax-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-fpfmax-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            messages: {
+                                en: 'The combined width and depth must be greater than or equal to 200mm.',
+                            },
+                            priority: 6
+                        });
+
+                        window.Parsley.addValidator('widthgreaterthandepth', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                if (style && dimensions.width && dimensions.depth
+                                    && dimensions.width < dimensions.depth
+                                ) {
+                                    form.attr('has-widthgreaterthandepth-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-widthgreaterthandepth-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            messages: {
+                                en: 'The depth must be less than or equal to the width',
+                            },
+                            priority: 6
+                        });
+
+                        // Dont allow depth to be less than width
+                        window.Parsley.addValidator('depthlessthanwidth', {
+                            requirementType: 'integer',
+                            validateNumber: function (value, requirement, parsleyField) {
+                                if (style && dimensions.width && dimensions.depth
+                                    && dimensions.depth > dimensions.width
+                                ) {
+                                    form.attr('has-depthlessthanwidth-error', true);
+                                    design.showGenericMessage(null);
+                                    return false;
+                                }
+
+                                form.removeAttr('has-depthlessthanwidth-error');
+                                design.hideGenericMessage();
+                                return true;
+                            },
+                            messages: {
+                                en: 'The depth must be less than the width',
+                            },
+                            priority: 6
+                        });
+
+
+                        //design.cheat();
+                    },
+
+                    submitForm: function (form) {
+                        $.ajax({
+                            data: form.serialize(),
+                            url: '/design-and-quote/GenerateQuote',
+                            dataType: 'json',
+                            type: 'post',
+                            success: function (response) {
+                                var content;
+                                if (typeof response.errors !== "undefined") {
+                                    design.showErrors(response.errors);
+                                } else {
+                                    design.removeErrors();
+                                    if (typeof response.content !== "undefined" && response.content.length) {
+                                        content = response.content;
+                                    } else {
+                                        content = '<p>There has been an error.</p>';
+                                    }
+                                    design.showModal(content);
+                                }
+
+                                form.find('.action').val('Get a quote').prop('disabled', false);
+                            }
+                        });
+                    },
+
+                    showErrors: function (errors) {
+                        $.each(errors, function (name, message) {
+
+                            if (name == 'general') {
+                                // $('.errorholder').text(message).show();
+                                // return;
+
+                                // show generic message instead
+                                var message = 'The dimensions entered do not fit the size of the board.';
+                                design.showGenericMessage(message);
+                                return;
+                            }
+
+                            var el = form.find(':input[name="' + name + '"]');
+                            if (!el.length) return;
+
+                            var container;
+                            if (el.parent().find('.parsley-errors-list ').length) {
+                                container = el.parent().find('.parsley-errors-list');
+                                container.addClass('.parsley-errors-custom');
+                            } else {
+                                container = $('<ul class="parsley-errors-list parsley-errors-custom"></ul>');
+                                el.parent().append(container);
+                            }
+
+                            container.append('<li>' + message + '</li>');
+                            container.addClass('filled').show();
+                        });
+                    },
+
+                    removeErrors: function () {
+                        $('.parsley-errors-custom').remove();
+                        $('.errorholder').text('').hide();
+                    },
+
+                    showModal: function (content) {
+                        $('#quotecontent').html(content);
+                        $('#quote').show();
+                        $('html, body').animate({ scrollTop: 0 });
+                        $('#modal').fadeIn(250);
+                    },
+
+                    cheat: function () {
+                        styleInput.val('5').trigger('change');
+                        boardInput.val('1').trigger('change');
+                        widthInput.val('99').trigger('change');
+                        lengthInput.val('99').trigger('change');
+                        depthInput.val('99').trigger('change');
+                        quantityInput.val('100').trigger('change');
+                    },
+
+                    setScale: function (el, width) {
+
+                        var boardWidth = $('#board').outerWidth() - 50 - 50;
+
+                        var scale = 0.5;
+                        if (width > boardWidth) {
+                            scale = boardWidth / width;
+                        }
+
+                        if (scale > 0.5) scale = 0.5;
+
+                        el.css({
+                            width: width,
+                            transform: 'scale(' + scale + ') translateX(-50%)',
+                            fontSize: 9 * (1 / scale) + 'px'
+                        });
+
+                        $('#board').css('height', el.outerHeight() * scale);
+                    },
+
+                    RSCDraw: function () {
+
+                        //width panels
+                        $('#RSC_diagram .width')
+                            .css('width', dimensions.width)
+                            .find('.h-dimension span')
+                            .text(dimensions.width);
+
+                        //width panel flaps
+                        $('#RSC_diagram .widthflap')
+                            .css('width', dimensions.width - 2);
+
+                        //length panels
+                        $('#RSC_diagram .length')
+                            .css('width', dimensions.length)
+                            .find('.h-dimension span')
+                            .text(dimensions.length);
+
+                        //length panel flaps
+                        $('#RSC_diagram .lengthflap')
+                            .css('width', dimensions.length - 2);
+
+
+                        //center heights
+                        $('#RSC_diagram .length, #RSC_diagram .width, #RSC_diagram .glue')
+                            .css('height', dimensions.depth + (board.Thickness * 4));
+
+                        $('#RSC_diagram .center')
+                            .css('height', dimensions.depth + (board.Thickness * 4) + 2);
+
+                        //glue flap
+                        $('#RSC_diagram .glue')
+                            .css('width', board.GlueStripWidth)
+
+                        var digramWidth = $('#RSC_diagram .v-dimension span').width();
+                        $('#RSC_diagram .v-dimension span')
+                            .css('margin-top', (dimensions.depth / 2) - 5)
+                            .css('margin-left', digramWidth / 2)
+                            .text(dimensions.depth);
+
+                        var flap = Math.round(Math.min(dimensions.width, dimensions.length) / 2);
+                        $('#RSC_diagram .lengthflap, #RSC_diagram .widthflap')
+                            .css('height', flap);
+
+                        var width = $('#RSC_diagram .glue').width()
+                            + ($('#RSC_diagram .width').width() * 2)
+                            + ($('#RSC_diagram .length').width() * 2) + 20;
+
+                        design.setScale($('#RSC_diagram'), width);
+
+                        $('#RSC_diagram').fadeIn(250);
+                    },
+
+                    HSCDraw: function () {
+
+                        //width panels
+                        $('#HSC_diagram .width')
+                            .css('width', dimensions.width)
+                            .find('.h-dimension span')
+                            .text(dimensions.width);
+
+                        //width panel flaps
+                        $('#HSC_diagram .widthflap')
+                            .css('width', dimensions.width - 2);
+
+                        //length panels
+                        $('#HSC_diagram .length')
+                            .css('width', dimensions.length)
+                            .find('.h-dimension span')
+                            .text(dimensions.length);
+
+                        //length panel flaps
+                        $('#HSC_diagram .lengthflap')
+                            .css('width', dimensions.length - 2);
+
+                        //center heights
+                        $('#HSC_diagram .length, #HSC_diagram .width, #HSC_diagram .glue')
+                            .css('height', dimensions.depth + (board.Thickness * 4));
+
+                        $('#HSC_diagram .center')
+                            .css('height', dimensions.depth + (board.Thickness * 4) + 2);
+
+                        //glue flap
+                        $('#HSC_diagram .glue')
+                            .css('width', board.GlueStripWidth);
+
+                        var digramWidth = $('#HSC_diagram .v-dimension span').width();
+                        $('#HSC_diagram .v-dimension span')
+                            .css('margin-top', (dimensions.depth / 2) - 5)
+                            .css('margin-left', digramWidth / 2)
+                            .text(dimensions.depth);
+
+                        //flap heights
+                        var flap = Math.min(Math.round(dimensions.length / 2), Math.round(dimensions.width / 2));
+                        $('#HSC_diagram .lengthflap, #HSC_diagram .widthflap')
+                            .css('height', flap);
+
+                        var width = $('#HSC_diagram .glue').width()
+                            + ($('#HSC_diagram .width').width() * 2)
+                            + ($('#HSC_diagram .length').width() * 2) + 20;
+
+                        design.setScale($('#HSC_diagram'), width);
+
+                        $('#HSC_diagram').fadeIn(250);
+                    },
+
+                    FOLFDraw: function () {
+
+                        // width panels
+                        $('#FOLF_diagram .width')
+                            .css('width', dimensions.width)
+                            .find('.h-dimension span')
+                            .text(dimensions.width);
+
+                        // width panel flaps
+                        $('#FOLF_diagram .widthflap')
+                            .css('width', dimensions.width - 2);
+
+                        // length panels
+                        $('#FOLF_diagram .length')
+                            .css('width', dimensions.length)
+                            .find('.h-dimension span')
+                            .text(dimensions.length);
+
+                        // length panl flaps
+                        $('#FOLF_diagram .lengthflap')
+                            .css('width', dimensions.length - 2);
+
+                        // center heights
+                        $('#FOLF_diagram .length, #FOLF_diagram .width, #FOLF_diagram .glue')
+                            .css('height', dimensions.depth + (board.Thickness * 4));
+
+                        $('#FOLF_diagram .center')
+                            .css('height', dimensions.depth + (board.Thickness * 4) + 2)
+
+                        // glue flap
+                        $('#FOLF_diagram .glue')
+                            .css('width', board.GlueStripWidth);
+
+
+                        var digramWidth = $('#FOLF_diagram .v-dimension span').width();
+                        $('#FOLF_diagram .v-dimension span')
+                            .css('margin-top', (dimensions.depth / 2) - 5)
+                            .css('margin-left', digramWidth / 2)
+                            .text(dimensions.depth);
+
+                        var flap = Math.min(Math.round(dimensions.length / 2), Math.round(dimensions.width / 2));
+                        $('#FOLF_diagram .lengthflap, #FOLF_diagram .widthflap')
+                            .css('height', flap);
+
+                        var width = $('#FOLF_diagram .glue').width()
+                            + ($('#FOLF_diagram .width').width() * 2)
+                            + ($('#FOLF_diagram .length').width() * 2) + 20;
+
+                        design.setScale($('#FOLF_diagram'), width);
+
+                        $('#FOLF_diagram').fadeIn(250);
+                    },
+
+                    BLDraw: function () {
+                        //depth panel
+                        $('#BL_diagram .width')
+                            .css('width', dimensions.depth)
+                            .find('.h-dimension span')
+                            .text(dimensions.depth);
+
+                        //depth panel flaps
+                        $('#BL_diagram .widthflap')
+                            .css('width', dimensions.depth - 1);
+
+                        //length panels
+                        $('#BL_diagram .length')
+                            .css('width', dimensions.length)
+                            .find('.h-dimension span')
+                            .text(dimensions.length);
+
+                        //length panel flaps
+                        $('#BL_diagram .lengthflap')
+                            .css('width', dimensions.length - 2);
+
+                        //center heights
+                        $('#BL_diagram .length, #BL_diagram .width')
+                            .css('height', dimensions.width);
+
+                        $('#BL_diagram .center')
+                            .css('height', dimensions.width + 2);
+
+                        $('#BL_diagram .top, #BL_diagram .bottom')
+                            .css('padding-left', '0px')
+
+                        // height of length flap = depth
+                        $('#BL_diagram .lengthflap')
+                            .css('height', dimensions.depth);
+
+                        $('#BL_diagram .widthflap')
+                            .css('height', dimensions.depth);
+
+                        $('#BL_diagram .top .widthflap')
+                            .css('margin-top', 0);
+
+                        var diagramWidth = $('#BL_diagram .v-dimension span').width();
+                        $('#BL_diagram .v-dimension span')
+                            .css('margin-top', (dimensions.width / 2) - 5)
+                            .css('margin-left', diagramWidth / 2)
+                            .text(dimensions.width);
+
+                        var width = ($('#BL_diagram .width').width() * 2)
+                            + $('#BL_diagram .length').width() + 20;
+
+                        design.setScale($('#BL_diagram'), width);
+
+                        $('#BL_diagram').fadeIn(250);
+                    },
+
+                    FPFDraw: function () {
+                        var width = dimensions.width;
+                        var length = dimensions.length;
+                        var depth = dimensions.depth;
+
+                        // if(width != length) {
+                        //     width = Math.min(dimensions.width, dimensions.length);
+                        //     length = Math.max(dimensions.width, dimensions.length);
+                        // }
+
+                        $('#FPF_diagram .depthflap')
+                            .css('height', depth);
+                        $('#FPF_diagram .widthflap')
+                            .css('height', width);
+
+                        $('#FPF_diagram .depthflap1 .flap')
+                            .css('width', depth)
+                            .css('height', depth - 1);
+
+                        $('#FPF_diagram .depthflap2 .flap, #FPF_diagram .depthflap3 .flap')
+                            .css('width', depth)
+                            .css('height', depth - 2);
+
+                        $('#FPF_diagram .depthflap .width')
+                            .css('width', length)
+                            .css('height', depth);
+
+                        $('#FPF_diagram .widthflap .flap')
+                            .css('width', depth)
+                            .css('height', width - 2);
+
+                        $('#FPF_diagram .widthflap .width')
+                            .css('width', length)
+                            .css('height', width);
+
+
+                        $('#FPF_diagram .v-dimension span').eq(1)
+                            .css('margin-top', (width / 2) - 5)
+                            .css('margin-left', '2px')
+                            .text(width);
+
+                        $('#FPF_diagram .v-dimension span').eq(0)
+                            .css('margin-top', (depth / 2) - 5)
+                            .css('margin-left', '2px')
+                            .text(depth);
+
+                        $('#FPF_diagram .h-dimension')
+                            .css('width', length)
+                            .css('height', '30px')
+                            .css('margin-top', '30px');
+                        $('#FPF_diagram .h-dimension span')
+                            .text(length);
+
+                        var width = (dimensions.depth * 2) + dimensions.length + 10;
+
+                        design.setScale($('#FPF_diagram'), width);
+
+                        $('#FPF_diagram').fadeIn(250);
+                    },
+
+                    RSCBoard: function () {
+                        totalLength = (dimensions.width * 2)
+                            + (dimensions.length * 2)
+                            + board.GlueStripWidth
+                            + ((board.Thickness + 1) * 7);
+
+                        totalWidth = dimensions.width
+                            + dimensions.depth
+                            + (board.Thickness * 4);
+                    },
+
+                    HSCBoard: function () {
+                        totalLength = (dimensions.width * 2)
+                            + (dimensions.length * 2)
+                            + board.GlueStripWidth
+                            + ((board.Thickness + 1) * 7);
+
+                        totalWidth = (dimensions.width * 0.5)
+                            + dimensions.depth
+                            + (board.Thickness * 5);
+                    },
+
+                    FOLFBoard: function () {
+                        totalLength = (dimensions.width * 2)
+                            + (dimensions.length * 2)
+                            + board.GlueStripWidth
+                            + ((board.Thickness + 1) * 4);
+
+                        totalWidth = (dimensions.width * 2)
+                            + dimensions.depth
+                            + (board.Thickness * 4);
+                    },
+
+                    BLBoard: function () {
+                        totalLength = dimensions.length
+                            + (dimensions.depth * 2)
+                            + (board.Thickness * 7);
+
+                        totalWidth = dimensions.width
+                            + (dimensions.depth * 2)
+                            + (board.Thickness * 10);
+                    },
+
+                    FPFBoard: function () {
+
+                        var width = dimensions.width,
+                            length = dimensions.length,
+                            depth = dimensions.depth;
+
+                        if (width > length) {
+                            width = dimensions.length,
+                                length = dimensions.width;
+                        }
+
+                        if (depth > 75) {
+                            totalLength = (width * 2)
+                                + (depth * 3)
+                                + (board.Thickness * 5.5);
+                        } else {
+                            totalLength = (width * 2)
+                                + (depth * 2)
+                                + (board.Thickness * 4);
+                        }
+
+                        totalWidth = length
+                            + (depth * 2)
+                            + (board.Thickness * 2.5);
+                    }
+                }
+
+            design.bindEvents();
+
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        $('#custom-box').BoxDesign();
+
+    });
+
+})(jQuery);

@@ -611,7 +611,7 @@
     "product_sku": true,
     "product_type": false,
     "product_vendor": false,
-    "product_short_desc": "2",
+    "product_short_desc": "0",
     "product_color_swatches_enable": false,
     "product_tags": false,
     "product_aspect_ratio": "1",
@@ -1085,7 +1085,7 @@
             "type": "image",
             "settings": {
               "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/Banner-2.jpg",
+              "background_image": "shopify:\/\/shop_images\/Banner-3.jpg",
               "background_image_position": "left",
               "image_use": "0",
               "content_position": "left",
@@ -1093,7 +1093,7 @@
               "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Custom made packaging cartons <br> for any quantity, any size<\/span>",
               "content_slide": "<span style='color:white;\"'>Specialising in small quantities and with no set-up costs, <br> CustomBox provides a range of packaging styles to meet your needs.<\/span>",
               "button_text_slide": "Products",
-              "button_link_slide": "shopify:\/\/collections\/all",
+              "button_link_slide": "shopify:\/\/products\/custom-box",
               "content_bottom_slide": ""
             }
           },
@@ -1107,9 +1107,9 @@
               "content_position": "left",
               "offset_content": "20%",
               "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">We have stock boxes on hand ready<\/span>",
-              "content_slide": "<span style='color:white;\"'>Check out all the stock boxes we offer<\/span>",
-              "button_text_slide": "View Stock Boxes",
-              "button_link_slide": "shopify:\/\/collections\/craft-cardboard-boxes",
+              "content_slide": "<span style='color:white;\"'>Check out our Custom Boxes<\/span>",
+              "button_text_slide": "View Custom Boxes",
+              "button_link_slide": "shopify:\/\/products\/custom-box",
               "content_bottom_slide": ""
             }
           },
@@ -1117,7 +1117,7 @@
             "type": "image",
             "settings": {
               "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/person-putting-box-together.jpg",
+              "background_image": "shopify:\/\/shop_images\/Box-Printer-hEro.jpg",
               "background_image_position": "left",
               "image_use": "0",
               "content_position": "left",
@@ -1133,7 +1133,7 @@
             "type": "image",
             "settings": {
               "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/whole-lot-of-boxes-stacked-up3.jpg",
+              "background_image": "shopify:\/\/shop_images\/warehouse-banner.jpg",
               "background_image_position": "center",
               "image_use": "0",
               "content_position": "left",
@@ -1226,11 +1226,12 @@
       },
       "1498503602228": {
         "type": "collection-products",
+        "disabled": true,
         "settings": {
           "bg_section_color": "#ffffff",
           "title_color": "#313131",
           "margin_section": "30px 0 30px 0",
-          "title": "Stock Cardboard Boxes",
+          "title": "Design your Own Custom Box",
           "collection": "craft-cardboard-boxes",
           "product_type": "2",
           "hide_action": "1",
@@ -1256,8 +1257,8 @@
               "content": "<span style=\"font-weight:500;display:inline-block;color:white;padding-top:12px;\">Shop Custom Cardboard Boxes Now.<\/span>",
               "content_position": "right",
               "offset_content": "4%",
-              "button_text": "Browse",
-              "button_link": "shopify:\/\/collections\/all",
+              "button_text": "Shop Now",
+              "button_link": "shopify:\/\/products\/custom-box-quote",
               "banner_col": "9"
             }
           },
@@ -1305,7 +1306,7 @@
           "footer_secure_text": "",
           "footer_link_title1": "",
           "footer_link_1": "",
-          "footer_link_title2": "A Division of Packaging Products Ltd",
+          "footer_link_title2": "<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Asset_1.png?v=1675982168\" width=\"250\"><br><br>A Division of Packaging Products Ltd",
           "footer_link_2": "",
           "footer_bottom_enabled": "yes",
           "copyrights": "© Custom Box All Rights Reserved |",
@@ -1360,7 +1361,7 @@
           "bg_color": "#ffffff",
           "text_color": "#191919",
           "margin_section": "40px 20px 80px 0",
-          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h1 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\"> Custom Cardboard Boxes <\/h1>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nCustomBox is a family-owned packaging distributor in Lower Hutt. We’ve been operating since 1975 and provide a straightforward solution for small-run customized corrugated boxes. CustomBox specializes in low-volume orders and provides a number of packaging options to meet your specifications with no set-up expenses. Our response time is normally 5-7 days and we will offer you the precise amount you require.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; float:left;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Your Own Box<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Custom-cardboard-boxes.jpg?v=1642716891\" alt=\"Custom Boxes\" width=\"500\" height=\"300\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
+          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h1 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\"> Custom Cardboard Boxes <\/h1>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nCustomBox is a family-owned packaging distributor in Lower Hutt. We’ve been operating since 1975 and provide a straightforward solution for small-run customized corrugated boxes. CustomBox specializes in low-volume orders and provides a number of packaging options to meet your specifications with no set-up expenses. Our response time is normally 5-7 days and we will offer you the precise amount you require.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; float:left;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Your Own Box<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/IMG_9177-scaled.jpg?v=1678928017\" alt=\"Custom Boxes\" width=\"500\" height=\"400\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
         }
       },
       "165810664011be3309": {
@@ -1419,7 +1420,7 @@
         "settings": {
           "bg_color": "#f16321",
           "text_color": "#ffffff",
-          "margin_section": "20px 0 20px 0",
+          "margin_section": "20px 0 80px 0",
           "html_block": "<h2 style=\"padding-top: 40px; padding-bottom: 10px;\">Need a Custom Box? <br>Design Your Own Box<\/h2>\n<a style=\"background-color: white; color: #f16321; border-radius: 4px; margin-bottom: 40px;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Now<\/a>"
         }
       },
@@ -1429,7 +1430,43 @@
           "bg_color": "#ffffff",
           "text_color": "#191919",
           "margin_section": "60px 0 10px 0",
-          "html_block": "<h3 style=\"padding-bottom:15px;font-size:30px;\">See How We Create &amp; Build Our Boxes<\/h3>\n<iframe width=\"600\" height=\"340\" src=\"https:\/\/www.youtube.com\/embed\/Ty4CumOht8Y\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen=\"\"><\/iframe>"
+          "html_block": "<h3 style=\"padding-bottom:15px;font-size:30px;\">See How We Create &amp; Build Our Boxes<\/h3>\n<iframe width=\"700\" height=\"440\" src=\"https:\/\/www.youtube.com\/embed\/3e6FbK8DjyY\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen><\/iframe>"
+        }
+      },
+      "b4b9bd47-6203-4ebd-87c7-e4bfdfde31ff": {
+        "type": "products-single-slider",
+        "disabled": true,
+        "settings": {
+          "product_text": "<h4>Design Your Own<\/h4>\n<h3><b>Custom Box<\/b><\/h3>",
+          "collection": "",
+          "hide_action": "0",
+          "collection_limit": "1",
+          "collection_autoplay": "5000",
+          "collection_show_paging": false,
+          "collection_product_show_nav": false,
+          "collection_product_nav_prev": "<i class=\"icon-arrow-left-products-header\"><\/i>",
+          "collection_product_nav_next": "<i class=\"icon-arrow-right-products-header\"><\/i>"
+        }
+      },
+      "cdfa604c-62ce-4809-8d59-40e6114e9bc9": {
+        "type": "html-section",
+        "custom_css": [
+
+        ],
+        "settings": {
+          "bg_color": "#ffffff",
+          "text_color": "#191919",
+          "margin_section": "80px 20px 100px 0",
+          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0; \" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h2 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\">Your Logo On A Box <\/h2>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nNOW AVAILABLE - Your Logo Digitally printed (full color) onto our existing range of cardboard boxes, cases and cartons.\nPrint your logo up to 300mm x 1000mm.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Printabox.jpg?v=1675979503\" alt=\"Custom Boxes\" width=\"600\" height=\"337\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
+        }
+      },
+      "f759a3c1-d545-40e7-8cda-2b657b410b4e": {
+        "type": "html-section",
+        "settings": {
+          "bg_color": "#ffffff",
+          "text_color": "#191919",
+          "margin_section": "80px 20px 100px 0",
+          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0; \" class=\"hidden-xs\"><\/td>\n<td style=\"width: 60%; border: 0; \">\n<h2 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\">CustomBox - A Division of Packaging Products <\/h2>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\n<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"https:\/\/www.packagingproducts.co.nz\/\" target=\"_blank\">Visit Packaging Products<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/mascot-products_1.png?v=1675985081\" alt=\"Custom Boxes\" width=\"400\" height=\"420\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
         }
       }
     },
@@ -1442,8 +1479,11 @@
       "166112243412667c8f",
       "16493840662a31cfcf",
       "1498503602228",
+      "b4b9bd47-6203-4ebd-87c7-e4bfdfde31ff",
+      "cdfa604c-62ce-4809-8d59-40e6114e9bc9",
       "1661298231936b37c8",
-      "1498808587294"
+      "1498808587294",
+      "f759a3c1-d545-40e7-8cda-2b657b410b4e"
     ],
     "blocks": {
       "558381514691908246": {
@@ -1469,5 +1509,10 @@
   "presets": {
     "Default": {
     }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".addthis_toolbox {display: none !important;}"
+    ]
   }
 }
