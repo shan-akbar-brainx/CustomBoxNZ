@@ -4,7 +4,7 @@
 {% include 'breadcrumb' %} 
 {% assign media_col = settings.product_image_size %} 
 {% assign main_col = 12 | minus: settings.product_image_size %}
- 
+
 <div class="product-main">   
   <div class="container">
     <div class="box_product_page">
@@ -162,7 +162,7 @@
                       </div> 
                     </div>
                     <div class="product-type-main">  
-                      <form class="product-form custom-product-form" id="product-main-form" action="/cart/add" method="post" autocomplete="off" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}" data-errorcount="0" data-triggerchange="0"> 
+                      <form class="product-form custom-product-form" id="product-main-form" action="/contact#contact_form" method="post" autocomplete="off" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}" data-errorcount="0" data-triggerchange="0"> 
                         
                         <div id="product-variants" class="product-options" {% if product.options.size == 1 and product.options.first == 'Title' %}style="display: none;"{% endif %}> 
                           <select id="product-selectors" name="id" style="display: none;">
@@ -227,10 +227,7 @@
                         <div class="error-box">
                           <p class="error-message general-error-message"></p>
                         </div>
-                        <div class="unit-custom-price-wrapper">
-                          <span class="custom-price-title">Unit Price: </span>
-                          <span class="unit-custom-price">$__</span>
-                        </div>
+                        
                         <input type="hidden" id="calculated_price" name="properties[_calculated_price]" value="">
                         
                         <div class="product-options-bottom"> 
@@ -244,52 +241,15 @@
                               </div>
                             </div>
                             <p class="error-message quantity-error-message"></p>
-                            <div class="total-custom-price-wrapper">
-                              <span class="custom-price-title">Total Price: </span>
-                              <span class="total-custom-price">$__</span>
-                            </div>
                             <div>
                               <p class="error-message price-error-message"></p>
                             </div>
-                            
-                            <div class="custom-button-wrapper">
-                              <button class="custom-product-submit">Calculate Price</button>
-                            </div> 
-                            <div class="actions display-hidden">
-                              <div class="action-list addtocart custom-action-list">
-                                <div class="button-wrapper">
-                                  
-                                  {% if product.available %}
-                                  
-                                  <div class="button-wrapper-content"> 
-                                  
-                                    <button type="submit" name="add" class="btn-cart add-to-cart bordered uppercase custom-product-add-to-cart">                      
-                                      <span>
-                                        <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
-                                      </span>
-                                    </button> 
-
-                                  </div>
-                                  {% else %} 
-                                  <div class="button-wrapper-content">
-                                    <i class="icon-cart"></i>
-                                    <button href="javascript:;" class="btn-cart add-to-cart">
-                                      <span>
-                                        <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span>
-                                      </span>
-                                    </button>  
-                                  </div>
-                                  {% endif %}
-                                </div>
-                              </div>
-                              <div class="action-list wishlist wishlist-{{product.id}}">
-                                {% include 'wishlist-product-detail'%}
-                              </div>
-                            </div> 
+                         
                           </div>
                         </div>
-                        <div class="custom-contact-form-wrapper">
-                          <p class="contact-us-message">For quantities over 250, please Contact Us for a special quote.</p>
+                        
+                        <div class="custom-contact-form-quote-wrapper">
+                          <p class="contact-us-message">Please Contact Us for a special quote.</p>
                           <input type="hidden" class="contact-form-hidden-input" name="form_type" value="contact">
                           <input type="hidden" name="utf8" value="✓">
                           
