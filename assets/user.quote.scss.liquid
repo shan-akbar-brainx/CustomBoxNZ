@@ -1,0 +1,239 @@
+.diagram-container{
+  float: left;  
+  margin-top: 80px;
+}
+
+#board{
+    width: 517px;
+}
+
+
+.diagram {
+	display: none;
+	position: absolute;
+	left: 50%;
+	padding: 0;
+	font-size: 9px;
+	transform-origin: 0 0;
+}
+
+div.d {
+	border: 1px solid #000;
+	float: left;
+	text-align: center;
+}
+
+div.glue {
+	width: 3px;
+	border-left: none;
+}
+
+
+
+/* Diagrams
+**********************************/
+
+#board {
+	width: 517px;
+	/*height: 520px;*/
+}
+
+.start-message {
+	margin: 80px auto 20px;
+	max-width: 400px;
+}
+
+.size-error {
+	top: 80px;
+	left: 50%;
+	width: 400px;
+	height: 20px;
+	margin-left: -200px;
+	color: #CC0000;
+}
+
+.diagram {
+	display: none;
+	position: absolute;
+	left: 50%;
+	padding: 0;
+	font-size: 9px;
+	transform-origin: 0 0;
+}
+
+div.d {
+	border: 1px solid #000;
+	float: left;
+	text-align: center;
+}
+
+div.glue {
+	width: 3px;
+	border-left: none;
+}
+
+.top,.bottom {
+	float: left;
+	width: auto;
+	height: auto;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.fold {
+	float: left;
+	width: auto;
+	height: auto;
+}
+
+#FPF_diagram .widthflap, #FPF_diagram .depthflap  {
+	clear: both;
+}
+
+.top div {
+	border-bottom: none;
+	display: inline;
+}
+
+.bottom div {
+	border-top: none;
+	display: inline;
+}
+
+.center {
+	position: relative;
+}
+
+.width,.length {
+	position: relative;
+}
+
+.lengthflap,.widthflap,.depthflap,.flap {
+	position: relative;
+}
+
+.lengthflap span,.widthflap span,.depthflap span,.flap span {
+	float: left;
+	width: 100%;
+	height: 10px;
+	/*font-size: 9px;
+	line-height: 10px;*/
+	line-height: 1em;
+	color: #666666;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	margin-top: -5px;
+	text-align: center;
+}
+
+.fold .lengthflap {
+	border-top: none;
+}
+
+/* Dimensions
+**********************************/
+
+.h-dimension {
+	float: left;
+	width: 100%;
+	/*height: 10px;*/
+  
+
+	background: transparent url({{ 'h-line.png' | asset_url }}) top left repeat-x;
+	position: relative;
+	text-align: center;
+	margin-top: 5px;
+	overflow: hidden;
+}
+
+.h-dimension span {
+	padding: 0 2px;
+	height: 10px;
+	/*line-height: 10px;
+	font-size: 9px;*/
+	color: #666666;
+	background: #FFF;
+	width: 100%;
+	z-index: 99;
+	text-align: center;
+}
+
+.darrow-left {
+	float: left;
+	width: 10px;
+	height: 10px;
+      
+	background: transparent url({{ 'darrow-left.png' | asset_url }}) top
+	left no-repeat;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.darrow-right {
+	float: right;
+	width: 10px;
+	height: 10px;
+	background: transparent url({{ 'darrow-right.png' | asset_url }}) top left no-repeat;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1;
+}
+
+.v-dimension {
+	position: absolute;
+	top: 0;
+	left: 10px;
+	float: left;
+	width: 10px;
+	height: 100%;
+	background: transparent url({{ 'v-line.png' | asset_url }}) top center repeat-y;
+	text-align: center;
+}
+
+.v-dimension span {
+	position: absolute;
+	top: 0px;
+	left: -50%;
+	margin-top: 5px;
+	margin-left: 0px;
+	float: left;
+	width: auto;
+	height: 10px;
+	/*font-size: 9px;
+	line-height: 10px;*/
+	color: #666666;
+	padding: 0;
+	background: #FFF;
+	z-index: 99;
+}
+
+.darrow-top {
+	float: left;
+	width: 10px;
+	height: 10px;
+	background: transparent url({{ 'darrow-top.png' | asset_url }}) top left
+		no-repeat;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+	z-index: 1;
+}
+
+.darrow-bottom {
+	float: right;
+	width: 10px;
+	height: 10px;
+	background: transparent url({{ 'darrow-bottom.png' | asset_url }}) top
+		left no-repeat;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	z-index: 1;
+}
