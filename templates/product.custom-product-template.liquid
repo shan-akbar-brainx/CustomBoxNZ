@@ -167,7 +167,7 @@
                       </div> 
                     </div>
                     <div class="product-type-main">  
-                      <form class="product-form custom-product-form" id="product-main-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}" data-errorcount="0" data-triggerchange="0"> 
+                    <form class="product-form custom-product-form" id="product-main-form" action="/cart/add" method="post" autocomplete="off" enctype="multipart/form-data" data-product-id="{{product.id}}" data-id="{{ product.handle }}" data-errorcount="0" data-triggerchange="0"> 
                         <div id="product-variants" class="product-options" {% if product.options.size == 1 and product.options.first == 'Title' %}style="display: none;"{% endif %}> 
                           <select id="product-selectors" name="id" style="display: none;">
                             {% for variant in product.variants %}
@@ -181,10 +181,13 @@
                             {% endfor %}
                           </select> 
                         </div> 
+                        <p class="note form-success custom-contact-form-success" {% if settings.language_enable %}data-translate="contact.form.post_success"{% endif %}>
+                          {{ 'contact.form.post_success' | t }}
+                        </p>
                         <div class="custom-product-field">
                           <label for="boxStyle">Box Style</label>
                           <select class="custom-select-field box-style" id="boxStyle" name="properties[boxStyle]" required>
-                            <option value="default" >Select a box style</option>
+                            <option value="" >Select a box style</option>
                             <option value="RSC">Regular Slotted Case (RSC)</option>
                             <option value="FOLF">Fully Overlapping Flap RSC (FOLF)</option>
                             <option value="HSC">Half Slotted Case (HSC)</option>
@@ -253,7 +256,7 @@
                             </div>
                             
                             <div class="custom-button-wrapper">
-                              <button type="submit" class="custom-product-submit">Calculate Price</button>
+                              <button class="custom-product-submit">Calculate Price</button>
                             </div> 
                             <div class="actions display-hidden">
                               <div class="action-list addtocart custom-action-list">
@@ -263,7 +266,7 @@
                                   
                                   <div class="button-wrapper-content"> 
                                   
-                                    <button type="submit" name="add" class="btn-cart add-to-cart bordered uppercase">                      
+                                  <button type="submit" name="add" class="btn-cart add-to-cart bordered uppercase custom-product-add-to-cart">                        
                                       <span>
                                         <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
                                       </span>
@@ -288,6 +291,36 @@
                             </div>
                           </div>
                         </div>
+                        <div class="custom-contact-form-wrapper">
+                          <p class="contact-us-message">For quantities over 250, please Contact Us for a special quote.</p>
+                          <input type="hidden" class="contact-form-hidden-input" name="form_type" value="contact">
+                          <input type="hidden" name="utf8" value="✓">
+
+                          {{ form.errors | default_errors }}
+                          {% assign name_attr = 'contact.form.name' | t | handle %}
+                          <div class="custom-contact-form-field">
+                            <label for="name" class="required">{{ 'contact.form.name' | t }}<em>*</em></label>
+                            <input type="text" id="ContactFormName" class="input-full" name="contact[{{ name_attr }}]" autocapitalize="words" required value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+                          </div> 
+                        <div class="custom-contact-form-field"> 
+                          <label for="name" class="required">{{ 'contact.form.phone' | t }}</label>
+                          {% assign name_attr = 'contact.form.phone' | t | handle %} 
+                          <input type="text" id="ContactFormPhone" class="input-full" name="contact[{{ name_attr }}]" maxlength="11" minlength="9" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+                        </div>
+
+                        <div class="custom-contact-form-field">
+                          <label for="name" class="required">{{ 'contact.form.email' | t }}<em>*</em></label>
+                          <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" autocorrect="off" autocapitalize="off"  required  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+                        </div>
+
+                        <div class="custom-contact-form-field">  
+                          <label for="name" class="required">{{ 'contact.form.comment' | t }}<em>*</em></label>
+                          <textarea rows="15" cols="5" style="height:auto;" id="ContactFormMessage" class="input-full" name="contact[body]" required placeholder="{{ 'contact.form.comment' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                        </div>
+                        <div class="custom-contact-form-submit-button">
+                          <input type="button" class="btn-button bordered custom-contact-form-submit" {% if settings.language_enable %}data-translate="contact.form.submit"{% endif %} value="{{ 'contact.form.submit' | t }}">
+                        </div>
+                      </div> 
                       </form>   
                     </div>
                     {% if settings.product_tags %}         
