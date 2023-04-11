@@ -44,6 +44,7 @@ function convertFormToJSON(form) {
     $(".custom-product-form").validate().element("#width");
     $(".custom-product-form").validate().element("#height");
     var formValid = $('form.custom-product-form').valid();
+    
     if(formValid){
       var errorCount = $('form.custom-product-form').data("errorcount");
 
@@ -102,6 +103,8 @@ function convertFormToJSON(form) {
           scrollTop: $(".wrong-value").offset().top - 300
         }, 1000);
       }
+    }else{
+      event.preventdefault();
     }
   });
 
@@ -558,6 +561,19 @@ function convertFormToJSON(form) {
 
   $('.shopify-challenge__button').click(function(){
     localStorage.setItem('contact-form-posted', 'true');
+  });
+
+  $("#ContactFormDeliver").change(function(){
+    
+    let deliveryType = $(this).val();
+    if(deliveryType == "deliver"){
+      $(".custom-contact-form-field__address").css('display', 'flex');
+      $("#ContactFormAddress").attr('name', 'contact[address]');
+    }else{
+      $("#ContactFormAddress").attr('name', 'address');
+      $(".custom-contact-form-field__address").hide();
+    }
+
   });
 
   $(document).ready(function(){

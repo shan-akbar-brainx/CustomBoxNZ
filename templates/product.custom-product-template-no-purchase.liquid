@@ -269,6 +269,19 @@
                           <label for="name" class="required">{{ 'contact.form.email' | t }}<em>*</em></label>
                           <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" autocorrect="off" autocapitalize="off"  required  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
                         </div>
+
+                        <div class="custom-contact-form-field">
+                          <label for="name" class="required">Choose Option<em>*</em></label>
+                          <select class="custom-select-field delivery-type" id="ContactFormDeliver" name="contact[deliveryType]" required>
+                            <option value="collect" >Collect</option>
+                            <option value="deliver">Deliver</option>
+                          </select>
+                        </div>
+
+                        <div class="custom-contact-form-field custom-contact-form-field__address">
+                          <label for="name" class="required">Enter delivery address<em>*</em></label>
+                          <input type="text" id="ContactFormAddress" class="input-full" name="address" autocorrect="off" autocapitalize="off"  required  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+                        </div>
                       
                         <div class="custom-contact-form-field">  
                           <label for="name" class="required">{{ 'contact.form.comment' | t }}<em>*</em></label>
