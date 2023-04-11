@@ -1,0 +1,60 @@
+
+const validBox = () => {
+    const inputs = document.querySelectorAll('.custom-product-form input');
+    for(let i = 0; i < inputs.length; i++){
+        if(inputs[i].value === ''){
+            return false;
+        }
+        if(inputs[i].value === '0'){
+            return false;
+        }
+
+
+        if(inputs[i].name === 'properties[length]'){
+            let range = box.params.lengthLimits;
+            if(inputs[i].value < range[0] || inputs[i].value > range[1]){
+                return false;
+            }
+
+            box.params.length = inputs[i].value;
+        }
+
+
+        if(inputs[i].name === 'properties[width]'){
+            let range = box.params.widthLimits;
+            if(inputs[i].value < range[0] || inputs[i].value > range[1]){
+                return false;
+            }
+
+            box.params.width = inputs[i].value;
+        }
+
+
+        if(inputs[i].name === 'properties[height]'){
+            let range = box.params.depthLimits;
+            if(inputs[i].value < range[0] || inputs[i].value > range[1]){
+                return false;
+            }
+
+            box.params.depth = inputs[i].value;
+        }
+
+
+
+    }
+
+    createBoxElements();
+    updatePanelsTransform();
+
+    return true;
+}
+
+
+// on form keyup, add active class to 3D Container
+document.querySelector('.custom-product-form').addEventListener('keyup', function() {
+    if(validBox()){
+        document.querySelector('.container-3d').classList.add('active');
+    }else{
+        document.querySelector('.container-3d').classList.remove('active');
+    }
+});

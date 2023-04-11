@@ -1091,24 +1091,8 @@
               "content_position": "left",
               "offset_content": "21%",
               "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Custom made packaging cartons <br> for any quantity, any size<\/span>",
-              "content_slide": "<span style='color:white;\"'>Specialising in small quantities and with no set-up costs, <br> CustomBox provides a range of packaging styles to meet your needs.<\/span>",
-              "button_text_slide": "Products",
-              "button_link_slide": "shopify:\/\/products\/custom-box",
-              "content_bottom_slide": ""
-            }
-          },
-          "0438a129-1077-42f3-a2c3-d84282de6b09": {
-            "type": "image",
-            "settings": {
-              "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/guy-stacking-cardboard-boxes.jpg",
-              "background_image_position": "left",
-              "image_use": "0",
-              "content_position": "left",
-              "offset_content": "20%",
-              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">We have stock boxes on hand ready<\/span>",
-              "content_slide": "<span style='color:white;\"'>Check out our Custom Boxes<\/span>",
-              "button_text_slide": "View Custom Boxes",
+              "content_slide": "<span style='color:white;\"'>Specialising in small to medium quantities and with no set-up costs, <br> CustomBox provides a range of packaging styles to meet your needs.<\/span>",
+              "button_text_slide": "Buy A Custom Box",
               "button_link_slide": "shopify:\/\/products\/custom-box",
               "content_bottom_slide": ""
             }
@@ -1123,9 +1107,9 @@
               "content_position": "left",
               "offset_content": "20%",
               "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Want your logo on your box?<\/span>",
-              "content_slide": "<span style='color:white;\"'>We can now print on boxes with your logo.<\/span>",
+              "content_slide": "<span style='color:white;\"'>We can now print your logo onto custom boxes or stock boxes<\/span>",
               "button_text_slide": "Get In Touch",
-              "button_link_slide": "shopify:\/\/pages\/contact",
+              "button_link_slide": "shopify:\/\/pages\/printabox",
               "content_bottom_slide": ""
             }
           },
@@ -1133,24 +1117,40 @@
             "type": "image",
             "settings": {
               "background_image_use": "1",
-              "background_image": "shopify:\/\/shop_images\/warehouse-banner.jpg",
+              "background_image": "shopify:\/\/shop_images\/guy-stacking-cardboard-boxes.jpg",
               "background_image_position": "center",
               "image_use": "0",
               "content_position": "left",
               "offset_content": "20%",
-              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Need a large quantity?<\/span>",
+              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\">Need a Large Quantity of Custom Boxes?<\/span>",
               "content_slide": "<span style='color:white;\"'>Get in touch with us for large quantities.<\/span>",
               "button_text_slide": "Enquire Now",
               "button_link_slide": "shopify:\/\/pages\/contact",
+              "content_bottom_slide": ""
+            }
+          },
+          "0438a129-1077-42f3-a2c3-d84282de6b09": {
+            "type": "image",
+            "settings": {
+              "background_image_use": "1",
+              "background_image": "shopify:\/\/shop_images\/guy-stacking-cardboard-boxes.jpg",
+              "background_image_position": "left",
+              "image_use": "0",
+              "content_position": "left",
+              "offset_content": "20%",
+              "title_slide": "<br><br><span style=\"font-weight:500;color:white;\"><br><br><span style=\"font-weight:500;color:white;\">We have stock boxes on hand ready<\/span><\/span>",
+              "content_slide": "<span style='color:white;\"'>Check out our stock boxes<\/span>",
+              "button_text_slide": "View Stock Boxes",
+              "button_link_slide": "https:\/\/www.packagingproducts.co.nz\/products\/boxes-cases-and-cartons\/",
               "content_bottom_slide": ""
             }
           }
         },
         "block_order": [
           "1495635272785-0",
-          "0438a129-1077-42f3-a2c3-d84282de6b09",
           "fc960362-ad31-41e5-8736-ab84eda3cdec",
-          "6b621b16-82de-4177-a58d-41d6644dbd4b"
+          "6b621b16-82de-4177-a58d-41d6644dbd4b",
+          "0438a129-1077-42f3-a2c3-d84282de6b09"
         ],
         "settings": {
           "margin_section": "0 0 0 0",
@@ -1172,7 +1172,7 @@
             "settings": {
               "item_title": "In Need of Boxes?",
               "item_icon": "icon-free-delivery",
-              "item_text": "A few boxes to finish a large order today?"
+              "item_text": "A few boxes to finish a large order?"
             }
           },
           "1498207395632-1": {
@@ -1196,7 +1196,7 @@
             "settings": {
               "item_title": "Packaging Products",
               "item_icon": "icon-safe-payments",
-              "item_text": "An exact quantity of boxes to package products already produced?"
+              "item_text": "An exact quantity of boxes to pack your product"
             }
           },
           "1498207395632-4": {
@@ -1204,7 +1204,7 @@
             "settings": {
               "item_title": "Quick Turnaround",
               "item_icon": "icon-best-brands",
-              "item_text": "We specialise in small run, quick turnaround production of corrugated boxes and sheet board."
+              "item_text": "We specialise in small to medium run, quick turnaround production of corrugated boxes and sheet board."
             }
           }
         },
@@ -1258,14 +1258,14 @@
               "content_position": "right",
               "offset_content": "4%",
               "button_text": "Shop Now",
-              "button_link": "shopify:\/\/products\/custom-box-quote",
+              "button_link": "shopify:\/\/products\/custom-box",
               "banner_col": "9"
             }
           },
           "1498808587294-1": {
             "type": "image",
             "settings": {
-              "banner_image": "shopify:\/\/shop_images\/machine-wih-orange-logo.jpg",
+              "banner_image": "shopify:\/\/shop_images\/IMG_9177-scaled.jpg",
               "content": "",
               "content_position": "left",
               "offset_content": "9%",
@@ -1300,13 +1300,13 @@
           "footer_logo": "shopify:\/\/shop_images\/cb_logo.png",
           "footer_logo_enabled": true,
           "footer_support_icon": "icon-call-us-footer",
-          "footer_support_content": "<p style=\"font-size:15px;font-weight:500;letter-spacing: -0.025em;color:#1f1f1f;line-height:23px;\">GOT QUESTION? CALL US!<\/p>\n<p style=\"font-size:22px;font-weight:500;letter-spacing: -0.015em;line-height:21px;\">0508 334 466<\/p>\n<p>14-20 Downer Street\nLower Hutt\nWellington 5010 <\/p>\n<p><i class=\"icon-map-marker\"><\/i><a href=\"https:\/\/goo.gl\/maps\/7sLW9ZXQotMEnrfq6\" target=\"_blank\">Find us on map<\/a><\/p>",
+          "footer_support_content": "<p style=\"font-size:15px;font-weight:500;letter-spacing: -0.025em;color:#1f1f1f;line-height:23px;\">GOT A QUESTION? CALL US!<\/p>\n<p style=\"font-size:22px;font-weight:500;letter-spacing: -0.015em;line-height:21px;\">0508 334 466<\/p>\n<p>14-20 Downer Street,\nLower Hutt,\nWellington 5010 <\/p>\n<p><i class=\"icon-map-marker\"><\/i><a href=\"https:\/\/goo.gl\/maps\/7sLW9ZXQotMEnrfq6\" target=\"_blank\">Find us on the map<\/a><\/p>",
           "footer_payment_icon": "icon-safe-payments",
           "footer_payment_content": "<span style=\"font-size:15px;font-weight:500;letter-spacing: -0.025em;color:#1f1f1f;line-height:23px;\">QUICK LINKS<\/span>\n<br><br>\n<ul>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/box-styles-1\/\">Box Styles<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/choosing-a-box\/\">Choosing a Box<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/collections\/all\/\">Stock Boxes<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/about\/\">About Us<\/a><\/li>\n<li style=\"padding-bottom:10px;\"><a href=\"\/pages\/contact\/\">Contact Us<\/a><\/li>\n<\/ul>",
           "footer_secure_text": "",
           "footer_link_title1": "",
           "footer_link_1": "",
-          "footer_link_title2": "<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Asset_1.png?v=1675982168\" width=\"250\"><br><br>A Division of Packaging Products Ltd",
+          "footer_link_title2": "<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Asset_1.png?v=1675982168\" width=\"250\">",
           "footer_link_2": "",
           "footer_bottom_enabled": "yes",
           "copyrights": "© Custom Box All Rights Reserved |",
@@ -1361,7 +1361,7 @@
           "bg_color": "#ffffff",
           "text_color": "#191919",
           "margin_section": "40px 20px 80px 0",
-          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h1 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\"> Custom Cardboard Boxes <\/h1>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nCustomBox is a family-owned packaging distributor in Lower Hutt. We’ve been operating since 1975 and provide a straightforward solution for small-run customized corrugated boxes. CustomBox specializes in low-volume orders and provides a number of packaging options to meet your specifications with no set-up expenses. Our response time is normally 5-7 days and we will offer you the precise amount you require.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; float:left;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Your Own Box<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/IMG_9177-scaled.jpg?v=1678928017\" alt=\"Custom Boxes\" width=\"500\" height=\"400\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
+          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h1 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\"> Custom Cardboard Boxes <\/h1>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nCustomBox is a family-owned packaging distributor in Lower Hutt. We’ve been operating since 1975 and provide an easy solution for small to medium run custom made corrugated boxes. CustomBox specialises in low volume orders and provides a number of styles to meet your needs with no set-up costs. Our turnaround is usually  5-7 days and we will supply you the exact amount you require.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; float:left;\" class=\"btn-button\" href=\"\/collections\/all\/products\/custom-box\/\">Design Your Own Box<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/IMG_9177-scaled.jpg?v=1678928017\" alt=\"Custom Boxes\" width=\"500\" height=\"400\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
         }
       },
       "165810664011be3309": {
@@ -1457,7 +1457,7 @@
           "bg_color": "#ffffff",
           "text_color": "#191919",
           "margin_section": "80px 20px 100px 0",
-          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0; \" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h2 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\">Your Logo On A Box <\/h2>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nNOW AVAILABLE - Your Logo Digitally printed (full color) onto our existing range of cardboard boxes, cases and cartons.\nPrint your logo up to 300mm x 1000mm.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Printabox.jpg?v=1675979503\" alt=\"Custom Boxes\" width=\"600\" height=\"337\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
+          "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0; \" class=\"hidden-xs\"><\/td>\n<td style=\"width: 70%; border: 0;\">\n<h2 style=\"padding-top:40px; padding-bottom:15px; text-align: left;\">Your Logo On A Box <\/h2>\n<p style=\"font-size: 17px; padding-bottom:40px; padding-right:40px; text-align: left;\">\nNOW AVAILABLE - Your Logo Digitally printed (full colour) onto your custom box or our existing range of cardboard boxes, cases and cartons. Print your logo up to 300mm x 900mm.<\/p>\n<a style=\"background-color: #f16321; color: white; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:left;\" class=\"btn-button\" href=\"\/pages\/contact\">Contact Us<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/Printabox.jpg?v=1675979503\" alt=\"Custom Boxes\" width=\"600\" height=\"337\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
         }
       },
       "f759a3c1-d545-40e7-8cda-2b657b410b4e": {

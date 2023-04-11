@@ -4,7 +4,7 @@
 {% include 'breadcrumb' %} 
 {% assign media_col = settings.product_image_size %} 
 {% assign main_col = 12 | minus: settings.product_image_size %}
-{{ 'user.quote.scss' | asset_url | stylesheet_tag }}
+{{ '3D.scss' | asset_url | stylesheet_tag }}
 
  
 <div class="product-main">   
@@ -23,8 +23,14 @@
                   <div class="product-img-list">
                     {% include 'media' %}
                   </div>
-                  <div class="diagram-container">
-                  
+                  <div class="container-3d">
+                    <div class="animate-buttons">
+                      <button id="Unfold3D">Unfold</button>
+                      <button id="Fold3D">Fold</button>
+                    </div>
+                    <canvas id="box-canvas">
+                    
+                    </canvas>
                   </div>
                 </div> 
                 <div class="product-shop col-sm-{{main_col}}">
@@ -515,6 +521,15 @@
   {%endif%}
 </div>  
 
-<!-- <script src="{{ 'user.quote.js' | asset_url }}"></script> -->
+
+
+
+<script src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
+
+
+<script  type="module"  src="{{ '3D.js' | asset_url }}"></script> 
+<!--   <script  type="module"  src="{{ '3DUtils.js' | asset_url }}"></script>  -->
 
 

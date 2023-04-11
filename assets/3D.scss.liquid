@@ -1,0 +1,35 @@
+.container-3d{
+  width: 100%;
+  height: 400px;
+  display: none;
+  position: relative;
+
+  &.active{
+    display: block;
+  }
+}
+
+.product-img-box{
+  display: flex;
+  flex-direction: column;
+}
+
+.container-3d.active{
+  display:block;
+}
+
+.animate-buttons{
+  position: absolute;
+   bottom: 24px;
+  right: 24px;
+  width: calc(100% - 48px);
+    
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.animate-buttons button{
+    padding: 5px 32px;
+    width: 110px;
+}

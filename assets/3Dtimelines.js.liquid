@@ -1,0 +1,99 @@
+export const t1 = gsap.timeline({
+        // scrollTrigger: {
+        //     trigger: '.page',
+        //     start: '0% 0%',
+        //     end: '100% 100%',
+        //     scrub: true,
+        // },
+        onUpdate: () => {
+            updatePanelsTransform();
+        }
+    })
+        .to(box.animated, {
+            duration: 1,
+            openingAngle: .5 * Math.PI,
+            ease: 'power1.inOut'
+        })
+        .to([box.animated.flapAngles.backHalf.width, box.animated.flapAngles.frontHalf.width], {
+            duration: .6,
+            bottom: .6 * Math.PI,
+            ease: 'back.in(3)'
+        }, .9)
+        .to(box.animated.flapAngles.backHalf.length, {
+            duration: .7,
+            bottom: .5 * Math.PI,
+            ease: 'back.in(2)'
+        }, 1.1)
+        .to(box.animated.flapAngles.frontHalf.length, {
+            duration: .8,
+            bottom: .49 * Math.PI,
+            ease: 'back.in(3)'
+        }, 1.4)
+        .to([box.animated.flapAngles.backHalf.width, box.animated.flapAngles.frontHalf.width], {
+            duration: .6,
+            top: .6 * Math.PI,
+            ease: 'back.in(3)'
+        }, 1.4)
+        .to(box.animated.flapAngles.backHalf.length, {
+            duration: .7,
+            top: .5 * Math.PI,
+            ease: 'back.in(3)'
+        }, 1.7)
+        .to(box.animated.flapAngles.frontHalf.length, {
+            duration: .9,
+            top: .49 * Math.PI,
+            ease: 'back.in(4)'
+        }, 1.8)
+
+
+
+
+
+
+
+export const t2 = gsap.timeline({
+        // scrollTrigger: {
+        //     trigger: '.page',
+        //     start: '0% 0%',
+        //     end: '100% 100%',
+        //     scrub: true,
+        // },
+        onUpdate: () => {
+            updatePanelsTransform();
+        }
+    })
+        .to(box.animated, {
+            duration: 1,
+            openingAngle: .5 * Math.PI,
+            ease: 'power1.inOut'
+        })
+        .to([box.animated.flapAngles.backHalf.width, box.animated.flapAngles.frontHalf.width], {
+            duration: .6,
+            bottom: .6 * Math.PI,
+            ease: 'back.in(3)'
+        }, .9)
+        .to(box.animated.flapAngles.backHalf.length, {
+            duration: .7,
+            bottom: .5 * Math.PI,
+            ease: 'back.in(2)'
+        }, 1.1)
+        .to(box.animated.flapAngles.frontHalf.length, {
+            duration: .8,
+            bottom: .49 * Math.PI,
+            ease: 'back.in(3)'
+        }, 1.4)
+        .to([box.animated.flapAngles.backHalf.width, box.animated.flapAngles.frontHalf.width], {
+            duration: .6,
+            top: .6 * Math.PI,
+            ease: 'back.in(3)'
+        }, 1.4)
+        .to(box.animated.flapAngles.backHalf.length, {
+            duration: .7,
+            top: .5 * Math.PI,
+            ease: 'back.in(3)'
+        }, 1.7)
+        .to(box.animated.flapAngles.frontHalf.length, {
+            duration: .9,
+            top: .49 * Math.PI,
+            ease: 'back.in(4)'
+        }, 1.8)
