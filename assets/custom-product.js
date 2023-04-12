@@ -459,9 +459,10 @@ function convertFormToJSON(form) {
 
   $('input.custom-quantity-field').change(function(){
     $('p.quantity-error-message').html('');
+    $(".tooltip-message").hide();
     onOptionsChange();
     var value = parseInt($(this).val());
-    if(value < 1 || value > 250){
+    if(value < 1 || value > 500 || value == 500 || (value > 250 && value < 500)){
       if(value < 1){
         $('p.quantity-error-message').html('Please enter the correct quantity value.');
         if(!$('input.custom-quantity-field').hasClass('wrong-value')){
@@ -472,7 +473,12 @@ function convertFormToJSON(form) {
           $('form.custom-product-form').data("errorcount", errorCount);
         }
       }
-      if(value > 250){
+      
+      if(value > 250 && value < 500){
+        $(".tooltip-message").show();
+      }
+
+      if(value > 500){
         $('#product-main-form').attr('action', '/contact#contact_form');
         $('#boxStyle').attr('name', 'contact[Box Style]');
         $('#boardGrade').attr('name', 'contact[Board Grade]');
@@ -523,6 +529,7 @@ function convertFormToJSON(form) {
     $(".unit-custom-price").html("$__");
     $(".total-custom-price").html("$__");
     $(".actions").addClass("display-hidden");
+    localStorage.setItem("customBoxDimentions", "");
   } 
 
   function restoreToDefault(){
@@ -576,7 +583,27 @@ function convertFormToJSON(form) {
 
   });
 
+  $(".tooltip-message").click(function(){
+    let includeLid = false;
+        if($("#yes").is(':checked')){
+          includeLid = true;
+        }
+        let customBoxDimentions = {
+          "boxStyle": $("#boxStyle").val(),
+          "boardGrade": $("#boardGrade").val(),
+          "length": $("#length").val(),
+          "width": $("#width").val(),
+          "height": $("#height").val(),
+          "includeLid": includeLid,
+          "quantity": $("#qty").val()
+        }
+
+        localStorage.setItem("customBoxDimentions", JSON.stringify(customBoxDimentions));
+        window.open("/pages/contact");
+  });
+
   $(document).ready(function(){
+    localStorage.setItem("customBoxDimentions", "");
     var contactFormPosted = localStorage.getItem('contact-form-posted');
     if(contactFormPosted == 'true'){
       $('.custom-contact-form-success').show();
