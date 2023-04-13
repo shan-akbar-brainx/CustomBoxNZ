@@ -13,7 +13,8 @@
                     <th rowspan="1" class="text-left" style="width:110px;" {% if settings.language_enable %}data-translate="cart.label.product"{% endif %}>{{ 'cart.label.product' | t }}</th>
                     <th rowspan="1" class="hidden-xs"></th>
                     <th rowspan="1" class="text-center" style="text-align:center;" {% if settings.language_enable %}data-translate="cart.label.price"{% endif %}>{{ 'cart.label.price' | t }}</th> 
-                    <th rowspan="1" class="text-center" style="text-align:center;" {% if settings.language_enable %}data-translate="cart.label.quantity"{% endif %}>{{ 'cart.label.quantity' | t }}</th> 
+                    <th rowspan="1" class="text-center" style="text-align:center;" {% if settings.language_enable %}data-translate="cart.label.quantity"{% endif %}>{{ 'cart.label.quantity' | t }}</th>
+                    <th rowspan="1" class="text-center" style="text-align:center;" >Total</th> 
                   </thead>               
                   <tbody>
                    
@@ -55,6 +56,8 @@
                         - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
                         {% endcomment %}
                         {%- assign calculated_price = null -%}
+                        {%- assign discounted_price = null -%}
+                        {%- assign discount_percent = null -%}
                         {%- assign property_size = item.properties | size -%}
                        {% if property_size > 0 %}
                         <div class="cart__meta-text">
@@ -71,12 +74,19 @@
                           {{ p.last }}
                           {% endif %}
                           {% endunless %}
-                          {% endfor %}{%- endcomment -%}{%- for p in item.properties -%}
+                          {% endfor %}{%- endcomment -%}
+                          {%- for p in item.properties -%}
                           {%- if p.first == "_calculated_price" and p.last != ""-%}
                             {%- assign calculated_price = p.last | times: 100 -%}
                           {%- endif -%}
-            {%- unless p.last == blank or p.first == "_calculated_price" -%}
-              <li class="product-details__item product-details__item--property{%if property_size == 0%} hide{% endif %}" data-cart-item-property>
+                          {%- if p.first == "_discounted_price" -%}
+                            {%- assign discounted_price = p.last | times: 100 -%}
+                          {%- endif -%}
+                          {%- if p.first == "_discount_percent" -%}
+                            {%- assign discount_percent = p.last -%}
+                          {%- endif -%}  
+            {%- unless p.last == blank or p.first == "_calculated_price" or p.first == "_discounted_price" or p.first == "_discount_percent" -%}
+              <li class="product-details__item product-details__item--property{% if property_size == 0 %} hide{% endif %}" data-cart-item-property>
                 <span class="product-details__item-label" data-cart-item-property-name>{{ p.first }}: </span>
 
                 {%- comment -%}
@@ -98,10 +108,13 @@
                       </td>
                       <td data-label="{{ 'cart.label.price' | t }}" style="text-align:center;">
                         <span class="cart-price">
-                          {%- if calculated_price != null -%}
-                            <span class="money"><span>{{ calculated_price | money}}</span></span>
+                          {%- if calculated_price != null and discounted_price == null -%}
+                            <span class="money"><span>{{ calculated_price | money }}</span></span>
                             {%- assign item_total_price = calculated_price | times: item.quantity -%}
                             {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                          {%- elsif calculated_price != null and discounted_price != null -%}
+                            {%- assign item_total_price = calculated_price | times: item.quantity -%}
+                            {%- assign total_custom_price = total_custom_price | plus: discounted_price -%}
                           {%- else -%}
                             <span class="money"><span>{{ item.price | money }}</span></span>
                             {%- assign item_total_price = item.price | times: item.quantity -%}
@@ -120,6 +133,17 @@
                             <div class="reduced items" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">-</div>
                           </div>
                         </div> 
+                      </td> 
+                      <td class="a-center item-total" style="text-align:center;">
+                        <div>
+                          {% if discount_percent != null %}
+                           <span>{{ discounted_price | money }}</span> 
+                          {% endif %}
+                          <span {% if discount_percent != null %}style="text-decoration:line-through;"{% endif %}>{{ item_total_price | money }}</span>
+                          {% if discount_percent != null %}
+                            <span>10% off</span> 
+                           {% endif %}
+                        </div>
                       </td> 
                       <td class="action-td" style="text-align:right;"><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="remove-item"><i class="icon-close"></i></a></td>
                     </tr>
@@ -161,7 +185,7 @@
                           <strong {% if settings.language_enable %}data-translate="cart.general.grandtotal"{% endif %}>{{ 'cart.general.grandtotal' | t }}</strong>
                         </td>
                         <td class="a-right">
-                          <strong><span class="price"><span class="money"><span>{{ total_custom_price | money}}</span></span></span></strong>
+                          <strong><span class="price"><span class="money"><span>{{ total_custom_price | money }}</span></span></span></strong>
                         </td>
                       </tr>
                     </tfoot>
@@ -169,7 +193,7 @@
                       <tr>
                         <td class="a-right" colspan="1" {% if settings.language_enable %}data-translate="cart.general.subtotal"{% endif %}>{{ 'cart.general.subtotal' | t }}</td>
                         <td class="a-right">
-                          <span class="price"><span class="money"><span>{{ total_custom_price | money}}</span></span></span>    
+                          <span class="price"><span class="money"><span>{{ total_custom_price | money }}</span></span></span>    
                         </td>
                       </tr>
                     </tbody>

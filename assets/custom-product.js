@@ -53,6 +53,8 @@ function convertFormToJSON(form) {
         $('p.general-error-message').html('');
         $('button.custom-product-submit').attr('disabled','true');
         $('button.custom-product-submit').html('<i class="fa fa-spinner fa-spin"></i>');
+        $(".total-original-price").hide();
+        $(".discount-badge").hide();
         var value = convertFormToJSON($('form.custom-product-form'));
         var stringifiedData = JSON.stringify(value);
         stringifiedData = stringifiedData.replaceAll("properties[","");
@@ -67,16 +69,34 @@ function convertFormToJSON(form) {
           dataType: 'json',
           data: stringifiedData,
           success: function(responce){
+            console.log(responce);
             $('button.custom-product-submit').attr('disabled', false);
             $('button.custom-product-submit').html('Calculate Price');
             
             if((responce.totalRate != false && responce.totalRate != "false") && (responce.totalRate != 0 && responce.totalRate != null)){
+
               var calculatedUnitPrice = (responce.totalRate/value.quantity).toFixed(2);
+
               $("#calculated_price").val(calculatedUnitPrice);
               $(".unit-custom-price").html("$" + calculatedUnitPrice);
-              $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
-              $(".actions").removeClass("display-hidden");
 
+              if(value.quantity != 500){
+                
+                $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
+                
+              }else{
+                let discounted_price = (calculatedUnitPrice*value.quantity).toFixed(2)*(1 - responce.discountPercentage/100);
+                $(".total-custom-price").html("$" + (discounted_price).toFixed(2));
+                $(".total-original-price").show();
+                $(".total-original-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
+                $(".discount-badge").show();
+                $(".discount-badge").html(responce.discountPercentage + " % off");
+                $("#discounted_price").val(discounted_price);
+                $("#discount_percent").val(responce.discountPercentage);
+
+              }
+
+              $(".actions").removeClass("display-hidden");
 
             }else{
               if(responce.totalRate == 0 || responce.totalRate == null ){
@@ -104,7 +124,7 @@ function convertFormToJSON(form) {
         }, 1000);
       }
     }else{
-      event.preventdefault();
+      event.preventDefault();
     }
   });
 
@@ -462,7 +482,7 @@ function convertFormToJSON(form) {
     $(".tooltip-message").hide();
     onOptionsChange();
     var value = parseInt($(this).val());
-    if(value < 1 || value > 500 || value == 500 || (value > 250 && value < 500)){
+    if(value < 1 || value > 500 || (value > 250 && value < 500)){
       if(value < 1){
         $('p.quantity-error-message').html('Please enter the correct quantity value.');
         if(!$('input.custom-quantity-field').hasClass('wrong-value')){
@@ -526,8 +546,12 @@ function convertFormToJSON(form) {
 
   function onOptionsChange(){
     $("#calculated_price").val("");
+    $("#discounted_price").val("");
+    $("#discount_percent").val("");
     $(".unit-custom-price").html("$__");
     $(".total-custom-price").html("$__");
+    $(".total-original-price").hide();
+    $(".discount-badge").hide();
     $(".actions").addClass("display-hidden");
     localStorage.setItem("customBoxDimentions", "");
   } 
