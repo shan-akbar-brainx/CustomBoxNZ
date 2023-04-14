@@ -55,9 +55,9 @@
                         For more info on line item properties, visit:
                         - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
                         {% endcomment %}
-                        {%- assign calculated_price = null -%}
-                        {%- assign discounted_price = null -%}
-                        {%- assign discount_percent = null -%}
+                        {%- assign calculated_price = nil -%}
+                        {%- assign discounted_price = nil -%}
+                        {%- assign discount_percent = nil -%}
                         {%- assign property_size = item.properties | size -%}
                        {% if property_size > 0 %}
                         <div class="cart__meta-text">
@@ -76,15 +76,19 @@
                           {% endunless %}
                           {% endfor %}{%- endcomment -%}
                           {%- for p in item.properties -%}
-                          {%- if p.first == "_calculated_price" and p.last != ""-%}
-                            {%- assign calculated_price = p.last | times: 100 -%}
-                          {%- endif -%}
-                          {%- if p.first == "_discounted_price" -%}
-                            {%- assign discounted_price = p.last | times: 100 -%}
-                          {%- endif -%}
-                          {%- if p.first == "_discount_percent" -%}
-                            {%- assign discount_percent = p.last -%}
-                          {%- endif -%}  
+
+                            {%- if p.last != blank -%}
+                              {%- if p.first == "_calculated_price" and p.last != ""-%}
+                                {%- assign calculated_price = p.last | times: 100 -%}
+                              {%- endif -%}
+                              {%- if p.first == "_discounted_price" -%}
+                                {%- assign discounted_price = p.last | times: 100 -%}
+                              {%- endif -%}
+                              {%- if p.first == "_discount_percent" -%}
+                                {%- assign discount_percent = p.last -%}
+                              {%- endif -%}  
+                            {%- endif -%}
+                            
             {%- unless p.last == blank or p.first == "_calculated_price" or p.first == "_discounted_price" or p.first == "_discount_percent" -%}
               <li class="product-details__item product-details__item--property{% if property_size == 0 %} hide{% endif %}" data-cart-item-property>
                 <span class="product-details__item-label" data-cart-item-property-name>{{ p.first }}: </span>
@@ -108,21 +112,26 @@
                       </td>
                       <td data-label="{{ 'cart.label.price' | t }}" style="text-align:center;">
                         <span class="cart-price">
-                          {%- if calculated_price != null and discounted_price == null -%}
+                         
+                          {%- if calculated_price != blank -%}
                             <span class="money"><span>{{ calculated_price | money }}</span></span>
                             {%- assign item_total_price = calculated_price | times: item.quantity -%}
-                            {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
-                          {%- elsif calculated_price != null and discounted_price != null -%}
-                            {%- assign item_total_price = calculated_price | times: item.quantity -%}
-                            {%- assign total_custom_price = total_custom_price | plus: discounted_price -%}
+                            
+                            {%- if discounted_price -%}
+                              {%- assign total_custom_price = total_custom_price | plus: discounted_price -%}
+                            {%- else -%}
+                              {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                            {%- endif -%}
+                          
                           {%- else -%}
                             <span class="money"><span>{{ item.price | money }}</span></span>
                             {%- assign item_total_price = item.price | times: item.quantity -%}
                             {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
                           {%- endif -%}
+                         
                           </span>
-                        {% for discount in item.discounts %}
-                        <div class="cart-item__discount medium-up--hide">{{ discount.title }}</div>
+                        {% for discount in item.discounts %} 
+                          <div class="cart-item__discount medium-up--hide">{{ discount.title }}</div> 
                         {% endfor %}
                       </td>
                       <td class="a-center product-qty last" style="text-align:center;" data-label="{{ 'cart.label.quantity' | t }}">
@@ -136,13 +145,15 @@
                       </td> 
                       <td class="a-center item-total" style="text-align:center;">
                         <div>
-                          {% if discount_percent != null %}
+                        
+                          {% unless discount_percent == blank %}
                            <span>{{ discounted_price | money }}</span> 
-                          {% endif %}
-                          <span {% if discount_percent != null %}style="text-decoration:line-through;"{% endif %}>{{ item_total_price | money }}</span>
-                          {% if discount_percent != null %}
+                          {% endunless %}
+                          <span {% unless discount_percent == blank %}style="text-decoration:line-through;"{% endunless %}>{{ item_total_price | money }}</span>
+                          {% unless discount_percent == blank %}
                             <span>10% off</span> 
-                           {% endif %}
+                          {% endunless %}
+
                         </div>
                       </td> 
                       <td class="action-td" style="text-align:right;"><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="remove-item"><i class="icon-close"></i></a></td>

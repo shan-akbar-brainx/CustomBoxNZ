@@ -80,7 +80,7 @@ function convertFormToJSON(form) {
               $("#calculated_price").val(calculatedUnitPrice);
               $(".unit-custom-price").html("$" + calculatedUnitPrice);
 
-              if(value.quantity != 500){
+              if(!responce.discountPercentage){
                 
                 $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
                 
