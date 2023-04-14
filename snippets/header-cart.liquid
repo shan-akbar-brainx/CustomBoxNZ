@@ -1,15 +1,45 @@
 <div class="cart-container">
   {%- assign total_custom_price = 0 -%}
   {% for item in cart.items %}
+    
     {%- assign calculated_price = null -%}
+    {%- assign discounted_price = null -%}
+    {%- assign discount_percent_applied = null -%}
+    {%- assign discount_percent_amount = null -%}
+    {%- assign discount_minimum_quantity = null -%}
+    {%- assign discount_enabled = null -%}
+    {%- assign discount_applied = false -%}
     {%- for p in item.properties -%}
       {%- if p.first == "_calculated_price" and p.last != "" -%}
         {%- assign calculated_price = p.last | times: 100 -%}
       {%- endif -%}
+      {%- if p.first == "_discount_percent_amount" and p.last != "" -%}
+        {%- assign discount_percent_amount = p.last -%}
+      {%- endif -%}
+      {%- if p.first == "_discount_minimum_quantity" and p.last != "" -%}
+        {%- assign discount_minimum_quantity = p.last -%}
+      {%- endif -%}
+      {%- if p.first == "_discount_enabled" and p.last != "" -%}
+        {%- assign discount_enabled = p.last -%}
+      {%- endif -%}
     {%- endfor -%}
     {%- if calculated_price != null -%}
       {%- assign item_total_price = calculated_price | times: item.quantity -%}
-      {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+      
+      {%- assign discount_minimum_quantity = discount_minimum_quantity | times: 1 -%}
+      {%- if discount_enabled and item.quantity >= discount_minimum_quantity -%}
+        
+          {%- assign discount_percent_amount = discount_percent_amount | times: 1 -%} 
+          {%- assign discount_ratio = 100 | minus: discount_percent_amount -%}
+          {%- assign discount_ratio = discount_ratio | divided_by: 100.0 | round: 2 -%}
+          {%- assign discounted_price = item_total_price | times: discount_ratio | round: 2 -%}
+          
+          {%- assign total_custom_price = total_custom_price | plus: discounted_price | round: 2 -%}
+          {%- assign discount_applied = true -%}
+         
+      {%- else -%}
+        {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+      {%- endif -%}
     {%- else -%}
       {%- assign item_total_price = item.price | times: item.quantity -%}
       {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
@@ -37,12 +67,29 @@
           {% if cart.items != empty %}
             <ul class="clearfix">
               {%- assign total_custom_price = 0 -%}
+              {%- assign total_original_price = 0 -%}
+              {%- assign discount_applied_overall = false -%}
               {% for item in cart.items %}
                 <li class="item-cart">
                   {%- assign calculated_price = null -%}
+                  {%- assign discounted_price = null -%}
+                  {%- assign discount_percent_applied = null -%}
+                  {%- assign discount_percent_amount = null -%}
+                  {%- assign discount_minimum_quantity = null -%}
+                  {%- assign discount_enabled = null -%}
+                  
                   {%- for p in item.properties -%}
                     {%- if p.first == "_calculated_price" and p.last != "" -%}
                       {%- assign calculated_price = p.last | times: 100 -%}
+                    {%- endif -%}
+                    {%- if p.first == "_discount_percent_amount" and p.last != "" -%}
+                      {%- assign discount_percent_amount = p.last -%}
+                    {%- endif -%}
+                    {%- if p.first == "_discount_minimum_quantity" and p.last != "" -%}
+                      {%- assign discount_minimum_quantity = p.last -%}
+                    {%- endif -%}
+                    {%- if p.first == "_discount_enabled" and p.last != "" -%}
+                      {%- assign discount_enabled = p.last -%}
                     {%- endif -%}
                   {%- endfor -%}
                 </li>
@@ -76,15 +123,31 @@
                           </span>
                         </span>
                         {%- assign item_total_price = calculated_price | times: item.quantity -%}
-                        {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+      
+                        {%- assign discount_minimum_quantity = discount_minimum_quantity | times: 1 -%}
+                        {%- if discount_enabled and item.quantity >= discount_minimum_quantity -%}
+                          
+                            {%- assign discount_percent_amount = discount_percent_amount | times: 1 -%} 
+                            {%- assign discount_ratio = 100 | minus: discount_percent_amount -%}
+                            {%- assign discount_ratio = discount_ratio | divided_by: 100.0 | round: 2 -%}
+                            {%- assign discounted_price = item_total_price | times: discount_ratio | round: 2 -%}
+                            {%- assign total_original_price = total_original_price | plus: item_total_price -%}
+                            {%- assign total_custom_price = total_custom_price | plus: discounted_price | round: 2 -%}
+                            {%- assign discount_applied_overall = true -%}
+                          
+                        {%- else -%}
+                          {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                          {%- assign total_original_price = total_original_price | plus: item_total_price -%}
+                        {%- endif -%}
                       {%- else -%}
-                        <span data-key='{{item.key}}' class="price">{{ item.quantity }} ×
+                        <span data-key='{{ item.key }}' class="price">{{ item.quantity }} ×
                           <span class="amount">
                             <span class="money">{{ item.price | money }}</span>
                           </span>
                         </span>
                         {%- assign item_total_price = item.price | times: item.quantity -%}
                         {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
+                        {%- assign total_original_price = total_original_price | plus: item_total_price -%}
                       {%- endif -%}
                     </div>
                     <div class="access">
@@ -112,6 +175,8 @@
                 <span class="label" {% if settings.language_enable %}data-translate="cart.header.total"{% endif %}>{{ 'cart.header.total' | t }}</span>
                 <span class="price">
                   <span class="money">{{ total_custom_price | money }}</span>
+                  <span class="money"{%- if discount_applied_overall -%}style="text-decoration: line-through;"{% else %} style="display:none;"{%- endif -%}>{{ total_original_price | money }}</span>
+                  <span style="color:red;{%- unless discount_applied_overall -%}display:none;{%- endunless -%}"><br/>{{ discount_percent_amount }}% off, {{ discount_minimum_quantity }} quantity discount.</span>
                 </span>
               </p>
             </div>

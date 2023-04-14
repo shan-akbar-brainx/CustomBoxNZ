@@ -57,7 +57,11 @@
                         {% endcomment %}
                         {%- assign calculated_price = nil -%}
                         {%- assign discounted_price = nil -%}
-                        {%- assign discount_percent = nil -%}
+                        {%- assign discount_percent_applied = nil -%}
+                        {%- assign discount_percent_amount = nil -%}
+                        {%- assign discount_minimum_quantity = nil -%}
+                        {%- assign discount_enabled = nil -%}
+                        {%- assign discount_applied = false -%}
                         {%- assign property_size = item.properties | size -%}
                        {% if property_size > 0 %}
                         <div class="cart__meta-text">
@@ -84,12 +88,21 @@
                               {%- if p.first == "_discounted_price" -%}
                                 {%- assign discounted_price = p.last | times: 100 -%}
                               {%- endif -%}
-                              {%- if p.first == "_discount_percent" -%}
-                                {%- assign discount_percent = p.last -%}
+                              {%- if p.first == "_discount_percent_applied" -%}
+                                {%- assign discount_percent_applied = p.last -%}
+                              {%- endif -%}  
+                              {%- if p.first == "_discount_percent_amount" -%}
+                                {%- assign discount_percent_amount = p.last -%}
+                              {%- endif -%}  
+                              {%- if p.first == "_discount_minimum_quantity" -%}
+                                {%- assign discount_minimum_quantity = p.last -%}
+                              {%- endif -%}  
+                              {%- if p.first == "_discount_enabled" -%}
+                                {%- assign discount_enabled = p.last -%}
                               {%- endif -%}  
                             {%- endif -%}
                             
-            {%- unless p.last == blank or p.first == "_calculated_price" or p.first == "_discounted_price" or p.first == "_discount_percent" -%}
+            {%- unless p.last == blank or p.first == "_calculated_price" or p.first == "_discounted_price" or p.first == "_discount_percent_applied" or p.first == "_discount_percent_amount" or p.first == "_discount_minimum_quantity" or p.first == "_discount_enabled" -%}
               <li class="product-details__item product-details__item--property{% if property_size == 0 %} hide{% endif %}" data-cart-item-property>
                 <span class="product-details__item-label" data-cart-item-property-name>{{ p.first }}: </span>
 
@@ -117,11 +130,21 @@
                             <span class="money"><span>{{ calculated_price | money }}</span></span>
                             {%- assign item_total_price = calculated_price | times: item.quantity -%}
                             
-                            {%- if discounted_price -%}
-                              {%- assign total_custom_price = total_custom_price | plus: discounted_price -%}
+                            {%- assign discount_minimum_quantity = discount_minimum_quantity | times: 1 -%}
+                            {%- if discount_enabled and item.quantity >= discount_minimum_quantity -%}
+                              
+                                {%- assign discount_percent_amount = discount_percent_amount | times: 1 -%} 
+                                {%- assign discount_ratio = 100 | minus: discount_percent_amount -%}
+                                {%- assign discount_ratio = discount_ratio | divided_by: 100.0 | round: 2 -%}
+                                {%- assign discounted_price = item_total_price | times: discount_ratio | round: 2 -%}
+                                
+                                {%- assign total_custom_price = total_custom_price | plus: discounted_price | round: 2 -%}
+                                {%- assign discount_applied = true -%}
+                               
                             {%- else -%}
                               {%- assign total_custom_price = total_custom_price | plus: item_total_price -%}
                             {%- endif -%}
+                           
                           
                           {%- else -%}
                             <span class="money"><span>{{ item.price | money }}</span></span>
@@ -146,12 +169,12 @@
                       <td class="a-center item-total" style="text-align:center;">
                         <div>
                         
-                          {% unless discount_percent == blank %}
+                          {% unless discount_applied == false %}
                            <span>{{ discounted_price | money }}</span> 
                           {% endunless %}
-                          <span {% unless discount_percent == blank %}style="text-decoration:line-through;"{% endunless %}>{{ item_total_price | money }}</span>
-                          {% unless discount_percent == blank %}
-                            <span>10% off</span> 
+                          <span {% unless discount_applied == false %}style="text-decoration:line-through;"{% endunless %}>{{ item_total_price | money }}</span>
+                          {% unless discount_applied == false %}
+                            <span class="cart-discount-field"><br/>{{ discount_percent_amount}}% off, {{ discount_minimum_quantity }} quantity discount.</span> 
                           {% endunless %}
 
                         </div>

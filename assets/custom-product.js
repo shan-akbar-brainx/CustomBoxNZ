@@ -80,21 +80,25 @@ function convertFormToJSON(form) {
               $("#calculated_price").val(calculatedUnitPrice);
               $(".unit-custom-price").html("$" + calculatedUnitPrice);
 
-              if(!responce.discountPercentage){
-                
-                $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
-                
-              }else{
+              if(responce.isDiscountEnabled && responce.discountPercentage){
                 let discounted_price = (calculatedUnitPrice*value.quantity).toFixed(2)*(1 - responce.discountPercentage/100);
                 $(".total-custom-price").html("$" + (discounted_price).toFixed(2));
                 $(".total-original-price").show();
                 $(".total-original-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
                 $(".discount-badge").show();
-                $(".discount-badge").html(responce.discountPercentage + " % off");
+                $(".discount-badge").html(responce.discountPercentage + "% off, " + responce.discountMinimumQuantity + " quantity discount.");
                 $("#discounted_price").val(discounted_price);
-                $("#discount_percent").val(responce.discountPercentage);
+                
+                
+              }else{
+                
+                $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
 
               }
+                $("#discount_percent_applied").val(responce.discountPercentage);
+                $("#discount_percent_amount").val(responce.quantityDiscountPercentage);
+                $("#discount_minimum_quantity").val(responce.discountMinimumQuantity);
+                $("#discount_enabled").val(responce.isDiscountEnabled);
 
               $(".actions").removeClass("display-hidden");
 
@@ -547,7 +551,10 @@ function convertFormToJSON(form) {
   function onOptionsChange(){
     $("#calculated_price").val("");
     $("#discounted_price").val("");
-    $("#discount_percent").val("");
+    $("#discount_percent_applied").val("");
+    $("#discount_percent_amount").val("");
+    $("#discount_minimum_quantity").val("");
+    $("#discount_enabled").val("");
     $(".unit-custom-price").html("$__");
     $(".total-custom-price").html("$__");
     $(".total-original-price").hide();
