@@ -78,11 +78,11 @@ function convertFormToJSON(form) {
               var calculatedUnitPrice = (responce.totalRate/value.quantity).toFixed(2);
 
               $("#calculated_price").val(calculatedUnitPrice);
-              $(".unit-custom-price").html("$" + calculatedUnitPrice);
+              $(".unit-custom-price").html("$" + calculatedUnitPrice + " + GST");
 
               if(responce.isDiscountEnabled && responce.discountPercentage){
                 let discounted_price = (calculatedUnitPrice*value.quantity).toFixed(2)*(1 - responce.discountPercentage/100);
-                $(".total-custom-price").html("$" + (discounted_price).toFixed(2));
+                $(".total-custom-price").html("$" + (discounted_price).toFixed(2) + " + GST");
                 $(".total-original-price").show();
                 $(".total-original-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
                 $(".discount-badge").show();
@@ -92,7 +92,7 @@ function convertFormToJSON(form) {
                 
               }else{
                 
-                $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
+                $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2) + " + GST");
 
               }
                 $("#discount_percent_applied").val(responce.discountPercentage);
