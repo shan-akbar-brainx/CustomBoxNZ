@@ -18,6 +18,7 @@
                   </div>  
                   <div class="form-box">
                     {% form 'customer_login' %} 
+                    <input type="hidden" id="customer_login_return" name="return_to" value="/">
                     {{ form.errors | default_errors }}
                     <div class="content">
                       <ul class="form-list">
@@ -101,6 +102,7 @@
                   <p {% if settings.language_enable %}data-translate="customer.login.register_content"{% endif %}>{{ 'customer.login.register_content' | t }}</p>
                   <div class="form-box">
                     {% form 'create_customer' %} 
+                    <input type="hidden" id="customer_register_return" name="return_to" value="/">
                     {{ form.errors | default_errors }}
                     <div class="content"> 
                       <ul class="form-list">
@@ -138,3 +140,12 @@
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(function(){
+    let REDIRECT_URL = localStorage.getItem("redirectUrl");
+    if(REDIRECT_URL){
+      $("#customer_login_return").val(REDIRECT_URL);
+      $("#customer_register_return").val(REDIRECT_URL);
+    }
+  });
+</script>

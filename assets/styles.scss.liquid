@@ -9852,7 +9852,7 @@ input.custom-quantity-field{
   font-weight: bold;
 }
 
-.custom-button-wrapper{
+.custom-button-wrapper, .custom-save-quote-button-wrapper{
   display: inline-block;
 }
 
@@ -9860,12 +9860,16 @@ input.custom-quantity-field{
   background-color: #f16321 !important;
 }
 
-.custom-product-submit{
+.custom-product-submit, .custom-save-quote{
   margin-top: 20px;
   height: 55px;
   padding: 14px 39px;
   width: 183px;
   text-align: center;
+}
+
+#custom_actions{
+  display: block;
 }
 
 .fa-spinner{
@@ -9875,9 +9879,11 @@ input.custom-quantity-field{
 .custom-action-list{
   padding-bottom: 10px;
   margin-top: 0px;
+  max-width: 371px;
+  width: 100%;
 }
 
-button.custom-product-submit:hover{
+button.custom-product-submit:hover, button.custom-save-quote:hover{
   background-color: darkorange;
 }
 
@@ -9911,7 +9917,7 @@ button.custom-checkout-button{
   margin: 0;
 }
 
-button.custom-product-submit:disabled{
+button.custom-product-submit:disabled, button.custom-save-quote:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
@@ -9931,6 +9937,10 @@ button.custom-cart-page-checkout-button:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
+}
+
+button.custom-product-add-to-cart{
+  width: 100%;
 }
 
 .custombox-text{
@@ -9978,12 +9988,16 @@ p.height-note-message{
   display: none;
 }
 
-.custom-contact-form-success{
+.custom-contact-form-success, .save-quote-form-success{
   color: green;
   border: 1px solid green;
   padding: 10px;
   max-width: 400px;
   display: none;
+}
+
+.save-quote-form-success__bottom{
+  margin-top: 22px;
 }
 
 .custom-product-form .error{

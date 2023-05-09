@@ -35,6 +35,65 @@ function convertFormToJSON(form) {
         }, 1000);
       }   
   });
+  
+  $( document ).ready(function(){
+
+    let currentSelectionString = localStorage.getItem("currentSelection");
+
+    if(currentSelectionString){
+      
+      let currentSelection = JSON.parse(currentSelectionString);
+      $("#boxStyle").val(currentSelection.boxStyle).change();
+      $("#boardGrade").val(currentSelection.boardGrade).change();
+      $("#length").val(currentSelection.length).change();
+      $("#width").val(currentSelection.width).change();
+      $("#height").val(currentSelection.height).change();
+      if(currentSelection.includeLid == "true"){
+        $("#yes").prop("checked", true);  
+      }else{
+        $("#no").prop("checked", true);
+      }
+      $("#qty").val(currentSelection.quantity).change();
+      $("#calculate_price").click();
+        
+        localStorage.setItem("currentSelection", "");
+        localStorage.setItem("redirectUrl", "");
+
+        //here comes the api link to save quote
+
+        $('.save-quote-form-success').show();
+        setTimeout(function() { $(".save-quote-form-success").fadeOut(1500); }, 5000);
+        
+    }
+    
+  });
+
+  $( ".custom-save-quote" ).on("click", function(event){
+    event.preventDefault();
+    let customerId = $(this).data("customerid");
+
+    if(customerId){
+
+      //here comes the api link to save quote
+      $('.save-quote-form-success').show();
+      setTimeout(function() { $(".save-quote-form-success").fadeOut(1500); }, 5000);
+
+    }else{
+      let currentSelection = {
+        "boxStyle": $("#boxStyle").val(),
+        "boardGrade": $("#boardGrade").val(),
+        "length": $("#length").val(),
+        "width": $("#width").val(),
+        "height": $("#height").val(),
+        "includeLid": $("input[name='properties[includeLid]']:checked").val(),
+        "quantity": $("#qty").val()
+      }
+      let currentSelectionString = JSON.stringify(currentSelection);
+      localStorage.setItem("currentSelection", currentSelectionString);
+      localStorage.setItem("redirectUrl", window.location.pathname);
+      window.location.href = "/account/login";
+    }
+  });
 
   $( ".custom-product-submit" ).on( "click", function( event ) {
 
@@ -101,6 +160,7 @@ function convertFormToJSON(form) {
                 $("#discount_enabled").val(responce.isDiscountEnabled);
 
               $(".actions").removeClass("display-hidden");
+              $(".custom-save-quote-button-wrapper").removeClass("display-hidden");
 
             }else{
               if(responce.totalRate == 0 || responce.totalRate == null ){
@@ -500,6 +560,30 @@ function convertFormToJSON(form) {
       
       if(value > 250 && value < 500){
         $(".tooltip-message").show();
+        $('#product-main-form').attr('action', '/cart/add');
+        $('#boxStyle').attr('name', 'properties[boxStyle]');
+        $('#boardGrade').attr('name', 'properties[boardGrade]');
+        $('#length').attr('name', 'properties[length]');
+        $('#width').attr('name', 'properties[width]');
+        $('#height').attr('name', 'properties[height]');
+        $('#yes').attr('name', 'properties[includeLid]');
+        $('#no').attr('name', 'properties[includeLid]');
+        $('#qty').attr('name', 'quantity');
+        $('.custom-contact-form-wrapper').hide();
+        $('.custom-button-wrapper').show();
+        $('.total-custom-price-wrapper').show();
+        $('.unit-custom-price-wrapper').show();
+
+        if($('input.custom-quantity-field').hasClass('wrong-value')){
+
+          $('p.quantity-error-message').html(''); 
+          $('input.custom-quantity-field').removeClass('wrong-value');
+          $('form.custom-product-form').removeClass('has-error');
+          var errorCount = $('form.custom-product-form').data("errorcount");
+          errorCount -= 1;
+          $('form.custom-product-form').data("errorcount", errorCount);
+
+        }
       }
 
       if(value > 500){
@@ -560,6 +644,7 @@ function convertFormToJSON(form) {
     $(".total-original-price").hide();
     $(".discount-badge").hide();
     $(".actions").addClass("display-hidden");
+    $(".custom-save-quote-button-wrapper").addClass("display-hidden");
     localStorage.setItem("customBoxDimentions", "");
   } 
 

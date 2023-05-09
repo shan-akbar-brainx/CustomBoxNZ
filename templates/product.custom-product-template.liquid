@@ -187,6 +187,9 @@
                             {% endfor %}
                           </select> 
                         </div> 
+                        <p class="note form-success save-quote-form-success">
+                          Your Quote was saved successfully! Click here to see all your saved quotes.
+                        </p>
                         <p class="note form-success custom-contact-form-success" {% if settings.language_enable %}data-translate="contact.form.post_success"{% endif %}>
                           {{ 'contact.form.post_success' | t }}
                         </p>
@@ -268,11 +271,18 @@
                             <div>
                               <p class="error-message price-error-message"></p>
                             </div>
-                            
+                            <p class="note form-success save-quote-form-success save-quote-form-success__bottom">
+                              Your Quote was saved successfully! Click here to see all your saved quotes.
+                            </p>
                             <div class="custom-button-wrapper">
-                              <button class="custom-product-submit">Calculate Price</button>
-                            </div> 
-                            <div class="actions display-hidden">
+                              <button class="custom-product-submit" id="calculate_price" >Calculate Price</button>
+                            </div>
+
+                            <div class="custom-save-quote-button-wrapper display-hidden"> 
+                              <button class="custom-save-quote" data-customerid="{{ customer.id }}">Save Quote</button>
+                            </div>
+                            
+                            <div class="actions display-hidden" id="custom_actions">
                               <div class="action-list addtocart custom-action-list">
                                 <div class="button-wrapper">
                                   
