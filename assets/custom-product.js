@@ -35,9 +35,55 @@ function convertFormToJSON(form) {
         }, 1000);
       }   
   });
-  
-  $( document ).ready(function(){
 
+  async function saveQuoteAPI(quoteObject){
+    let responce = await fetch('http://localhost:4001/saveQuote', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        quoteObject: quoteObject
+      }),
+      mode: 'cors'
+    });
+    
+    return responce;
+  }
+
+  async function saveQuote(customerId){
+    $('button.custom-save-quote').attr('disabled','true');
+        $('button.custom-save-quote').html('<i class="fa fa-spinner fa-spin"></i>');
+        //here comes the api link to save quote
+        let quote = {
+          "user_id": customerId,
+          "box_style": $("#boxStyle").val(),
+          "board_grade": $("#boardGrade").val(),
+          "length": $("#length").val(),
+          "width": $("#width").val(),
+          "height": $("#height").val(),
+          "include_lid": $("input[name='properties[includeLid]']:checked").val(),
+          "quantity": $("#qty").val(),
+          "unit_price": $("#calculated_price").val(),
+          "total_price": ($("#calculated_price").val() * $("#qty").val()).toFixed(2)
+        };
+        let responce = await saveQuoteAPI(JSON.stringify(quote));
+        $('button.custom-save-quote').attr('disabled', false);
+        $('button.custom-save-quote').html('Save Quote');
+        if(responce.status == 201){
+          $('.save-quote-form-success').show();
+          setTimeout(function() { $(".save-quote-form-success").fadeOut(1500); }, 5000);
+        }else if(responce.status == 409){
+          $('.save-quote-form-error').show();
+          $('.save-quote-form-error').text("Error: Quote already saved!!");
+          setTimeout(function() { $(".save-quote-form-error").fadeOut(1500); }, 5000);
+        }else{
+          $('.save-quote-form-error').show();
+          $('.save-quote-form-error').text("Error: Some unusual error happened, please try again!");
+          setTimeout(function() { $(".save-quote-form-error").fadeOut(1500); }, 5000);
+        }
+  }
+  async function reloadCurrentSelection(){
     let currentSelectionString = localStorage.getItem("currentSelection");
 
     if(currentSelectionString){
@@ -54,29 +100,35 @@ function convertFormToJSON(form) {
         $("#no").prop("checked", true);
       }
       $("#qty").val(currentSelection.quantity).change();
-      $("#calculate_price").click();
+      $("#calculated_price").val(currentSelection.unitPrice);
+      await $("#calculate_price").click();
         
-        localStorage.setItem("currentSelection", "");
-        localStorage.setItem("redirectUrl", "");
+      localStorage.setItem("currentSelection", "");
+      localStorage.setItem("redirectUrl", "");
 
         //here comes the api link to save quote
 
-        $('.save-quote-form-success').show();
-        setTimeout(function() { $(".save-quote-form-success").fadeOut(1500); }, 5000);
+      let customerId = $(".custom-save-quote").data("customerid");
+
+      if(customerId){
+        saveQuote(customerId);
+      }
         
     }
+  }
+  $( document ).ready(function(){
+
+    reloadCurrentSelection();
     
   });
 
-  $( ".custom-save-quote" ).on("click", function(event){
+  $( ".custom-save-quote" ).on("click", async function(event){
     event.preventDefault();
     let customerId = $(this).data("customerid");
 
     if(customerId){
 
-      //here comes the api link to save quote
-      $('.save-quote-form-success').show();
-      setTimeout(function() { $(".save-quote-form-success").fadeOut(1500); }, 5000);
+      saveQuote(customerId);
 
     }else{
       let currentSelection = {
@@ -86,7 +138,8 @@ function convertFormToJSON(form) {
         "width": $("#width").val(),
         "height": $("#height").val(),
         "includeLid": $("input[name='properties[includeLid]']:checked").val(),
-        "quantity": $("#qty").val()
+        "quantity": $("#qty").val(),
+        "unitPrice": $("#calculated_price").val()
       }
       let currentSelectionString = JSON.stringify(currentSelection);
       localStorage.setItem("currentSelection", currentSelectionString);
@@ -95,7 +148,7 @@ function convertFormToJSON(form) {
     }
   });
 
-  $( ".custom-product-submit" ).on( "click", function( event ) {
+  $( ".custom-product-submit" ).on( "click", async function( event ) {
 
     $(".custom-product-form").validate().element("#boxStyle");
     $(".custom-product-form").validate().element("#boardGrade");
@@ -119,7 +172,7 @@ function convertFormToJSON(form) {
         stringifiedData = stringifiedData.replaceAll("properties[","");
         stringifiedData = stringifiedData.replaceAll("]","");
 
-        $.ajax({
+       let finalResponce = await $.ajax({
           type: "POST",
           url: "https://custombox.mediagiant.co.nz/api/v1/custom-box/get-price?shop=customboxnz.myshopify.com",
           headers: {
@@ -128,7 +181,7 @@ function convertFormToJSON(form) {
           dataType: 'json',
           data: stringifiedData,
           success: function(responce){
-            console.log(responce);
+            
             $('button.custom-product-submit').attr('disabled', false);
             $('button.custom-product-submit').html('Calculate Price');
             
@@ -180,8 +233,8 @@ function convertFormToJSON(form) {
             $('p.general-error-message').html("Some unusual error happened, please try again.");
           }
         }
-
         });
+        return finalResponce;
       }else{
         $('html, body').animate({
           scrollTop: $(".wrong-value").offset().top - 300
@@ -190,6 +243,7 @@ function convertFormToJSON(form) {
     }else{
       event.preventDefault();
     }
+    
   });
 
   $('select.box-style').change(function(){
