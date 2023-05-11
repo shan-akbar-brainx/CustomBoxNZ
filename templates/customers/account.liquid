@@ -126,8 +126,7 @@
       let data = await responce.text();
       let parsed_data = JSON.parse(data);
       
-      let quote_template_heading = `<div class='my-quotes-heading'><h2>Your Saved Quotes</h2></div>
-                                    <a href="#${scrolToId}" id="click_to_scroll" style="opacity:0;">Go to Quote</a>`
+      let quote_template_heading = `<div class='my-quotes-heading'><h2>Your Saved Quotes</h2></div>`
       $("#my_quotes").html(quote_template_heading);
       for(let i=0 ; i < parsed_data.length ; ++i){
         let quote = parsed_data[i];
@@ -160,11 +159,6 @@
     }
     $('#view-my-quotes').attr('disabled', false);
     $('#view-my-quotes').html('View My Quotes');
-    let scrolToId =  $("#view-my-quotes").data("scrollto");
-    if(scrolToId){
-      $("#click_to_scroll").click();
-      $("#view-my-quotes").data("scrollto", "");
-    }
 });
 
 
@@ -207,18 +201,5 @@ $(document).on('click', 'button.select-quote-btn', async function (e) {
   
 });
 
-
-$(document).ready(function(){
-  let url = window.location.href;
-  let url_split_array = url.split("#");
-  if(url_split_array.length > 1){
-    let unique_id = url_split_array[1];
-    if(unique_id){
-      $("#view-my-quotes").data("scrollto", unique_id);
-      $("#view-my-quotes").click();
-    }
-  }
-  
-});
 </script>
   
