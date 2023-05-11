@@ -2,12 +2,15 @@
 {% include 'breadcrumb' %}
 <div class="container">
   <div class="row">
-  <div class="account-dashboard">  
+  <div class="account-dashboard">
     <div class="col-sm-12">
       <div class="main-account">
         <div class="my-account">  
           <h5>{{ customer.name }} <span><a href="/account/logout" {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>({{ 'customer.logout.title' | t }})</a></span></h5>
           <div class="content">
+            <div class="view-my-quotes-wrapper"><button id="view-my-quotes" data-customerid="{{ customer.id }}">View My Quotes</button></div>
+            
+            <div id="my_quotes"></div>
           	{% if customer.default_address != nil %}
               <p>
               {{ customer.default_address.address1 }}<br>
@@ -90,3 +93,132 @@
   </div>
   </div>
 </div>
+
+<script>
+  const box_style_names = {
+    "RSC": "Regular Slotted Case (RSC)",
+    "FOLF": "Fully Overlapping Flap RSC (FOLF)",
+    "HSC": "Half Slotted Case (HSC)",
+    "B&L": "Box and Lid (B&L)",
+    "5PF": "5 Panel Folder (5PF)"
+  };
+
+  const board_grade_names = {
+    "KSC": "Kraft Single Cushion B Flute",
+    "KTC": "Kraft Twin Cushion BC Flute",
+    "WSC": "White Single Cushion B Flute"
+  };
+
+  $("#view-my-quotes").click(async function(){
+    $('#view-my-quotes').attr('disabled','true');
+    $('#view-my-quotes').html('<i class="fa fa-spinner fa-spin"></i>');
+    let customerId = $(this).data("customerid");
+    let responce = await fetch('http://localhost:4001/findQuotes:' + customerId, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors'
+    });
+    if(responce.status == 200){
+      let scrolToId =  $("#view-my-quotes").data("scrollto");
+      console.log(scrolToId);
+      let data = await responce.text();
+      let parsed_data = JSON.parse(data);
+      
+      let quote_template_heading = `<div class='my-quotes-heading'><h2>Your Saved Quotes</h2></div>
+                                    <a href="#${scrolToId}" id="click_to_scroll" style="opacity:0;">Go to Quote</a>`
+      $("#my_quotes").html(quote_template_heading);
+      for(let i=0 ; i < parsed_data.length ; ++i){
+        let quote = parsed_data[i];
+        let quote_template = `<div id="${quote.unique_id}" class="quote-table-wrapper">
+                              <h3>Quote Number #${i + 1}:</h3>
+                              <table class="quotes-table">
+                              <tr><th>Label</th><th>Value</th></tr>  
+                               <tr><td>Box Style</td><td>${box_style_names[quote.box_style]}</td></tr>
+                               <tr><td>Board Grade</td><td>${board_grade_names[quote.board_grade]}</td></tr>
+                               <tr><td>Box Length</td><td>${quote.length}mm</td></tr>
+                               <tr><td>Box Width</td><td>${quote.width}mm</td></tr>
+                               <tr><td>Box Height</td><td>${quote.height}mm</td></tr>
+                               <tr><td>Include Lid</td><td>${quote.include_lid}</td></tr>
+                               <tr><td>Quantity</td><td>${quote.quantity}</td></tr>
+                               <tr><td>Unit Price</td><td>$${quote.unit_price}</td></tr>
+                               <tr><td>Total Price</td><td>$${quote.total_price}</td></tr>
+                              </table>
+                              <div class="select-quote-btn-wrapper">
+                                <button class="select-quote-btn" data-quoteuniqueid="${quote.unique_id}" data-quoteindex="${i + 1}">Proceed with Quote #${i + 1}</button>
+                              </div>
+                            </div>`;
+         $("#my_quotes").append(quote_template);               
+      }
+
+      if(parsed_data.length == 0){
+        $("#my_quotes").html("<div class='my-quotes-heading'><p class='quote-message'>No Quotes Found!</p></div>");
+      }
+    }else{
+      $("#my_quotes").html("<div class='my-quotes-heading'><p class='quote-message'>Some unusual error happened! Please try again!</p></div>");
+    }
+    $('#view-my-quotes').attr('disabled', false);
+    $('#view-my-quotes').html('View My Quotes');
+    let scrolToId =  $("#view-my-quotes").data("scrollto");
+    if(scrolToId){
+      $("#click_to_scroll").click();
+      $("#view-my-quotes").data("scrollto", "");
+    }
+});
+
+
+$(document).on('click', 'button.select-quote-btn', async function (e) {
+  $(this).attr('disabled','true');
+  $(this).html('<i class="fa fa-spinner fa-spin"></i>');
+  let uniqueId = $(this).data("quoteuniqueid");
+  let quoteIndex = $(this).data("quoteindex");
+  let responce = await fetch('http://localhost:4001/findQuote:' + uniqueId, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors'
+  });
+  if(responce.status == 200){
+    let data = await responce.text();
+    let parsed_data = JSON.parse(data);
+    let quoteObject = parsed_data[0];
+    let currentSelection = {
+      "boxStyle": quoteObject.box_style,
+      "boardGrade": quoteObject.board_grade,
+      "length": quoteObject.length,
+      "width": quoteObject.width,
+      "height": quoteObject.height,
+      "includeLid": quoteObject.include_lid,
+      "quantity": quoteObject.quantity,
+      "unitPrice": quoteObject.unit_price,
+      "uniqueId": quoteObject.unique_id
+    }
+    let currentSelectionString = JSON.stringify(currentSelection);
+    localStorage.setItem("currentSelection", currentSelectionString);
+    window.location.href = "/products/custom-box?variant=43254622945517";
+  }else{
+  
+  }
+  $(this).attr('disabled',false);
+  $(this).html('Proceed with Quote #' + quoteIndex);
+  
+  
+});
+
+
+$(document).ready(function(){
+  let url = window.location.href;
+  let url_split_array = url.split("#");
+  if(url_split_array.length > 1){
+    let unique_id = url_split_array[1];
+    if(unique_id){
+      $("#view-my-quotes").data("scrollto", unique_id);
+      $("#view-my-quotes").click();
+    }
+  }
+  
+});
+</script>
+  

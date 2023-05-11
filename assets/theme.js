@@ -1332,11 +1332,11 @@ var SW = SW || {};
       })
     },
     addToCart: function(){  
-      $(document).on("click", ".add-to-cart", function(e) {
+      $(document).on("click", ".add-to-cart", async function(e) {
         e.preventDefault(); 
         var a = $(this); 
         var form = a.closest("form");
-        return $.ajax({
+        await $.ajax({
           type: "POST",
           url: "/cart/add.js",
           async: !0,
@@ -1390,6 +1390,15 @@ var SW = SW || {};
             return false;
           },
           cache: !1
+        });
+        //remove this quote after adding into cart, if quote is saved into database
+        let quoteUniqueId = $(this).data("quoteuniqueid");
+        let responce = await fetch('http://localhost:4001/deleteQuote:' + quoteUniqueId, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: 'cors'
         });
       });
     },

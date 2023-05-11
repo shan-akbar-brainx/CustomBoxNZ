@@ -188,7 +188,7 @@
                           </select> 
                         </div> 
                         <p class="note form-success save-quote-form-success">
-                          Your Quote was saved successfully! Click here to see all your saved quotes.
+                          Your Quote was saved successfully! Click <a href="/account" target="_blank">here</a> to see all your saved quotes.
                         </p>
                         <p class="note form-error save-quote-form-error">
                          
@@ -275,7 +275,7 @@
                               <p class="error-message price-error-message"></p>
                             </div>
                             <p class="note form-success save-quote-form-success save-quote-form-success__bottom">
-                              Your Quote was saved successfully! Click here to see all your saved quotes.
+                              Your Quote was saved successfully! Click <a href="/account" target="_blank">here</a> to see all your saved quotes.
                             </p>
                             <p class="note form-error save-quote-form-error save-quote-form-error__bottom">
                               
@@ -296,7 +296,7 @@
                                   
                                   <div class="button-wrapper-content"> 
                                   
-                                  <button type="submit" name="add" class="btn-cart add-to-cart bordered uppercase custom-product-add-to-cart">                        
+                                  <button type="submit" name="add" class="btn-cart add-to-cart bordered uppercase custom-product-add-to-cart" data-quoteuniqueid="">                        
                                       <span>
                                         <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
                                       </span>
@@ -318,6 +318,12 @@
                               <div class="action-list wishlist wishlist-{{product.id}}">
                                 {% include 'wishlist-product-detail'%}
                               </div>
+                              
+                            </div>
+                            <div class="saved-quotes-link">
+                              {% if customer.id %}
+                                <a href="/account">View your saved quotes</a> 
+                              {% endif %}
                             </div>
                           </div>
                         </div>

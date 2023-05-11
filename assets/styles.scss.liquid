@@ -9860,7 +9860,7 @@ input.custom-quantity-field{
   background-color: #f16321 !important;
 }
 
-.custom-product-submit, .custom-save-quote{
+.custom-product-submit, .custom-save-quote, #view-my-quotes, .select-quote-btn{
   margin-top: 20px;
   height: 55px;
   padding: 14px 39px;
@@ -9883,7 +9883,7 @@ input.custom-quantity-field{
   width: 100%;
 }
 
-button.custom-product-submit:hover, button.custom-save-quote:hover{
+button.custom-product-submit:hover, button.custom-save-quote:hover, #view-my-quotes:hover, .select-quote-btn:hover{
   background-color: darkorange;
 }
 
@@ -9917,7 +9917,7 @@ button.custom-checkout-button{
   margin: 0;
 }
 
-button.custom-product-submit:disabled, button.custom-save-quote:disabled{
+button.custom-product-submit:disabled, button.custom-save-quote:disabled, #view-my-quotes:disabled, .select-quote-btn:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
@@ -10049,6 +10049,72 @@ p.height-note-message{
 }
 
 .cart-discount-field{
+  color: red;
+}
+
+.my-quotes-heading{
+  text-align: center;
+}
+
+.quote-table-wrapper{
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.quote-table-wrapper h3{
+  margin-top: 20px;
+}
+
+#my_quotes table{
+ table-layout: fixed;
+}
+
+.quotes-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.quotes-table td, .quotes-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.quotes-table tr:nth-child(even){background-color: #f2f2f2;}
+
+.quotes-table tr:hover {background-color: #ddd;}
+
+.quotes-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #f16321;
+  color: white;
+}
+
+.select-quote-btn-wrapper{
+  text-align: center;
+}
+
+.select-quote-btn{
+  width: 236px !important; 
+}
+
+.view-my-quotes-wrapper{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.saved-quotes-link{
+  margin-top: 20px;
+}
+
+.saved-quotes-link a, .save-quote-form-success a{
+  text-decoration: underline;
+  color: blue !important;
+}
+
+.quote-message{
   color: red;
 }
 

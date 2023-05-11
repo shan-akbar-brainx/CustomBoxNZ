@@ -67,10 +67,14 @@ function convertFormToJSON(form) {
           "unit_price": $("#calculated_price").val(),
           "total_price": ($("#calculated_price").val() * $("#qty").val()).toFixed(2)
         };
+
         let responce = await saveQuoteAPI(JSON.stringify(quote));
         $('button.custom-save-quote').attr('disabled', false);
         $('button.custom-save-quote').html('Save Quote');
         if(responce.status == 201){
+          let savedQuote = await responce.text();
+          let parsed_data = JSON.parse(savedQuote);
+          $('.save-quote-form-success > a').attr("href", "/account#" + parsed_data.unique_id);
           $('.save-quote-form-success').show();
           setTimeout(function() { $(".save-quote-form-success").fadeOut(1500); }, 5000);
         }else if(responce.status == 409){
@@ -103,17 +107,19 @@ function convertFormToJSON(form) {
       $("#calculated_price").val(currentSelection.unitPrice);
       await $("#calculate_price").click();
         
+      //here comes the api link to save quote
+      let redirectUrl =  localStorage.getItem("redirectUrl");
+        if(redirectUrl){
+        let customerId = $(".custom-save-quote").data("customerid");
+
+        if(customerId){
+          saveQuote(customerId);
+        }
+      }else{
+        $(".custom-product-add-to-cart").data("quoteuniqueid", currentSelection.uniqueId);
+      }
       localStorage.setItem("currentSelection", "");
       localStorage.setItem("redirectUrl", "");
-
-        //here comes the api link to save quote
-
-      let customerId = $(".custom-save-quote").data("customerid");
-
-      if(customerId){
-        saveQuote(customerId);
-      }
-        
     }
   }
   $( document ).ready(function(){
