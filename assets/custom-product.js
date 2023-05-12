@@ -74,7 +74,7 @@ function convertFormToJSON(form) {
         if(responce.status == 201){
           let savedQuote = await responce.text();
           let parsed_data = JSON.parse(savedQuote);
-          $('.save-quote-form-success > a').attr("href", "/account#" + parsed_data.unique_id);
+          $('.save-quote-form-success > a').attr("href", "/account#" + parsed_data._id);
           $('.save-quote-form-success').show();
           setTimeout(function() { $(".save-quote-form-success").fadeOut(1500); }, 5000);
         }else if(responce.status == 409){

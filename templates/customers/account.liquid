@@ -130,7 +130,7 @@
       $("#my_quotes").html(quote_template_heading);
       for(let i=0 ; i < parsed_data.length ; ++i){
         let quote = parsed_data[i];
-        let quote_template = `<div id="${quote.unique_id}" class="quote-table-wrapper">
+        let quote_template = `<div id="${quote._id}" class="quote-table-wrapper">
                               <h3>Quote Number #${i + 1}:</h3>
                               <table class="quotes-table">
                               <tr><th>Label</th><th>Value</th></tr>  
@@ -157,8 +157,18 @@
     }else{
       $("#my_quotes").html("<div class='my-quotes-heading'><p class='quote-message'>Some unusual error happened! Please try again!</p></div>");
     }
+
     $('#view-my-quotes').attr('disabled', false);
     $('#view-my-quotes').html('View My Quotes');
+    
+    let quote_id = localStorage.getItem("scrollTo");
+
+    if(quote_id){
+      localStorage.setItem("scrollTo", "");
+      $('html, body').animate({
+        scrollTop: $("#" + quote_id).offset().top - 300
+      }, 1000);
+    }
 });
 
 
@@ -201,5 +211,15 @@ $(document).on('click', 'button.select-quote-btn', async function (e) {
   
 });
 
+$(document).ready(function(){
+  let url = window.location.href;
+  let url_split_array = url.split("#");
+
+  if(url_split_array.length > 1){
+    let quote_id = url_split_array[1];
+    localStorage.setItem("scrollTo", quote_id);
+    $("#view-my-quotes").click();
+  }
+});
 </script>
   
