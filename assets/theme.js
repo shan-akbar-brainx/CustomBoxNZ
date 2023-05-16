@@ -1385,7 +1385,7 @@ var SW = SW || {};
                 setTimeout(function() {
                   box.removeClass('show');
                 }, 5e3)
-              }, 500), SW.collection.updateCartInfo(e, ".cart-container .cart-wrapper .cart-inner-content")
+              }, 500), SW.collection.updateCartInfo(e, ".cart-container .cart-wrapper .cart-inner-content") 
             });  
             return false;
           },
@@ -1393,7 +1393,7 @@ var SW = SW || {};
         });
         //remove this quote after adding into cart, if quote is saved into database
         let quoteUniqueId = $(this).data("quoteuniqueid");
-        let responce = await fetch('http://localhost:4001/deleteQuote:' + quoteUniqueId, {
+        let responce = await fetch('https://custombox.mediagiant.co.nz/api/v1/quote/delete-single-quote/' + quoteUniqueId, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'

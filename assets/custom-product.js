@@ -37,10 +37,11 @@ function convertFormToJSON(form) {
   });
 
   async function saveQuoteAPI(quoteObject){
-    let responce = await fetch('http://localhost:4001/saveQuote', {
+    let responce = await fetch('https://custombox.mediagiant.co.nz/api/v1/quote/save-quote', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
         quoteObject: quoteObject
@@ -52,7 +53,7 @@ function convertFormToJSON(form) {
   }
 
   async function saveQuote(customerId){
-    $('button.custom-save-quote').attr('disabled','true');
+        $('button.custom-save-quote').attr('disabled','true');
         $('button.custom-save-quote').html('<i class="fa fa-spinner fa-spin"></i>');
         //here comes the api link to save quote
         let quote = {
@@ -120,6 +121,9 @@ function convertFormToJSON(form) {
       }else{
         if(customerId){
           $(".custom-product-add-to-cart").data("quoteuniqueid", currentSelection.uniqueId);
+          $('html, body').animate({
+            scrollTop: $(".custom-product-form").offset().top
+          }, 1000);
         }
       }
       localStorage.setItem("currentSelection", "");
@@ -176,7 +180,7 @@ function convertFormToJSON(form) {
     const { user_id, box_style, board_grade, length, width, height, include_lid, quantity, unit_price, total_price } = quoteObject;
     let unique_id = user_id.toString() + box_style + board_grade + length.toString() + width.toString() + height.toString() + 
       include_lid.toString() + quantity.toString() + unit_price.toString() + total_price.toString();
-      let responce = await fetch('http://localhost:4001/findQuote:' + unique_id, {
+      let responce = await fetch('https://custombox.mediagiant.co.nz/api/v1/quote/find-single-quote/' + unique_id, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -265,6 +269,8 @@ function convertFormToJSON(form) {
             
             
           }else{
+            $('button.custom-product-submit').attr('disabled', false);
+            $('button.custom-product-submit').html('Calculate Price');
             if(responce.totalRate == 0 || responce.totalRate == null ){
               $('p.general-error-message').html("The dimensions entered do not fit the size of the board. <br> Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }else{
