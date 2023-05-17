@@ -11,9 +11,10 @@ function convertFormToJSON(form) {
 
 
   $( ".custom-contact-form-submit" ).on("click", function(event){
-
+      
       var errorCount = $('form.custom-product-form').data("errorcount");
       if(!errorCount){
+       
         $(".custom-product-form").validate().element("#boxStyle");
         $(".custom-product-form").validate().element("#boardGrade");
         $(".custom-product-form").validate().element("#length");
@@ -100,7 +101,7 @@ function convertFormToJSON(form) {
       $("#length").val(currentSelection.length).change();
       $("#width").val(currentSelection.width).change();
       $("#height").val(currentSelection.height).change();
-      if(currentSelection.includeLid == "true"){
+      if(currentSelection.includeLid == true){
         $("#yes").prop("checked", true);  
       }else{
         $("#no").prop("checked", true);
@@ -121,13 +122,13 @@ function convertFormToJSON(form) {
       }else{
         if(customerId){
           $(".custom-product-add-to-cart").data("quoteuniqueid", currentSelection.uniqueId);
-          $('html, body').animate({
-            scrollTop: $(".custom-product-form").offset().top
-          }, 1000);
         }
       }
       localStorage.setItem("currentSelection", "");
       localStorage.setItem("redirectUrl", "");
+      $('html, body').animate({
+        scrollTop: $(".custom-product-form").offset().top
+      }, 1000);
     }
   }
   $( document ).ready(function(){

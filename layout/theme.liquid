@@ -9,6 +9,7 @@
   <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" type="image/png" /> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   {% if template contains 'index' %}
+
   {% if page_title != blank and page_title != 'Welcome' %}
   <title>{{ page_title }}</title>
   {% else %}
@@ -242,6 +243,23 @@
         form.resetPasswordSuccess();
       });
       {% endif %}
+      $(".shopify-challenge__button").click(function(){
+        localStorage.setItem("accountFormPosted", "true");
+      });
+      $(document).ready(function(){
+      {% if template contains 'index' %}
+        
+        let accountPosted = localStorage.getItem("accountFormPosted");
+        if(accountPosted == "true"){
+          localStorage.setItem("accountFormPosted", "false");
+          let redirectUrl = localStorage.getItem("redirectUrl");
+          if(redirectUrl){
+            window.location.href = redirectUrl;
+          }
+        }
+        
+      {% endif %}
+    });
   </script>    
   {% include 'search-autocomplete' %}
   {% if settings.admin_helper_panel != blank %}

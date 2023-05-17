@@ -6,89 +6,108 @@
     <div class="col-sm-12">
       <div class="main-account">
         <div class="my-account">  
-          <h5>{{ customer.name }} <span><a href="/account/logout" {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>({{ 'customer.logout.title' | t }})</a></span></h5>
-          <div class="content">
+          <h5>{{ customer.name }}</h5>
+          <div class="account-tab">
+            <button class="account-tablinks active" onclick="openTab(event, 'home')">Home</button>
+            <button class="account-tablinks" onclick="openTab(event, 'orders')">Order History</button>
+            <button class="account-tablinks" id="view-my-quotes" data-customerid="{{ customer.id }}" onclick="openTab(event, 'quotes')">Quotes</button>
+            
+          </div>
+          
+          <div id="home" class="account-tabcontent account-active-tab">
+            <div class="content">
+           
+              {% if customer.default_address != nil %}
+                <p>
+                {{ customer.default_address.address1 }}<br>
+  
+                {% if customer.default_address.address2 != "" %}
+                  {{ customer.default_address.address2 }}<br>
+                {% endif %}
+  
+                {% if customer.default_address.city != "" %}
+                  {{ customer.default_address.city }}<br>
+                {% endif %}
+  
+                {% if customer.default_address.province_code != "" %}
+                  {{ customer.default_address.province_code | upcase }}<br>
+                {% endif %}
+  
+                {% if customer.default_address.zip != "" %}
+                  {{ customer.default_address.zip | upcase }}<br>
+                {% endif %}
+  
+                {% if customer.default_address.country != "" %}
+                  {{ customer.default_address.country }}<br>
+                {% endif %}
+  
+                {% if customer.default_address.phone != "" %}
+                  {{ customer.default_address.phone }}
+                {% endif %}
+                </p>
+  
+              {% endif %}
+  
+              <p><a href="/account/addresses" class="btn-button bordered"><span {% if settings.language_enable %}data-translate="customer.account.view_addresses"{% endif %}>{{ 'customer.account.view_addresses' | t }}</span> ({{ customer.addresses_count }})</a></p>
+            </div> 
+          </div>
+
+          <div id="orders" class="account-tabcontent">
+            <div class="my-order">
+              <h5>{{ 'customer.orders.title' | t }}</h5> 
+              {% comment %}
+                If we have past orders, loop through each one
+              {% endcomment %}
+              {% paginate customer.orders by 20 %}
+                {% if customer.orders.size != 0 %}
+    
+                  <div class="table-wrap">
+                    <table class="full">
+                      <thead>
+                        <tr>
+                          <th {% if settings.language_enable %}data-translate="customer.orders.order_number"{% endif %}>{{ 'customer.orders.order_number' | t }}</th>
+                          <th {% if settings.language_enable %}data-translate="customer.orders.date"{% endif %}>{{ 'customer.orders.date' | t }}</th>
+                          <th {% if settings.language_enable %}data-translate="customer.orders.payment_status"{% endif %}>{{ 'customer.orders.payment_status' | t }}</th>
+                          <th {% if settings.language_enable %}data-translate="customer.orders.fulfillment_status"{% endif %}>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                          <th {% if settings.language_enable %}data-translate="customer.orders.total"{% endif %}>{{ 'customer.orders.total' | t }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for order in customer.orders %}
+                          <tr>
+                            <td>{{ order.name | link_to: order.customer_url }}</td>
+                            <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                            <td>{{ order.financial_status_label }}</td>
+                            <td>{{ order.fulfillment_status_label }}</td>
+                            <td>{{ order.total_price | money }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                {% else %}
+                  <p {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>{{ 'customer.orders.none' | t }}</p>
+                {% endif %}
+                {% if paginate.pages > 1 %}
+                  <hr>
+                  <div class="pagination">
+                    {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+                  </div>
+                {% endif %}
+              {% endpaginate %}
+            </div>
+            
+          </div>
+          
+          <div id="quotes" class="account-tabcontent">
             <div class="quote-delete-message"><p>Quote was deleted Successfully !</p></div>
-            <div class="view-my-quotes-wrapper"><button id="view-my-quotes" data-customerid="{{ customer.id }}">View My Quotes</button></div>
+            {% comment %} <div class="view-my-quotes-wrapper"><button id="view-my-quotes" data-customerid="{{ customer.id }}">View My Quotes</button></div> {% endcomment %}
             
             <div id="my_quotes"></div>
-          	{% if customer.default_address != nil %}
-              <p>
-              {{ customer.default_address.address1 }}<br>
-
-              {% if customer.default_address.address2 != "" %}
-                {{ customer.default_address.address2 }}<br>
-              {% endif %}
-
-              {% if customer.default_address.city != "" %}
-                {{ customer.default_address.city }}<br>
-              {% endif %}
-
-              {% if customer.default_address.province_code != "" %}
-                {{ customer.default_address.province_code | upcase }}<br>
-              {% endif %}
-
-              {% if customer.default_address.zip != "" %}
-                {{ customer.default_address.zip | upcase }}<br>
-              {% endif %}
-
-              {% if customer.default_address.country != "" %}
-                {{ customer.default_address.country }}<br>
-              {% endif %}
-
-              {% if customer.default_address.phone != "" %}
-                {{ customer.default_address.phone }}
-              {% endif %}
-              </p>
-
-            {% endif %}
-
-            <p><a href="/account/addresses" class="btn-button bordered"><span {% if settings.language_enable %}data-translate="customer.account.view_addresses"{% endif %}>{{ 'customer.account.view_addresses' | t }}</span> ({{ customer.addresses_count }})</a></p>
-          </div> 
+          </div>
+         
         </div>
-        <div class="my-order">
-          <h5>{{ 'customer.orders.title' | t }}</h5> 
-          {% comment %}
-            If we have past orders, loop through each one
-          {% endcomment %}
-          {% paginate customer.orders by 20 %}
-            {% if customer.orders.size != 0 %}
-
-              <div class="table-wrap">
-                <table class="full">
-                  <thead>
-                    <tr>
-                      <th {% if settings.language_enable %}data-translate="customer.orders.order_number"{% endif %}>{{ 'customer.orders.order_number' | t }}</th>
-                      <th {% if settings.language_enable %}data-translate="customer.orders.date"{% endif %}>{{ 'customer.orders.date' | t }}</th>
-                      <th {% if settings.language_enable %}data-translate="customer.orders.payment_status"{% endif %}>{{ 'customer.orders.payment_status' | t }}</th>
-                      <th {% if settings.language_enable %}data-translate="customer.orders.fulfillment_status"{% endif %}>{{ 'customer.orders.fulfillment_status' | t }}</th>
-                      <th {% if settings.language_enable %}data-translate="customer.orders.total"{% endif %}>{{ 'customer.orders.total' | t }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for order in customer.orders %}
-                      <tr>
-                        <td>{{ order.name | link_to: order.customer_url }}</td>
-                        <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
-                        <td>{{ order.financial_status_label }}</td>
-                        <td>{{ order.fulfillment_status_label }}</td>
-                        <td>{{ order.total_price | money }}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            {% else %}
-              <p {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>{{ 'customer.orders.none' | t }}</p>
-            {% endif %}
-            {% if paginate.pages > 1 %}
-              <hr>
-              <div class="pagination">
-                {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
-              </div>
-            {% endif %}
-          {% endpaginate %}
-        </div>
+       
       </div> 
     </div> 
   </div>
@@ -184,7 +203,7 @@
     }
 
     $('#view-my-quotes').attr('disabled', false);
-    $('#view-my-quotes').html('View My Quotes');
+    $('#view-my-quotes').html('Quotes');
     
     let quote_id = localStorage.getItem("scrollTo");
 
@@ -245,6 +264,11 @@ $(document).ready(function(){
     localStorage.setItem("scrollTo", quote_id);
     $("#view-my-quotes").click();
   }
+
+  let redirect_url = localStorage.getItem("redirectUrl");
+  if(redirect_url){
+    window.location.href = redirect_url;
+  }
 });
 
 // Get the modal
@@ -299,5 +323,19 @@ $(".yes-quote-modal-btn").click( async function(){
   setTimeout(function() { $(".quote-delete-message").fadeOut(1500); }, 5000);
 
 });
+
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("account-tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].classList.remove("account-active-tab");
+  }
+  tablinks = document.getElementsByClassName("account-tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).classList.add("account-active-tab");
+  evt.currentTarget.className += " active";
+}
 </script>
   

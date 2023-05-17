@@ -4690,7 +4690,6 @@ body:not(.template-index) {
       font-weight:500;
       font-size:16px;
       line-height:28px;
-      border-bottom:#ebebeb solid 1px;
       span {
         text-transform: none; 
         font-weight: 400;
@@ -9853,7 +9852,7 @@ input.custom-quantity-field{
 }
 
 .custom-button-wrapper, .custom-save-quote-button-wrapper{
-  display: inline-block;
+  margin-bottom: 10px;
 }
 
 .custom-button{
@@ -9865,7 +9864,7 @@ input.custom-quantity-field{
   justify-content: space-between;
 }
 
-.custom-product-submit, .custom-save-quote, #view-my-quotes, .select-quote-btn, .delete-quote-btn, .no-quote-modal-btn, .yes-quote-modal-btn{
+.custom-product-submit, .custom-save-quote, .select-quote-btn, .delete-quote-btn, .no-quote-modal-btn, .yes-quote-modal-btn{
   margin-top: 20px;
   height: 55px;
   padding: 14px 39px;
@@ -9888,7 +9887,11 @@ input.custom-quantity-field{
   width: 100%;
 }
 
-button.custom-product-submit:hover, button.custom-save-quote:hover, #view-my-quotes:hover, .select-quote-btn:hover{
+button#view-my-quotes{
+  min-width: 140px; 
+}
+
+button.custom-product-submit:hover, button.custom-save-quote:hover, .select-quote-btn:hover{
   background-color: darkorange;
 }
 
@@ -9990,6 +9993,7 @@ p.height-note-message{
 .custom-contact-form-submit-button input{
   background-color: #f16321 !important;
   cursor: pointer;
+  color: white !important;
 }
 
 .custom-contact-form-wrapper{
@@ -10170,6 +10174,7 @@ p.height-note-message{
   float: right;
   font-size: 28px;
   font-weight: bold;
+  line-height: 0.8;
 }
 
 .save-quote-close:hover,
@@ -10191,6 +10196,52 @@ p.height-note-message{
 .quote-delete-message p{ 
   color: green;
   margin: 0;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.account-tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.account-tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.account-tabcontent {
+  display: none;
+  padding: 20px 12px;
+  border: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.account-tablinks{
+  border-radius: unset !important;
+  margin-top: 5px;
+}
+
+.account-active-tab{
+  display: block !important;
 }
 
 @media (max-width: 550px){

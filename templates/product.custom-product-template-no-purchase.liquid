@@ -78,9 +78,7 @@
                     {% assign current_variant = product.selected_or_first_available_variant %}
                     <div class="product-sku"><span {% if settings.language_enable %}data-translate="products.product.sku"{% endif %}>{{ 'products.product.sku' | t }} </span><span class="sku">{{ current_variant.sku }}</span></div>
                     {% endif %}   
-                    <div class="review-product-details">
-                      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
-                    </div>  
+                   
                     {% include 'addthis' %}
                     {% if settings.product_short_desc %}
                     <div class="short-description-detail">
