@@ -241,7 +241,8 @@ $(document).on('click', 'button.select-quote-btn', async function (e) {
       "includeLid": quoteObject.include_lid,
       "quantity": quoteObject.quantity,
       "unitPrice": quoteObject.unit_price,
-      "uniqueId": quoteObject.unique_id
+      "uniqueId": quoteObject.unique_id,
+      "discountedPrice": quoteObject.total_price
     }
     let currentSelectionString = JSON.stringify(currentSelection);
     localStorage.setItem("currentSelection", currentSelectionString);

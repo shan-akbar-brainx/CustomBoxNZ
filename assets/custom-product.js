@@ -57,6 +57,11 @@ function convertFormToJSON(form) {
         $('button.custom-save-quote').attr('disabled','true');
         $('button.custom-save-quote').html('<i class="fa fa-spinner fa-spin"></i>');
         //here comes the api link to save quote
+        let qty = $("#qty").val();
+        let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
+        if(qty == 500){
+          totalPrice = $("#discounted_price").val();
+        }
         let quote = {
           "user_id": customerId,
           "box_style": $("#boxStyle").val(),
@@ -67,7 +72,8 @@ function convertFormToJSON(form) {
           "include_lid": $("input[name='properties[includeLid]']:checked").val(),
           "quantity": $("#qty").val(),
           "unit_price": $("#calculated_price").val(),
-          "total_price": ($("#calculated_price").val() * $("#qty").val()).toFixed(2)
+          "total_price": totalPrice,
+          "discounted_price": $("#discounted_price").val()
         };
 
         let responce = await saveQuoteAPI(JSON.stringify(quote));
@@ -108,6 +114,7 @@ function convertFormToJSON(form) {
       }
       $("#qty").val(currentSelection.quantity).change();
       $("#calculated_price").val(currentSelection.unitPrice);
+      $("#discounted_price").val(currentSelection.discountedPrice);
       await $("#calculate_price").click();
         
       //here comes the api link to save quote
@@ -164,6 +171,12 @@ function convertFormToJSON(form) {
   });
 
   async function searchQuoteAndSetId(customerId){
+    
+    let qty = $("#qty").val();
+    let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
+    if(qty == 500){
+      totalPrice = $("#discounted_price").val();
+    }
 
     let quoteObject = {
       "user_id": customerId,
@@ -175,7 +188,7 @@ function convertFormToJSON(form) {
       "include_lid": $("input[name='properties[includeLid]']:checked").val(),
       "quantity": $("#qty").val(),
       "unit_price": $("#calculated_price").val(),
-      "total_price": ($("#calculated_price").val() * $("#qty").val()).toFixed(2)
+      "total_price": totalPrice
     };
 
     const { user_id, box_style, board_grade, length, width, height, include_lid, quantity, unit_price, total_price } = quoteObject;
