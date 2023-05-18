@@ -1332,11 +1332,11 @@ var SW = SW || {};
       })
     },
     addToCart: function(){  
-      $(document).on("click", ".add-to-cart", function(e) {
+      $(document).on("click", ".add-to-cart", async function(e) {
         e.preventDefault(); 
         var a = $(this); 
         var form = a.closest("form");
-        return $.ajax({
+        await $.ajax({
           type: "POST",
           url: "/cart/add.js",
           async: !0,
@@ -1385,11 +1385,20 @@ var SW = SW || {};
                 setTimeout(function() {
                   box.removeClass('show');
                 }, 5e3)
-              }, 500), SW.collection.updateCartInfo(e, ".cart-container .cart-wrapper .cart-inner-content")
+              }, 500), SW.collection.updateCartInfo(e, ".cart-container .cart-wrapper .cart-inner-content") 
             });  
             return false;
           },
           cache: !1
+        });
+        //remove this quote after adding into cart, if quote is saved into database
+        let quoteUniqueId = $(this).data("quoteuniqueid");
+        let responce = await fetch('https://custombox.mediagiant.co.nz/api/v1/quote/delete-single-quote/' + quoteUniqueId, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: 'cors'
         });
       });
     },

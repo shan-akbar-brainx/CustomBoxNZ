@@ -18,17 +18,18 @@
                   </div>  
                   <div class="form-box">
                     {% form 'customer_login' %} 
+                  
                     {{ form.errors | default_errors }}
                     <div class="content">
                       <ul class="form-list">
                         <li>
                           <label for="CustomerEmail" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.login.email"{% endif %}>{{ 'customer.login.email' | t }}</span><em>*</em></label>
-                          <input type="email" name="customer[email]" id="CustomerEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" autocorrect="off" autocapitalize="off" autofocus>
+                          <input type="email" name="customer[email]" id="CustomerEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" autocorrect="off" autocapitalize="off" autofocus required>
                         </li>
                         <li>
                           {% if form.password_needed %}
                           <label for="CustomerPassword" class="hidden-label"><span  {% if settings.language_enable %}data-translate="customer.login.password"{% endif %}>{{ 'customer.login.password' | t }}</span><em>*</em></label>
-                          <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}">
+                          <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" required>
                           {% endif %}
                         </li>
                         <li>
@@ -60,7 +61,7 @@
                       Assign variable to be used after timber.init() is run in theme.liquid
                       {% endcomment %}
                       {% if form.posted_successfully? %}
-                      {% assign resetPassword = true %}
+                        {% assign resetPassword = true %}
                       {% endif %}
                       <div class="content">
                         <ul class="form-list">
@@ -101,24 +102,25 @@
                   <p {% if settings.language_enable %}data-translate="customer.login.register_content"{% endif %}>{{ 'customer.login.register_content' | t }}</p>
                   <div class="form-box">
                     {% form 'create_customer' %} 
+                   
                     {{ form.errors | default_errors }}
                     <div class="content"> 
                       <ul class="form-list">
                         <li>
                           <label for="FirstName" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.first_name"{% endif %}>{{ 'customer.register.first_name' | t }}</span><em>*</em></label>
-                          <input type="text" name="customer[first_name]" id="FirstName" class="input-full" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+                          <input type="text" name="customer[first_name]" id="FirstName" class="input-full" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus required onkeydown="return /[a-z]/i.test(event.key)">
                         </li>
                         <li>
                           <label for="LastName" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.last_name"{% endif %}>{{ 'customer.register.last_name' | t }}</span><em>*</em></label>
-                          <input type="text" name="customer[last_name]" id="LastName" class="input-full" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+                          <input type="text" name="customer[last_name]" id="LastName" class="input-full" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words" required onkeydown="return /[a-z]/i.test(event.key)">
                         </li> 
                         <li>
                           <label for="Email" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.email"{% endif %}>{{ 'customer.register.email' | t }}</span><em>*</em></label>
-                          <input type="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+                          <input type="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off" required>
                         </li>
                         <li>
                           <label for="CreatePassword" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.password"{% endif %}>{{ 'customer.register.password' | t }}</span><em>*</em></label>
-                          <input type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}">
+                          <input type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" required>
                         </li>
                         <li> 
                           <div class="buttons-set">
@@ -138,3 +140,9 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+    localStorage.setItem("accountFormPosted", "false");
+  });
+</script>
