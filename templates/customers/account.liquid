@@ -167,7 +167,7 @@
       
       let quote_template_heading = `<div class='my-quotes-heading'><h2>Your Saved Quotes</h2></div>`
       $("#my_quotes").html(quote_template_heading);
-      for(let i=0 ; i < parsed_data.length ; ++i){
+      for(let i=parsed_data.length -1; i >= 0 ; --i){
         let quote = parsed_data[i];
         let quote_template = `<div id="${quote._id}" class="quote-table-wrapper">
                               <h3>Quote Number #${i + 1}:</h3>
@@ -177,8 +177,8 @@
                                <tr><td>Board Grade</td><td>${board_grade_names[quote.board_grade]}</td></tr>
                                <tr><td>Box Length</td><td>${quote.length}mm</td></tr>
                                <tr><td>Box Width</td><td>${quote.width}mm</td></tr>
-                               <tr><td>Box Height</td><td>${quote.height}mm</td></tr>
-                               <tr><td>Include Lid</td><td>${quote.include_lid}</td></tr>
+                               <tr><td>Box Depth</td><td>${quote.height}mm</td></tr>
+                               <tr><td>Include Lid</td><td>${quote.include_lid ? 'Yes' : 'No'}</td></tr>
                                <tr><td>Quantity</td><td>${quote.quantity}</td></tr>
                                <tr><td>Unit Price</td><td>$${quote.unit_price}</td></tr>
                                <tr><td>Total Price</td><td>$${quote.total_price}</td></tr>
