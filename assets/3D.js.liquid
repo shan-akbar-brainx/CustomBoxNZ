@@ -541,7 +541,7 @@ document.querySelector('.custom-product-form').addEventListener('change', functi
 
       const baseMultiplier = 30;
 
-        //generate ratio for box width to its length
+      //generate ratio for box width to its length
     let widthRatio = newBox.width / newBox.length;
 
     //generate ratio for box depth to its length
@@ -554,15 +554,6 @@ document.querySelector('.custom-product-form').addEventListener('change', functi
     box.params.length = baseMultiplier
     box.params.width = baseMultiplier * widthRatio;
     box.params.depth = baseMultiplier * depthRatio;
-
-      // let largestDimension = Math.max(newBox.width, newBox.depth, newBox.length);
-      // let widthRatio = newBox.width / largestDimension;
-      // let depthRatio = newBox.depth / largestDimension;
-      // let lengthRatio = newBox.length / largestDimension;
-
-      // box.params.length = baseMultiplier * largestDimension * lengthRatio;
-      // box.params.width = baseMultiplier * largestDimension * widthRatio;
-      // box.params.depth = baseMultiplier * largestDimension * depthRatio;
       
       createBoxElements();
       updatePanelsTransform();
