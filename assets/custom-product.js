@@ -44,7 +44,6 @@ function convertFormToJSON(form) {
     $(".custom-product-form").validate().element("#width");
     $(".custom-product-form").validate().element("#height");
     var formValid = $('form.custom-product-form').valid();
-    
     if(formValid){
       var errorCount = $('form.custom-product-form').data("errorcount");
 
@@ -53,8 +52,6 @@ function convertFormToJSON(form) {
         $('p.general-error-message').html('');
         $('button.custom-product-submit').attr('disabled','true');
         $('button.custom-product-submit').html('<i class="fa fa-spinner fa-spin"></i>');
-        $(".total-original-price").hide();
-        $(".discount-badge").hide();
         var value = convertFormToJSON($('form.custom-product-form'));
         var stringifiedData = JSON.stringify(value);
         stringifiedData = stringifiedData.replaceAll("properties[","");
@@ -69,38 +66,16 @@ function convertFormToJSON(form) {
           dataType: 'json',
           data: stringifiedData,
           success: function(responce){
-            console.log(responce);
             $('button.custom-product-submit').attr('disabled', false);
             $('button.custom-product-submit').html('Calculate Price');
             
             if((responce.totalRate != false && responce.totalRate != "false") && (responce.totalRate != 0 && responce.totalRate != null)){
-
               var calculatedUnitPrice = (responce.totalRate/value.quantity).toFixed(2);
-
               $("#calculated_price").val(calculatedUnitPrice);
-              $(".unit-custom-price").html("$" + calculatedUnitPrice + " + GST");
-
-              if(responce.isDiscountEnabled && responce.discountPercentage){
-                let discounted_price = (calculatedUnitPrice*value.quantity).toFixed(2)*(1 - responce.discountPercentage/100);
-                $(".total-custom-price").html("$" + (discounted_price).toFixed(2) + " + GST");
-                $(".total-original-price").show();
-                $(".total-original-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
-                $(".discount-badge").show();
-                $(".discount-badge").html(responce.discountPercentage + "% off, " + responce.discountMinimumQuantity + " quantity discount.");
-                $("#discounted_price").val(discounted_price);
-                
-                
-              }else{
-                
-                $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2) + " + GST");
-
-              }
-                $("#discount_percent_applied").val(responce.discountPercentage);
-                $("#discount_percent_amount").val(responce.quantityDiscountPercentage);
-                $("#discount_minimum_quantity").val(responce.discountMinimumQuantity);
-                $("#discount_enabled").val(responce.isDiscountEnabled);
-
+              $(".unit-custom-price").html("$" + calculatedUnitPrice);
+              $(".total-custom-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
               $(".actions").removeClass("display-hidden");
+
 
             }else{
               if(responce.totalRate == 0 || responce.totalRate == null ){
@@ -127,8 +102,6 @@ function convertFormToJSON(form) {
           scrollTop: $(".wrong-value").offset().top - 300
         }, 1000);
       }
-    }else{
-      event.preventDefault();
     }
   });
 
@@ -483,10 +456,9 @@ function convertFormToJSON(form) {
 
   $('input.custom-quantity-field').change(function(){
     $('p.quantity-error-message').html('');
-    $(".tooltip-message").hide();
     onOptionsChange();
     var value = parseInt($(this).val());
-    if(value < 1 || value > 500 || (value > 250 && value < 500)){
+    if(value < 1 || value > 250){
       if(value < 1){
         $('p.quantity-error-message').html('Please enter the correct quantity value.');
         if(!$('input.custom-quantity-field').hasClass('wrong-value')){
@@ -497,12 +469,7 @@ function convertFormToJSON(form) {
           $('form.custom-product-form').data("errorcount", errorCount);
         }
       }
-      
-      if(value > 250 && value < 500){
-        $(".tooltip-message").show();
-      }
-
-      if(value > 500){
+      if(value > 250){
         $('#product-main-form').attr('action', '/contact#contact_form');
         $('#boxStyle').attr('name', 'contact[Box Style]');
         $('#boardGrade').attr('name', 'contact[Board Grade]');
@@ -550,17 +517,9 @@ function convertFormToJSON(form) {
 
   function onOptionsChange(){
     $("#calculated_price").val("");
-    $("#discounted_price").val("");
-    $("#discount_percent_applied").val("");
-    $("#discount_percent_amount").val("");
-    $("#discount_minimum_quantity").val("");
-    $("#discount_enabled").val("");
     $(".unit-custom-price").html("$__");
     $(".total-custom-price").html("$__");
-    $(".total-original-price").hide();
-    $(".discount-badge").hide();
     $(".actions").addClass("display-hidden");
-    localStorage.setItem("customBoxDimentions", "");
   } 
 
   function restoreToDefault(){
@@ -601,40 +560,7 @@ function convertFormToJSON(form) {
     localStorage.setItem('contact-form-posted', 'true');
   });
 
-  $("#ContactFormDeliver").change(function(){
-    
-    let deliveryType = $(this).val();
-    if(deliveryType == "deliver"){
-      $(".custom-contact-form-field__address").css('display', 'flex');
-      $("#ContactFormAddress").attr('name', 'contact[address]');
-    }else{
-      $("#ContactFormAddress").attr('name', 'address');
-      $(".custom-contact-form-field__address").hide();
-    }
-
-  });
-
-  $(".tooltip-message").click(function(){
-    let includeLid = false;
-        if($("#yes").is(':checked')){
-          includeLid = true;
-        }
-        let customBoxDimentions = {
-          "boxStyle": $("#boxStyle").val(),
-          "boardGrade": $("#boardGrade").val(),
-          "length": $("#length").val(),
-          "width": $("#width").val(),
-          "height": $("#height").val(),
-          "includeLid": includeLid,
-          "quantity": $("#qty").val()
-        }
-
-        localStorage.setItem("customBoxDimentions", JSON.stringify(customBoxDimentions));
-        window.open("/pages/contact");
-  });
-
   $(document).ready(function(){
-    localStorage.setItem("customBoxDimentions", "");
     var contactFormPosted = localStorage.getItem('contact-form-posted');
     if(contactFormPosted == 'true'){
       $('.custom-contact-form-success').show();

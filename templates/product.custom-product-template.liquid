@@ -241,11 +241,6 @@
                           <span class="unit-custom-price">$__</span>
                         </div>
                         <input type="hidden" id="calculated_price" name="properties[_calculated_price]" value="">
-                        <input type="hidden" id="discounted_price" name="properties[_discounted_price]" value="">
-                        <input type="hidden" id="discount_percent_applied" name="properties[_discount_percent_applied]" value="">
-                        <input type="hidden" id="discount_percent_amount" name="properties[_discount_percent_amount]" value="">
-                        <input type="hidden" id="discount_minimum_quantity" name="properties[_discount_minimum_quantity]" value="">
-                        <input type="hidden" id="discount_enabled" name="properties[_discount_enabled]" value="">
                         
                         <div class="product-options-bottom"> 
                           <div class="add-to-cart-box"> 
@@ -257,13 +252,10 @@
                                 <div class="reduced items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;result.dispatchEvent(new Event('change'));return false;">-</div>
                               </div>
                             </div>
-                            <p class="tooltip-message">You qualify for special pricing, contact us for a custom quote.</p>
                             <p class="error-message quantity-error-message"></p>
                             <div class="total-custom-price-wrapper">
                               <span class="custom-price-title">Total Price: </span>
                               <span class="total-custom-price">$__</span>
-                              <span class="total-original-price"></span>
-                              <span class="discount-badge"></span>
                             </div>
                             <div>
                               <p class="error-message price-error-message"></p>
@@ -306,7 +298,7 @@
                           </div>
                         </div>
                         <div class="custom-contact-form-wrapper">
-                          <p class="contact-us-message">For quantities over 500, please Contact Us for a special quote.</p>
+                          <p class="contact-us-message">For quantities over 250, please Contact Us for a special quote.</p>
                           <input type="hidden" class="contact-form-hidden-input" name="form_type" value="contact">
                           <input type="hidden" name="utf8" value="✓">
 
@@ -327,28 +319,13 @@
                           <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" autocorrect="off" autocapitalize="off"  required  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
                         </div>
 
-                        <div class="custom-contact-form-field">
-                          <label for="name" class="required">Choose Option<em>*</em></label>
-                          <select class="custom-select-field delivery-type" id="ContactFormDeliver" name="contact[deliveryType]" required>
-                            <option value="collect" >Collect</option>
-                            <option value="deliver">Deliver</option>
-                          </select>
-                        </div>
-
-                        <div class="custom-contact-form-field custom-contact-form-field__address">
-                          <label for="name" class="required">Enter delivery address<em>*</em></label>
-                          <input type="text" id="ContactFormAddress" class="input-full" name="address" autocorrect="off" autocapitalize="off"  required  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
-                        </div>
-
                         <div class="custom-contact-form-field">  
                           <label for="name" class="required">{{ 'contact.form.comment' | t }}<em>*</em></label>
                           <textarea rows="15" cols="5" style="height:auto;" id="ContactFormMessage" class="input-full" name="contact[body]" required placeholder="{{ 'contact.form.comment' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
                         </div>
-
                         <div class="custom-contact-form-submit-button">
                           <input type="button" class="btn-button bordered custom-contact-form-submit" {% if settings.language_enable %}data-translate="contact.form.submit"{% endif %} value="{{ 'contact.form.submit' | t }}">
                         </div>
-
                       </div> 
                       </form>   
                     </div>

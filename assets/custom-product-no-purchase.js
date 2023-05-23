@@ -466,19 +466,6 @@ function convertFormToJSON(form) {
     localStorage.setItem('contact-form-posted', 'true');
   });
 
-  $("#ContactFormDeliver").change(function(){
-    
-    let deliveryType = $(this).val();
-    if(deliveryType == "deliver"){
-      $(".custom-contact-form-field__address").css('display', 'flex');
-      $("#ContactFormAddress").attr('name', 'contact[address]');
-    }else{
-      $("#ContactFormAddress").attr('name', 'address');
-      $(".custom-contact-form-field__address").hide();
-    }
-
-  });
-
   $(document).ready(function(){
     var contactFormPosted = localStorage.getItem('contact-form-posted');
     if(contactFormPosted == 'true'){
