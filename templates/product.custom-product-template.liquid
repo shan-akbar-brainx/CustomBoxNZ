@@ -250,7 +250,7 @@
                           <div class="add-to-cart-box"> 
                             <span class="label" {% if settings.language_enable %}data-translate="products.product.quantity"{% endif %}>{{ 'products.product.quantity' | t }}:</span>
                             <div class="input-box custom-quantity-field-wrapper">
-                              <input class="custom-input-field custom-quantity-field" type="text" id="qty" name="quantity" value="1" min="1" class="quantity-selector"> 
+                              <input class="custom-input-field custom-quantity-field" type="text" id="qty" name="quantity" value="1" min="1" class="quantity-selector" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 
                               <div class="plus-minus">
                                 <div class="increase items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;result.dispatchEvent(new Event('change'));return false;">+</div>
                                 <div class="reduced items" onclick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;result.dispatchEvent(new Event('change'));return false;">-</div>

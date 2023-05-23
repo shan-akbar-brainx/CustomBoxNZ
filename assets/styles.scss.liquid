@@ -9864,6 +9864,10 @@ input.custom-quantity-field{
   justify-content: space-between;
 }
 
+.custom-save-quote{
+  margin-top: 10px !important;
+}
+
 .custom-product-submit, .custom-save-quote, .select-quote-btn, .delete-quote-btn, .no-quote-modal-btn, .yes-quote-modal-btn{
   margin-top: 20px;
   height: 55px;
@@ -10140,11 +10144,11 @@ p.height-note-message{
 }
 
 /* The Modal (background) */
-.save-quote-modal {
+.save-quote-modal { 
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  padding-top: 17%; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -10244,7 +10248,16 @@ p.height-note-message{
   display: block !important;
 }
 
+@media(max-width: 991px){
+  .save-quote-modal{
+    padding-top: 35%;
+  }
+}
+
 @media (max-width: 550px){
+  .save-quote-modal{
+    padding-top: 65%;
+  }
   .quote-buttons{
     justify-content: center;
     flex-wrap: wrap;
