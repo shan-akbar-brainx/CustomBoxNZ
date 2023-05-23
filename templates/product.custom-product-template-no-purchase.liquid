@@ -78,9 +78,7 @@
                     {% assign current_variant = product.selected_or_first_available_variant %}
                     <div class="product-sku"><span {% if settings.language_enable %}data-translate="products.product.sku"{% endif %}>{{ 'products.product.sku' | t }} </span><span class="sku">{{ current_variant.sku }}</span></div>
                     {% endif %}   
-                    <div class="review-product-details">
-                      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
-                    </div>  
+                   
                     {% include 'addthis' %}
                     {% if settings.product_short_desc %}
                     <div class="short-description-detail">
@@ -268,6 +266,19 @@
                         <div class="custom-contact-form-field">
                           <label for="name" class="required">{{ 'contact.form.email' | t }}<em>*</em></label>
                           <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" autocorrect="off" autocapitalize="off"  required  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+                        </div>
+
+                        <div class="custom-contact-form-field">
+                          <label for="name" class="required">Choose Option<em>*</em></label>
+                          <select class="custom-select-field delivery-type" id="ContactFormDeliver" name="contact[deliveryType]" required>
+                            <option value="collect" >Collect</option>
+                            <option value="deliver">Deliver</option>
+                          </select>
+                        </div>
+
+                        <div class="custom-contact-form-field custom-contact-form-field__address">
+                          <label for="name" class="required">Enter delivery address<em>*</em></label>
+                          <input type="text" id="ContactFormAddress" class="input-full" name="address" autocorrect="off" autocapitalize="off"  required  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
                         </div>
                       
                         <div class="custom-contact-form-field">  

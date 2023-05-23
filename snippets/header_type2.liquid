@@ -47,8 +47,7 @@
           <li>{% include 'header-setting' %}</li>
           <li>
             <i class="icon-login-register"></i>
-            <a href="/account/logout" {% if settings.language_enable %}data-translate="header.settings.logout"{% endif %}>{{'header.settings.logout' | t}}</a>
-          </li>
+            <a href="/account">My Account</a><span {% if settings.language_enable %}data-translate="header.settings.or"{% endif %}>{{'header.settings.or' | t}}</span><a href="/account/logout" {% if settings.language_enable %}data-translate="header.settings.logout"{% endif %}>{{'header.settings.logout' | t}}</a>          </li>
           {% else %}
           <li class="hidden-xs">
             <a href="/account" {% if settings.language_enable %}data-translate="header.settings.order"{% endif %}><i class="icon-order-tracking"></i>{{ 'header.settings.order' | t }}</a>
