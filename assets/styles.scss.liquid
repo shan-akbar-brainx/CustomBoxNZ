@@ -815,7 +815,7 @@ div.limited_wrap {
         text-align: center;
         font-size: 18px;
         font-weight: 500;
-        line-height: 0;
+        
         margin-bottom: 0;
         .label {
           color:#777;
@@ -4690,7 +4690,6 @@ body:not(.template-index) {
       font-weight:500;
       font-size:16px;
       line-height:28px;
-      border-bottom:#ebebeb solid 1px;
       span {
         text-transform: none; 
         font-weight: 400;
@@ -9852,20 +9851,38 @@ input.custom-quantity-field{
   font-weight: bold;
 }
 
-.custom-button-wrapper{
-  display: inline-block;
+.custom-button-wrapper, .custom-save-quote-button-wrapper{
+  margin-bottom: 10px;
 }
 
 .custom-button{
   background-color: #f16321 !important;
+  color: white !important;
 }
 
-.custom-product-submit{
+.custom-button span{
+  color: white !important;
+}
+
+.quote-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-save-quote{
+  margin-top: 10px !important;
+}
+
+.custom-product-submit, .custom-save-quote, .select-quote-btn, .delete-quote-btn, .no-quote-modal-btn, .yes-quote-modal-btn{
   margin-top: 20px;
   height: 55px;
   padding: 14px 39px;
   width: 183px;
   text-align: center;
+}
+
+#custom_actions{
+  display: block;
 }
 
 .fa-spinner{
@@ -9875,12 +9892,21 @@ input.custom-quantity-field{
 .custom-action-list{
   padding-bottom: 10px;
   margin-top: 0px;
+  max-width: 371px;
+  width: 100%;
 }
 
-button.custom-product-submit:hover{
+button#view-my-quotes{
+  min-width: 140px; 
+}
+
+button.custom-product-submit:hover, button.custom-save-quote:hover, .select-quote-btn:hover{
   background-color: darkorange;
 }
 
+.delete-quote-btn:hover, .no-quote-modal-btn:hover, .yes-quote-modal-btn:hover{
+  opacity: 0.7;
+}
 button.custom-build-box-button{
   margin-bottom: 25px;
   padding: 14px 0;
@@ -9911,7 +9937,7 @@ button.custom-checkout-button{
   margin: 0;
 }
 
-button.custom-product-submit:disabled{
+button.custom-product-submit:disabled, button.custom-save-quote:disabled, #view-my-quotes:disabled, .select-quote-btn:disabled, .delete-quote-btn:disabled, .no-quote-modal-btn:disabled, .yes-quote-modal-btn:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
@@ -9931,6 +9957,10 @@ button.custom-cart-page-checkout-button:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
+}
+
+button.custom-product-add-to-cart{
+  width: 100%;
 }
 
 .custombox-text{
@@ -9953,6 +9983,14 @@ p.height-note-message{
   margin: 10px 0;
 }
 
+.custom-contact-form-field select{
+  height: 46px !important;
+}
+
+.custom-contact-form-field__address{
+  display: none;
+}
+
 .custom-contact-form-field input{
   border: 1px solid black !important;
 }
@@ -9963,18 +10001,32 @@ p.height-note-message{
 
 .custom-contact-form-submit-button input{
   background-color: #f16321 !important;
+  cursor: pointer;
+  color: white !important;
 }
 
 .custom-contact-form-wrapper{
   display: none;
 }
 
-.custom-contact-form-success{
+.custom-contact-form-success, .save-quote-form-success{
   color: green;
   border: 1px solid green;
   padding: 10px;
   max-width: 400px;
   display: none;
+}
+
+.save-quote-form-error{
+  color: red;
+  border: 1px solid red;
+  padding: 10px;
+  max-width: 400px;
+  display: none;
+}
+
+.save-quote-form-success__bottom, .save-quote-form-error__bottom{
+  margin-top: 22px;
 }
 
 .custom-product-form .error{
@@ -9990,6 +10042,235 @@ p.height-note-message{
 .contact-us-message{
   margin: 10px 0 5px;
   color: blue;
+}
+
+.tooltip-message{
+  display: none;
+  margin: 10px 0 5px;
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+
+.discount-badge{
+  display: none;
+  font-size: 20px;
+  color: red;
+}
+
+.total-original-price{
+  display: none;
+  text-decoration: line-through;
+  font-size: 30px;
+  font-weight: 500;
+  color: #0063d1;
+  line-height: 36px;
+  margin-right: 12px;
+
+}
+
+.cart-discount-field{
+  color: red;
+}
+
+.my-quotes-heading{
+  text-align: center;
+}
+
+.quote-table-wrapper{
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.quote-table-wrapper h3{
+  margin-top: 20px;
+}
+
+#my_quotes table{
+ table-layout: fixed;
+}
+
+.quotes-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.quotes-table td, .quotes-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.quotes-table tr:nth-child(even){background-color: #f2f2f2;}
+
+.quotes-table tr:hover {background-color: #ddd;}
+
+.quotes-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #f16321;
+  color: white;
+}
+
+.select-quote-btn-wrapper{
+  text-align: center;
+}
+
+.select-quote-btn{
+  width: 236px !important; 
+}
+
+.delete-quote-btn{
+  background-color: #DC3545 !important;
+}
+
+.quote-modal-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.view-my-quotes-wrapper{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.saved-quotes-link{
+  margin-top: 20px;
+}
+
+.saved-quotes-link a, .save-quote-form-success a{
+  text-decoration: underline;
+  color: blue !important;
+}
+
+.quote-message{
+  color: red;
+}
+
+/* The Modal (background) */
+.save-quote-modal { 
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 17%; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.save-quote-modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 100%;
+  max-width: 500px;
+}
+
+.save-quote-modal-content p {
+  font-size: 17px;
+  text-align: center;
+}
+/* The Close Button */
+.save-quote-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 0.8;
+}
+
+.save-quote-close:hover,
+.save-quote-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.quote-delete-message{
+  border: 1px solid green;
+  padding: 20px;
+  text-align: center;
+  max-width: 283px;
+  margin: 0 auto;
+  display: none;
+}
+
+.quote-delete-message p{ 
+  color: green;
+  margin: 0;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.account-tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.account-tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.account-tabcontent {
+  display: none;
+  padding: 20px 12px;
+  border: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.account-tablinks{
+  border-radius: unset !important;
+  margin-top: 5px;
+}
+
+.account-active-tab{
+  display: block !important;
+}
+
+@media(max-width: 991px){
+  .save-quote-modal{
+    padding-top: 35%;
+  }
+}
+
+@media (max-width: 550px){
+  .save-quote-modal{
+    padding-top: 65%;
+  }
+  .quote-buttons{
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .quote-modal-buttons{
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 
 @keyframes "circlespin" {
