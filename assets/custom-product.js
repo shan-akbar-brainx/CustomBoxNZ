@@ -118,7 +118,7 @@ function convertFormToJSON(form) {
       $("#length").val(currentSelection.length).change();
       $("#width").val(currentSelection.width).change();
       $("#height").val(currentSelection.height).change();
-      if(currentSelection.includeLid == true){
+      if(currentSelection.includeLid == "Yes"){
         $("#yes").prop("checked", true);  
       }else{
         $("#no").prop("checked", true);
