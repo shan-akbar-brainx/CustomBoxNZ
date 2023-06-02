@@ -73,6 +73,14 @@ function convertFormToJSON(form) {
         if(qty >= 500){
           totalPrice = $("#discounted_price").val();
         }
+
+        let includeLid = $("input[name='properties[includeLid]']:checked").val();
+          if(includeLid == "Yes"){
+            includeLid = true;
+          }else{
+            includeLid = false;
+          }
+        
         let quote = {
           "user_id": customerId,
           "box_style": $("#boxStyle").val(),
@@ -80,7 +88,7 @@ function convertFormToJSON(form) {
           "length": $("#length").val(),
           "width": $("#width").val(),
           "height": $("#height").val(),
-          "include_lid": $("input[name='properties[includeLid]']:checked").val(),
+          "include_lid": includeLid,
           "quantity": $("#qty").val(),
           "unit_price": $("#calculated_price").val(),
           "total_price": totalPrice,
@@ -164,13 +172,19 @@ function convertFormToJSON(form) {
       saveQuote(customerId);
 
     }else{
+      let includeLid = $("input[name='properties[includeLid]']:checked").val();
+      if(includeLid == "Yes"){
+        includeLid = true;
+      }else{
+        includeLid = false;
+      }
       let currentSelection = {
         "boxStyle": $("#boxStyle").val(),
         "boardGrade": $("#boardGrade").val(),
         "length": $("#length").val(),
         "width": $("#width").val(),
         "height": $("#height").val(),
-        "includeLid": $("input[name='properties[includeLid]']:checked").val(),
+        "includeLid": includeLid,
         "quantity": $("#qty").val(),
         "unitPrice": $("#calculated_price").val()
       }
@@ -188,6 +202,13 @@ function convertFormToJSON(form) {
     if(qty >= 500){
       totalPrice = $("#discounted_price").val();
     }
+    let includeLid = $("input[name='properties[includeLid]']:checked").val();
+      if(includeLid == "Yes"){
+        includeLid = true;
+      }else{
+        includeLid = false;
+      }
+    
 
     let quoteObject = {
       "user_id": customerId,
@@ -196,7 +217,7 @@ function convertFormToJSON(form) {
       "length": $("#length").val(),
       "width": $("#width").val(),
       "height": $("#height").val(),
-      "include_lid": $("input[name='properties[includeLid]']:checked").val(),
+      "include_lid": includeLid,
       "quantity": $("#qty").val(),
       "unit_price": $("#calculated_price").val(),
       "total_price": totalPrice
