@@ -170,7 +170,7 @@ function convertFormToJSON(form) {
           errorCount += 1;
           $('form.custom-product-form').data("errorcount", errorCount);
           if(errorCount == 1){
-            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
           }
         }
       }else{ 
@@ -213,7 +213,7 @@ function convertFormToJSON(form) {
           errorCount += 1;
           $('form.custom-product-form').data("errorcount", errorCount);
           if(errorCount == 1){
-            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
           }
         }
       }else{
@@ -248,7 +248,7 @@ function convertFormToJSON(form) {
             errorCount += 1;
             $('form.custom-product-form').data("errorcount", errorCount);
             if(errorCount == 1){
-              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }
           }
         }else{
@@ -289,7 +289,7 @@ function convertFormToJSON(form) {
         errorCount += 1;
         $('form.custom-product-form').data("errorcount", errorCount);
         if(errorCount == 1){
-          $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+          $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
         }
       }
     }else{
@@ -325,7 +325,7 @@ function convertFormToJSON(form) {
           errorCount += 1;
           $('form.custom-product-form').data("errorcount", errorCount);
           if(errorCount == 1){
-            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
           }
         }
       }else{
@@ -372,7 +372,7 @@ function convertFormToJSON(form) {
             errorCount += 1;
             $('form.custom-product-form').data("errorcount", errorCount);
             if(errorCount == 1){
-              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }
           }
         }else{
@@ -466,8 +466,8 @@ function convertFormToJSON(form) {
     localStorage.setItem('contact-form-posted', 'true');
   });
 
- $("#ContactFormDeliver").change(function(){
-
+  $("#ContactFormDeliver").change(function(){
+    
     let deliveryType = $(this).val();
     if(deliveryType == "deliver"){
       $(".custom-contact-form-field__address").css('display', 'flex');
@@ -478,7 +478,6 @@ function convertFormToJSON(form) {
     }
 
   });
-
 
   $(document).ready(function(){
     var contactFormPosted = localStorage.getItem('contact-form-posted');
