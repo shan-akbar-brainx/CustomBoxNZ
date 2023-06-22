@@ -68,7 +68,8 @@ function convertFormToJSON(form) {
         $('button.custom-save-quote').attr('disabled','true');
         $('button.custom-save-quote').html('<i class="fa fa-spinner fa-spin"></i>');
         //here comes the api link to save quote
-        let qty = $("#qty").val();
+        
+        let qty = Number($("#qty").val());
         let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
         let discountEnabled = $("#discount_enabled").val();
         let minDiscountValue = Number($("#discount_minimum_quantity").val());
@@ -136,6 +137,9 @@ function convertFormToJSON(form) {
       $("#qty").val(currentSelection.quantity).change();
       $("#calculated_price").val(currentSelection.unitPrice);
       $("#discounted_price").val(currentSelection.discountedPrice);
+      $("#discounted_price").val(currentSelection.discountedPrice);
+      $("#discount_enabled").val(currentSelection.discountEnabled);
+      $("#discount_minimum_quantity").val(currentSelection.discountMinimumQuantity);
       await $("#calculate_price").click();
         
       //here comes the api link to save quote
@@ -188,7 +192,10 @@ function convertFormToJSON(form) {
         "height": $("#height").val(),
         "includeLid": includeLid,
         "quantity": $("#qty").val(),
-        "unitPrice": $("#calculated_price").val()
+        "unitPrice": $("#calculated_price").val(),
+        "discountedPrice": $("#discounted_price").val(),
+        "discountEnabled": $("#discount_enabled").val(),
+        "discountMinimumQuantity": $("#discount_minimum_quantity").val()
       }
       let currentSelectionString = JSON.stringify(currentSelection);
       localStorage.setItem("currentSelection", currentSelectionString);
@@ -199,7 +206,7 @@ function convertFormToJSON(form) {
 
   async function searchQuoteAndSetId(customerId){
     
-    let qty = $("#qty").val();
+    let qty = Number($("#qty").val());
     let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
     let discountEnabled = $("#discount_enabled").val();
     let minDiscountValue = Number($("#discount_minimum_quantity").val());
@@ -406,7 +413,7 @@ function convertFormToJSON(form) {
       }
       $("label.custom-length-field-label").html("Length mm");
       $("label.custom-width-field-label").html("Width mm");
-      $("label.custom-height-field-label").html("Depth mm");
+      $("label.custom-height-field-label").html("Height mm");
       if(selectedStyle){
         //length
         $("input.custom-length-field").data("min", minLength);
@@ -429,15 +436,15 @@ function convertFormToJSON(form) {
         $("input.custom-height-field").data("min", minHeight);
         $("input.custom-height-field").data("max", maxHeight);
         if(maxHeight == null){
-          $("label.custom-height-field-label").html("Depth mm <span>(Minimum Depth: " + minHeight + ")</span>");
+          $("label.custom-height-field-label").html("Height mm <span>(Minimum Height: " + minHeight + ")</span>");
         }else{
-          $("label.custom-height-field-label").html("Depth mm <span>(" + minHeight + " - " + maxHeight + ")</span>"); 
+          $("label.custom-height-field-label").html("Height mm <span>(" + minHeight + " - " + maxHeight + ")</span>"); 
         } 
       }
     }else{
       $("label.custom-length-field-label").html("Length mm");
       $("label.custom-width-field-label").html("Width mm");
-      $("label.custom-height-field-label").html("Depth mm"); 
+      $("label.custom-height-field-label").html("Height mm"); 
     }
   }
 
@@ -530,11 +537,11 @@ function convertFormToJSON(form) {
         height_value = height_value || 0;
         if((parseInt($("input.custom-width-field").val()) < height_value) || (parseInt($("input.custom-width-field").val()) + height_value) < 200 ){
           if(parseInt($("input.custom-width-field").val()) < height_value){
-            $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'The width must be greater than or equal to the depth.');
+            $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'The width must be greater than or equal to the height.');
           }
 
           if((parseInt($("input.custom-width-field").val()) + height_value) < 200){
-            $('p.width-error-message').html($('p.width-error-message').html() + '<br>' + 'The combined width and depth must be greater than or equal to 200mm.');
+            $('p.width-error-message').html($('p.width-error-message').html() + '<br>' + 'The combined width and height must be greater than or equal to 200mm.');
           }
           if(!$('input.custom-width-field').hasClass('wrong-value')){
             $('input.custom-width-field').addClass('wrong-value');
@@ -572,10 +579,10 @@ function convertFormToJSON(form) {
     $('p.height-error-message').html('');
     if(value < min || value > max){
       if(value < min){
-        $('p.height-error-message').html('Minimum Depth should be ' + min + ' mm.');
+        $('p.height-error-message').html('Minimum Height should be ' + min + ' mm.');
       }
       if(value > max){
-        $('p.height-error-message').html('Depth should not be greater then ' + max + ' mm.');
+        $('p.height-error-message').html('Height should not be greater then ' + max + ' mm.');
       }
       if(!$('input.custom-height-field').hasClass('wrong-value')){
         $('input.custom-height-field').addClass('wrong-value');
@@ -604,13 +611,13 @@ function convertFormToJSON(form) {
       var lengthHalf = parseInt(parseInt($('input.custom-length-field').val()) * 0.5);
       if(parseInt($("input.custom-height-field").val()) > lengthHalf || value < min || value > max){
         if(parseInt($("input.custom-height-field").val()) > lengthHalf){
-          $('p.height-error-message').html('The depth must be less than half the length');
+          $('p.height-error-message').html('The height must be less than half the length');
         }
         if(value < min){
-          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Height should be ' + min + ' mm.');
         }
         if(value > max){
-          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Height should not be greater then ' + max + ' mm.');
         }
 
         if(!$('input.custom-height-field').hasClass('wrong-value')){
@@ -639,25 +646,25 @@ function convertFormToJSON(form) {
     }
       if($('select.box-style').val() == '5PF'){
         if(value < 75){
-          $('p.height-note-message').html('NOTE: If the required depth is less than 75mm then we can produce a product down to a minimum of 20mm, however the flaps will join in the middle and not on the side. Please contact us if this is not suitable.');
+          $('p.height-note-message').html('NOTE: If the required height is less than 75mm then we can produce a product down to a minimum of 20mm, however the flaps will join in the middle and not on the side. Please contact us if this is not suitable.');
         }else{
           $('p.height-note-message').html('');
         }
         $('p.height-error-message').html('');
         if((parseInt($("input.custom-height-field").val()) > parseInt($('input.custom-width-field').val())) || ((parseInt($("input.custom-height-field").val()) + parseInt($('input.custom-width-field').val())) < 200) || value < min || value > max){
           if(parseInt($("input.custom-height-field").val()) > parseInt($('input.custom-width-field').val())){
-            $('p.height-error-message').html('The depth must be less than or equal to width');
+            $('p.height-error-message').html('The height must be less than or equal to width');
           }
           if((parseInt($("input.custom-height-field").val()) + parseInt($('input.custom-width-field').val())) < 200){
-            $('p.height-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
+            $('p.height-error-message').html('The combined width and height must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
           }
 
           if(value > max){
-            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
+            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'height should not be greater then ' + max + ' mm.');
           }
 
           if(value < min){
-            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
+            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Height should be ' + min + ' mm.');
           }
 
           if(!$('input.custom-height-field').hasClass('wrong-value')){
@@ -701,7 +708,7 @@ function convertFormToJSON(form) {
     onOptionsChange();
     var value = parseInt($(this).val());
     
-    if((value < 1 || isNaN(value) || value > 250)){
+    if((value < 1 || isNaN(value) || value > 500)){
       if(value < 1 || isNaN(value)){
         $('p.quantity-error-message').html('Please enter the correct quantity value.');
         if(!$('input.custom-quantity-field').hasClass('wrong-value')){
@@ -711,6 +718,13 @@ function convertFormToJSON(form) {
           errorCount += 1;
           $('form.custom-product-form').data("errorcount", errorCount);
         }
+      }
+
+      if(value > 500){
+        $('.custom-contact-form-wrapper').show();
+        $('.unit-custom-price-wrapper').hide();
+        $('.total-custom-price-wrapper').hide();
+        $('.custom-button-wrapper').hide();
       }
 
     }else{

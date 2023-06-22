@@ -131,7 +131,8 @@
                             {%- assign item_total_price = calculated_price | times: item.quantity -%}
                             
                             {%- assign discount_minimum_quantity = discount_minimum_quantity | times: 1 -%}
-                            {%- if discount_enabled == true and item.quantity >= discount_minimum_quantity -%}
+                      
+                            {%- if discount_enabled == "true" and item.quantity >= discount_minimum_quantity -%}
                               
                                 {%- assign discount_percent_amount = discount_percent_amount | times: 1 -%} 
                                 {%- assign discount_ratio = 100 | minus: discount_percent_amount -%}
@@ -167,6 +168,7 @@
                         </div> 
                       </td> 
                       <td class="a-center item-total" style="text-align:center;">
+                       
                         <div>
                           {% unless discount_applied == false %}
                            <span>{{ discounted_price | money }}</span> 
