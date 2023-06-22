@@ -70,7 +70,9 @@ function convertFormToJSON(form) {
         //here comes the api link to save quote
         let qty = $("#qty").val();
         let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
-        if(qty >= 500){
+        let discountEnabled = $("#discount_enabled").val();
+        let minDiscountValue = Number($("#discount_minimum_quantity").val());
+        if(qty >= minDiscountValue && discountEnabled == "true"){
           totalPrice = $("#discounted_price").val();
         }
 
@@ -199,7 +201,9 @@ function convertFormToJSON(form) {
     
     let qty = $("#qty").val();
     let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
-    if(qty >= 500){
+    let discountEnabled = $("#discount_enabled").val();
+    let minDiscountValue = Number($("#discount_minimum_quantity").val());
+    if(qty >= minDiscountValue && discountEnabled == "true"){
       totalPrice = $("#discounted_price").val();
     }
     let includeLid = $("input[name='properties[includeLid]']:checked").val();
@@ -708,26 +712,6 @@ function convertFormToJSON(form) {
           $('form.custom-product-form').data("errorcount", errorCount);
         }
       }
-      
-      if(value > 250){
-        qualifySpecialPricing()
-
-        if($('input.custom-quantity-field').hasClass('wrong-value')){
-
-          $('p.quantity-error-message').html(''); 
-          $('input.custom-quantity-field').removeClass('wrong-value');
-          $('form.custom-product-form').removeClass('has-error');
-          var errorCount = $('form.custom-product-form').data("errorcount");
-          errorCount -= 1;
-          $('form.custom-product-form').data("errorcount", errorCount);
-
-        }
-
-      }
-
-      if(value > 500){
-        $('.custom-contact-form-wrapper').show();
-      }
 
     }else{
       $('#product-main-form').attr('action', '/cart/add');
@@ -754,23 +738,6 @@ function convertFormToJSON(form) {
     }
 
   });
-
-  function qualifySpecialPricing(){
-    $(".tooltip-message").show();
-    $('#product-main-form').attr('action', '/cart/add');
-    $('#boxStyle').attr('name', 'properties[boxStyle]');
-    $('#boardGrade').attr('name', 'properties[boardGrade]');
-    $('#length').attr('name', 'properties[length]');
-    $('#width').attr('name', 'properties[width]');
-    $('#height').attr('name', 'properties[height]');
-    $('#yes').attr('name', 'properties[includeLid]');
-    $('#no').attr('name', 'properties[includeLid]');
-    $('#qty').attr('name', 'quantity');
-    $('.custom-contact-form-wrapper').hide();
-    $('.custom-button-wrapper').show();
-    $('.total-custom-price-wrapper').show();
-    $('.unit-custom-price-wrapper').show();
-  }
 
   $('select.board-grade').change(function(){
     onOptionsChange();

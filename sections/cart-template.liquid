@@ -109,7 +109,7 @@
                 {%- comment -%}
                   Check if there was an uploaded file associated
                 {%- endcomment -%}
-                <span data-cart-item-property-value>
+                <span data-cart-item-property-value class="custom-cart-item_property">
                   {%- if p.last contains "uploads" -%}
                     <a href="{{ p.last }}">Uploaded File</a>
                   {%- else -%}
@@ -131,7 +131,7 @@
                             {%- assign item_total_price = calculated_price | times: item.quantity -%}
                             
                             {%- assign discount_minimum_quantity = discount_minimum_quantity | times: 1 -%}
-                            {%- if discount_enabled and item.quantity >= discount_minimum_quantity -%}
+                            {%- if discount_enabled == true and item.quantity >= discount_minimum_quantity -%}
                               
                                 {%- assign discount_percent_amount = discount_percent_amount | times: 1 -%} 
                                 {%- assign discount_ratio = 100 | minus: discount_percent_amount -%}
@@ -168,7 +168,6 @@
                       </td> 
                       <td class="a-center item-total" style="text-align:center;">
                         <div>
-                        
                           {% unless discount_applied == false %}
                            <span>{{ discounted_price | money }}</span> 
                           {% endunless %}
@@ -337,8 +336,9 @@
         dataType: 'json',
         data: stringifiedObj,
         success: function(responce){
+          $('button.custom-cart-page-checkout-button').attr('disabled',false);
+          $('button.custom-cart-page-checkout-button').html('Proceed to checkout');
           window.location.href = responce.checkoutUrl;
-          console.log(responce.checkoutUrl);
         },
         error: function(responce){
           $('button.custom-cart-page-checkout-button').attr('disabled', false);

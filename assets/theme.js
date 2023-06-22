@@ -1421,7 +1421,8 @@ var SW = SW || {};
                 var itemPrice = 0;
                   if(item.properties && item.properties._calculated_price){
                     itemPrice = item.properties._calculated_price * 100;
-                    if(item.quantity >= item.properties._discount_minimum_quantity && item.properties._discount_enabled){
+                    if((item.quantity >= item.properties._discount_minimum_quantity) && item.properties._discount_enabled == "true"){
+
                         discount_minimum_quantity = item.properties._discount_minimum_quantity;
                         let discount_ratio = 100 - item.properties._discount_percent_amount*1;
                         discount_ratio = (discount_ratio/100).toFixed(2);
@@ -1430,14 +1431,15 @@ var SW = SW || {};
                         total_custom_price = total_custom_price + discounted_price;
                         discount_percent_applied = item.properties._discount_percent_amount;
                         discount_applied = true;
+                        
                     }else{
-                      total_custom_price = total_custom_price + itemPrice * item.quantity;
-                      total_original_price = total_original_price + itemPrice * item.quantity;
+                        total_custom_price = total_custom_price + itemPrice * item.quantity;
+                        total_original_price = total_original_price + itemPrice * item.quantity;
                     }
                   }else{
                     itemPrice = item.price;
                     total_custom_price = total_custom_price + itemPrice * item.quantity;
-                    total_original_price = total_original_price + itemPrice * item.quantity;
+                    total_original_price = total_original_price + itemPrice * item.quantity; 
                   }
                   
               });
@@ -1445,6 +1447,7 @@ var SW = SW || {};
           }
         });
         let old_price_display = "none";
+        
         if(discount_applied){
           old_price_display = "inline-block";
         }
