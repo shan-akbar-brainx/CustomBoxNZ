@@ -37,7 +37,8 @@
                           <span class="reset-pass"><a href="#recover" id="RecoverPassword" {% if settings.language_enable %}data-translate="customer.login.forgot_password"{% endif %}>{{ 'customer.login.forgot_password' | t }}</a></span>
                           {% endif %}
                           <div class="buttons-set"> 
-                            <input type="submit" class="btn-button" {% if settings.language_enable %}data-translate="customer.login.log_in"{% endif %} value="{{ 'customer.login.log_in' | t }}">                    
+                            <input type="submit" class="custom-account-button btn-button" {% if settings.language_enable %}data-translate="customer.login.log_in"{% endif %} value="{{ 'customer.login.log_in' | t }}">
+                            <a href="/account/register" class="custom-button-link">Register</a>                    
                           </div> 
                         </li>
                       </ul> 

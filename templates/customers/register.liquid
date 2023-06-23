@@ -35,7 +35,8 @@
                         </li>
                         <li> 
                           <div class="buttons-set">
-                            <input type="submit" {% if settings.language_enable %}data-translate="customer.register.submit"{% endif %} value="{{ 'customer.register.submit' | t }}" class="btn-button">
+                            <input type="submit" {% if settings.language_enable %}data-translate="customer.register.submit"{% endif %} value="{{ 'customer.register.submit' | t }}" class="btn-button custom-account-button">
+                            <a href="/account/login" class="custom-button-link">Log in</a> 
                           </div>  
                         </li>
                       </ul> 
