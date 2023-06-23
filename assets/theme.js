@@ -1488,7 +1488,7 @@ var SW = SW || {};
                 $html += '<div class="cart-info"><p class="subtotal"><span class="label">'+cartData.totalLabel+'</span><span class="price"><span class="money">'+Shopify.formatMoney(total_custom_price, money_format)+
                 '</span><br/><span class="money" style="text-decoration:line-through;display:'+old_price_display+';">'+
                 Shopify.formatMoney(total_original_price, money_format)+
-                '</span><span style="color:red;display:'+old_price_display+';">'+discount_percent_applied+'% off, '+discount_minimum_quantity+' quantity discount.</span></span></p></div>';
+                '</span><span style="color:red;display:'+old_price_display+';">'+discount_percent_applied+'% off, '+discount_minimum_quantity+'+ quantity discount.</span></span></p></div>';
               	$html += '<div class="actions">';
               	if($('.header-container').hasClass('type20')){
               		$html += '<button type="button" onclick="customCheckout()" class="btn-button checkout-cart custom-checkout-button bordered uppercase"><span>'+cartData.buttonCheckout+'</span></button>';

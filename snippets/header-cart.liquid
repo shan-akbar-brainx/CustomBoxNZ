@@ -176,7 +176,7 @@
                 <span class="price">
                   <span class="money">{{ total_custom_price | money }}</span>
                   <span class="money"{%- if discount_applied_overall -%}style="text-decoration: line-through;"{% else %} style="display:none;"{%- endif -%}>{{ total_original_price | money }}</span>
-                  <span style="color:red;{%- unless discount_applied_overall -%}display:none;{%- endunless -%}"><br/>{{ discount_percent_amount }}% off, {{ discount_minimum_quantity }} quantity discount.</span>
+                  <span style="color:red;{%- unless discount_applied_overall -%}display:none;{%- endunless -%}"><br/>{{ discount_percent_amount }}% off, {{ discount_minimum_quantity }}+ quantity discount.</span>
                 </span>
               </p>
             </div>

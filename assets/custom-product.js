@@ -349,7 +349,7 @@ function convertFormToJSON(form) {
               $(".total-original-price").show();
               $(".total-original-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
               $(".discount-badge").show();
-              $(".discount-badge").html(responce.discountPercentage + "% off, " + responce.discountMinimumQuantity + " quantity discount.");
+              $(".discount-badge").html(responce.discountPercentage + "% off, " + responce.discountMinimumQuantity + "+ quantity discount.");
               $("#discounted_price").val(discounted_price.toFixed(2));
               
               

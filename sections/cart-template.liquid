@@ -175,7 +175,7 @@
                           {% endunless %}
                           <span {% unless discount_applied == false %}style="text-decoration:line-through;"{% endunless %}>{{ item_total_price | money }}</span>
                           {% unless discount_applied == false %}
-                            <span class="cart-discount-field"><br/>{{ discount_percent_amount}}% off, {{ discount_minimum_quantity }} quantity discount.</span> 
+                            <span class="cart-discount-field"><br/>{{ discount_percent_amount}}% off, {{ discount_minimum_quantity }}+ quantity discount.</span> 
                           {% endunless %}
 
                         </div>
