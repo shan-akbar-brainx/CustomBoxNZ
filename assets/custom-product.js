@@ -353,6 +353,9 @@ function convertFormToJSON(form) {
       }
     }else{
       event.preventDefault();
+      $('html, body').animate({
+        scrollTop: $(".error").offset().top - 300
+      }, 1000);
     }
     
   });
