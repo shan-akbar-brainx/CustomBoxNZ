@@ -36,9 +36,13 @@ function convertFormToJSON(form) {
           $('#yes').attr('name', 'contact[Include Lid]');
           $('#no').attr('name', 'contact[Include Lid]');
           $('#qty').attr('name', 'contact[Quantity]');
-
-          $('form.custom-product-form').submit();
           localStorage.setItem('contact-form-posted', 'true');
+          $('form.custom-product-form').submit();
+         
+        }else{
+          $('html, body').animate({
+            scrollTop: $(".error").offset().top - 300
+          }, 1000);
         }
 
       }else{
@@ -444,7 +448,7 @@ function convertFormToJSON(form) {
     }else{
       $("label.custom-length-field-label").html("Length mm");
       $("label.custom-width-field-label").html("Width mm");
-      $("label.custom-height-field-label").html("Height mm"); 
+      $("label.custom-height-field-label").html("Height mm");
     }
   }
 
