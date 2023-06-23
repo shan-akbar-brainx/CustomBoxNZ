@@ -37,7 +37,7 @@ function convertFormToJSON(form) {
           $('#no').attr('name', 'contact[Include Lid]');
           $('#qty').attr('name', 'contact[Quantity]');
           localStorage.setItem('contact-form-posted', 'true');
-          $('form.custom-product-form').submit();
+          $('#product-main-form').submit();
          
         }else{
           $('html, body').animate({
