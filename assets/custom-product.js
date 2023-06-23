@@ -15,15 +15,38 @@ function convertFormToJSON(form) {
       var errorCount = $('form.custom-product-form').data("errorcount");
 
       if(!errorCount){
-       
-        $(".custom-product-form").validate().element("#boxStyle");
-        $(".custom-product-form").validate().element("#boardGrade");
-        $(".custom-product-form").validate().element("#length");
-        $(".custom-product-form").validate().element("#width");
-        $(".custom-product-form").validate().element("#height");
-        $(".custom-product-form").validate().element("#ContactFormName");
-        $(".custom-product-form").validate().element("#ContactFormEmail");
-        $(".custom-product-form").validate().element("#ContactFormMessage");
+      
+        if($(".custom-product-form").validate().element("#boxStyle")){
+          $("#boxStyle-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#boardGrade")){
+          $("#boardGrade-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#length")){
+          $("#length-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#width")){
+          $("#width-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#height")){
+          $("#height-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#ContactFormName")){
+          $("#ContactFormName-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#ContactFormEmail")){
+          $("#ContactFormEmail-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#ContactFormMessage")){
+          $("#ContactFormMessage-error").removeClass("error");
+        }
 
         var formValid = $('form.custom-product-form').valid();
         if(formValid){
@@ -262,6 +285,23 @@ function convertFormToJSON(form) {
     let lengthValidate = $(".custom-product-form").validate().element("#length");
     let widthValidate = $(".custom-product-form").validate().element("#width");
     let heightValidate = $(".custom-product-form").validate().element("#height");
+    
+
+    if(boxStyleValidate){
+      $("#boxStyle-error").removeClass("error");
+    }
+    if(boardGradeValidate){
+      $("#boardGrade-error").removeClass("error");
+    }
+    if(lengthValidate){
+      $("#length-error").removeClass("error");
+    }
+    if(widthValidate){
+      $("#width-error").removeClass("error");
+    }
+    if(heightValidate){
+      $("#height-error").removeClass("error");
+    }
     
     
     if(boxStyleValidate && boardGradeValidate && lengthValidate && widthValidate && heightValidate){
