@@ -4835,34 +4835,6 @@ body:not(.template-index) {
         width: 1px;
         background-color:#dddddd;
       }
-      &:after {
-        content: 'or';
-        display: block;
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        line-height: 50px;
-        font-style: italic;
-        color: #7a7a7a;
-        border: 1px solid #ddd;
-        border-radius:100%;
-        background: #fff;
-        position: absolute;
-        display: block;
-        left: -25px;
-        top: 50%;
-        margin-top:-25px;
-      } 
-      &.or-right {
-        &:before {
-          right:0;
-          left:auto;
-        }
-        &:after {
-          right:-25px;
-          left:auto;
-        }
-      }
     }
     .box-info{
       .new-user,.login-user, .login-forgot {
@@ -5133,6 +5105,7 @@ body:not(.template-index) {
           th {
             font-weight: 400;
             padding: 15px 10px 15px 0;
+            width: 25% !important;
             color: #626060;
             white-space: nowrap;
             vertical-align: middle;
@@ -5152,6 +5125,7 @@ body:not(.template-index) {
           td { 
             border-width: 0;
             padding: 15px 10px 15px 0;
+            width: 25%;
             &.action-td{
               padding: 15px 0;
               a{
@@ -10249,8 +10223,43 @@ p.height-note-message{
   margin-top: 5px;
 }
 
+#CustomerLoginForm{
+  margin: 0 auto;
+}
+
+.custom-new__user{
+  margin: 0 auto;
+}
+
 .account-active-tab{
   display: block !important;
+}
+
+.product-details__item{
+  list-style: disc;
+}
+
+.custom-button-link{
+  background-color: #f16321;
+  color: #fff;
+  display: inline-block;
+  transition: all 0.3s;
+  border-radius: 30px;
+  padding: 14px 45px;
+  font-weight: 400;
+  font-size: 15px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 18px;
+}
+
+.custom-button-link:hover{
+  color: white;
+  background-color: #ff8c00;
+}
+
+.custom-account-button{
+  margin-bottom: 10px;
 }
 
 @media(max-width: 991px){
@@ -11138,6 +11147,10 @@ p.height-note-message{
   }
 }
 @media (max-width: 767px) {
+
+  .custom-cart-item_property{
+    margin-left: 20px;
+  }
   
   .collection-banner .half-content{
   	    float: none !important;

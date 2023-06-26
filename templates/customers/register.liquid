@@ -6,9 +6,9 @@
       <div class="registered-users"> 
         <div class="form-vertical"> 
           <div class="row">
-            <div class="col-sm-6 form-or or-right"> 
-              <div class="box-info f-right">
-                <div class="new-user">
+            <div class="col-sm-12 form-or or-right"> 
+              <div class="box-info">
+                <div class="new-user custom-new__user">
                   <h2 {% if settings.language_enable %}data-translate="customer.login.register"{% endif %}>{{ 'customer.login.register' | t }}</h2>
                   <p {% if settings.language_enable %}data-translate="customer.login.register_content"{% endif %}>{{ 'customer.login.register_content' | t }}</p>
                   <div class="form-box">
@@ -35,7 +35,8 @@
                         </li>
                         <li> 
                           <div class="buttons-set">
-                            <input type="submit" {% if settings.language_enable %}data-translate="customer.register.submit"{% endif %} value="{{ 'customer.register.submit' | t }}" class="btn-button">
+                            <input type="submit" {% if settings.language_enable %}data-translate="customer.register.submit"{% endif %} value="{{ 'customer.register.submit' | t }}" class="btn-button custom-account-button">
+                            <a href="/account/login" class="custom-button-link">Log in</a> 
                           </div>  
                         </li>
                       </ul> 
@@ -44,92 +45,6 @@
                   </div> 
                 </div>
               </div> 
-            </div>
-            <div class="col-sm-6">  
-              <div class="box-info">
-                <div id="CustomerLoginForm" class="login-user">
-                  <div class="page-title">
-                    <h2 {% if settings.language_enable %}data-translate="customer.login.title"{% endif %}>{{ 'customer.login.title' | t }}</h2>
-                    <p {% if settings.language_enable %}data-translate="customer.login.content"{% endif %}>{{ 'customer.login.content' | t }}</p>
-                  </div>  
-                  <div class="form-box">
-                    {% form 'customer_login' %} 
-                   
-                    {{ form.errors | default_errors }}
-                    <div class="content">
-                      <ul class="form-list">
-                        <li>
-                          <label for="CustomerEmail" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.login.email"{% endif %}>{{ 'customer.login.email' | t }}</span><em>*</em></label>
-                          <input type="email" name="customer[email]" id="CustomerEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" autocorrect="off" autocapitalize="off" autofocus required>
-                        </li>
-                        <li>
-                          {% if form.password_needed %}
-                          <label for="CustomerPassword" class="hidden-label"><span  {% if settings.language_enable %}data-translate="customer.login.password"{% endif %}>{{ 'customer.login.password' | t }}</span><em>*</em></label>
-                          <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" required>
-                          {% endif %}
-                        </li>
-                        <li>
-                          {% if form.password_needed %}
-                          <span class="reset-pass"><a href="#recover" id="RecoverPassword" {% if settings.language_enable %}data-translate="customer.login.forgot_password"{% endif %}>{{ 'customer.login.forgot_password' | t }}</a></span>
-                          {% endif %}
-                          <div class="buttons-set"> 
-                            <input type="submit" class="btn-button" {% if settings.language_enable %}data-translate="customer.login.log_in"{% endif %} value="{{ 'customer.login.log_in' | t }}">                    
-                          </div> 
-                        </li>
-                      </ul> 
-                    </div>  
-                    {% endform %}
-                  </div> 
-                </div>
-                <div id="RecoverPasswordForm" class="login-forgot" style="display: none;">
-                  {% comment %}
-                  JS shows/hides this form in timber.loginForms()
-                  {% endcomment %}
-                  <div>
-                    <div class="page-title">
-                      <h2 {% if settings.language_enable %}data-translate="customer.recover_password.title"{% endif %}>{{ 'customer.recover_password.title' | t }}</h2>
-                      <p {% if settings.language_enable %}data-translate="customer.recover_password.subtext"{% endif %}>{{ 'customer.recover_password.subtext' | t }}</p>
-                    </div>  
-                    <div class="form-box">
-                      {% form 'recover_customer_password' %} 
-                      {{ form.errors | default_errors }} 
-                      {% comment %}
-                      Assign variable to be used after timber.init() is run in theme.liquid
-                      {% endcomment %}
-                      {% if form.posted_successfully? %}
-                      {% assign resetPassword = true %}
-                      {% endif %}
-                      <div class="content">
-                        <ul class="form-list">
-                          <li>
-                            <label for="RecoverEmail" class="hidden-label" {% if settings.language_enable %}data-translate="customer.recover_password.email"{% endif %}>{{ 'customer.recover_password.email' | t }}<em>*</em></label>
-                            <input type="email" value="" name="email" id="RecoverEmail" class="input-full" placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
-                          </li>
-                          <li>
-                            <div class="buttons-set">
-                              <span class="reset-pass"><a href="javascript:void(0);" id="HideRecoverPasswordLink" class="text-link" {% if settings.language_enable %}data-translate="customer.recover_password.cancel"{% endif %}><small style="font-size:100%;">« </small>{{ 'customer.recover_password.cancel' | t }}?</a></span>
-                              <input type="submit" class="btn-button" {% if settings.language_enable %}data-translate="customer.recover_password.submit"{% endif %} value="{{ 'customer.recover_password.submit' | t }}"> 
-                            </div>
-                          </li>
-                        </ul>
-                      </div>  
-                      {% endform %}
-                    </div> 
-                  </div>
-
-                  {% comment %}
-                  If accounts are set as optional, the following will be shown as an option
-                  during checkout, not on the default /login page.
-                  {% endcomment %}
-                  {% if shop.checkout.guest_login %}
-                  <hr> 
-                  <h2 {% if settings.language_enable %}data-translate="customer.login.guest_title"{% endif %}>{{ 'customer.login.guest_title' | t }}</h2> 
-                  {% form 'guest_login' %}
-                  <input type="submit" class="btn" {% if settings.language_enable %}data-translate="customer.login.guest_continue"{% endif %} value="{{ 'customer.login.guest_continue' | t }}">
-                  {% endform %}
-                  {% endif %} 
-                </div>
-              </div>
             </div>
           </div> 
         </div> 

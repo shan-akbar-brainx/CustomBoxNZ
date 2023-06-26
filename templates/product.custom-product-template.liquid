@@ -5,6 +5,13 @@
 {% assign media_col = settings.product_image_size %} 
 {% assign main_col = 12 | minus: settings.product_image_size %}
 {{ '3D.scss' | asset_url | stylesheet_tag }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js" integrity="sha512-6S5LYNn3ZJCIm0f9L6BCerqFlQ4f5MwNKq+EthDXabtaJvg3TuFLhpno9pcm+5Ynm6jdA9xfpQoMz2fcjVMk9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="{{ 'custom-product.js' | asset_url }}" defer></script>
+
+
 
  
 <div class="product-main">   
@@ -199,6 +206,7 @@
                             <option value="B&L">Box and Lid (B&L)</option>
                             <option value="5PF">5 Panel Folder (5PF)</option>
                           </select>
+                          
                         </div>
                         <div class="custom-product-field">
                           <label for="boardGrade">Board Grade</label>
@@ -220,16 +228,16 @@
                           <p class="error-message width-error-message"></p>
                         </div>
                         <div class="custom-product-field">
-                          <label for="height" class="custom-height-field-label custom-input-field-label">Depth mm</label>
+                          <label for="height" class="custom-height-field-label custom-input-field-label">Height mm</label>
                           <input class="custom-input-field custom-height-field" type="number" id="height" name="properties[height]" data-min="0" data-max="0" min="0"  value="0" placeholder="0" required>
                           <p class="error-message height-error-message"></p>
                           <p class="note-message height-note-message"></p>
                         </div>
                         <div class="include-lid-field display-hidden">
                           <p><b>Include lid:</b></p>
-                          <input class="custom-input-field" type="radio" id="yes" name="properties[includeLid]" value="true">
+                          <input class="custom-input-field" type="radio" id="yes" name="properties[includeLid]" value="Yes">
                           <label for="yes">Yes</label><br>
-                          <input class="custom-input-field" type="radio" id="no" name="properties[includeLid]" checked value="false">
+                          <input class="custom-input-field" type="radio" id="no" name="properties[includeLid]" checked value="No">
                           <label for="no">No</label><br>
                         </div>
                         <div class="error-box">
@@ -325,25 +333,23 @@
                           <input type="hidden" class="contact-form-hidden-input" name="form_type" value="contact">
                           <input type="hidden" name="utf8" value="✓">
 
-                          {{ form.errors | default_errors }}
-                          {% assign name_attr = 'contact.form.name' | t | handle %}
                           <div class="custom-contact-form-field">
-                            <label for="name" class="required">{{ 'contact.form.name' | t }}<em>*</em></label>
-                            <input type="text" id="ContactFormName" class="input-full" name="contact[{{ name_attr }}]" autocapitalize="words" required value="">
+                            <label for="ContactFormName" class="required">Name<em>*</em></label>
+                            <input type="text" id="ContactFormName" class="input-full" name="contact[name]" required >
                           </div> 
                         <div class="custom-contact-form-field"> 
-                          <label for="name" class="required">{{ 'contact.form.phone' | t }}</label>
-                          {% assign name_attr = 'contact.form.phone' | t | handle %} 
-                          <input type="text" id="ContactFormPhone" class="input-full" name="contact[{{ name_attr }}]" maxlength="11" minlength="9" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="">
+                          <label for="ContactFormPhone" class="required">Telephone</label>
+                         
+                          <input type="text" id="ContactFormPhone" class="input-full" name="contact[telephone]" maxlength="11" minlength="9" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </div>
 
                         <div class="custom-contact-form-field">
-                          <label for="name" class="required">{{ 'contact.form.email' | t }}<em>*</em></label>
-                          <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" autocorrect="off" autocapitalize="off"  required  value="">
+                          <label for="ContactFormEmail" class="required">Email<em>*</em></label>
+                          <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" autocorrect="off" autocapitalize="off"  required >
                         </div>
 
                         <div class="custom-contact-form-field">
-                          <label for="name" class="required">Choose Option<em>*</em></label>
+                          <label for="ContactFormDeliver" class="required">Choose Option<em>*</em></label>
                           <select class="custom-select-field delivery-type" id="ContactFormDeliver" name="contact[deliveryType]" required>
                             <option value="collect" >Collect</option>
                             <option value="deliver">Deliver</option>
@@ -351,12 +357,12 @@
                         </div>
 
                         <div class="custom-contact-form-field custom-contact-form-field__address">
-                          <label for="name" class="required">Enter delivery address<em>*</em></label>
-                          <input type="text" id="ContactFormAddress" class="input-full" name="address" autocorrect="off" autocapitalize="off"  required  value="">
+                          <label for="ContactFormAddress" class="required">Enter delivery address<em>*</em></label>
+                          <input type="text" id="ContactFormAddress" class="input-full" name="address" autocorrect="off" autocapitalize="off"  required >
                         </div>
 
                         <div class="custom-contact-form-field">  
-                          <label for="name" class="required">{{ 'contact.form.comment' | t }}<em>*</em></label>
+                          <label for="ContactFormMessage" class="required">Comment<em>*</em></label>
                           <textarea rows="15" cols="5" style="height:auto;" id="ContactFormMessage" class="input-full" name="contact[body]" required placeholder="{{ 'contact.form.comment' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
                         </div>
 

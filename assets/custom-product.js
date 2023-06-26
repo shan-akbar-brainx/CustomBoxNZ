@@ -13,21 +13,59 @@ function convertFormToJSON(form) {
   $( ".custom-contact-form-submit" ).on("click", function(event){
       
       var errorCount = $('form.custom-product-form').data("errorcount");
+
       if(!errorCount){
-       
-        $(".custom-product-form").validate().element("#boxStyle");
-        $(".custom-product-form").validate().element("#boardGrade");
-        $(".custom-product-form").validate().element("#length");
-        $(".custom-product-form").validate().element("#width");
-        $(".custom-product-form").validate().element("#height");
-        $(".custom-product-form").validate().element("#ContactFormName");
-        $(".custom-product-form").validate().element("#ContactFormEmail");
-        $(".custom-product-form").validate().element("#ContactFormMessage");
+      
+        if($(".custom-product-form").validate().element("#boxStyle")){
+          $("#boxStyle-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#boardGrade")){
+          $("#boardGrade-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#length")){
+          $("#length-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#width")){
+          $("#width-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#height")){
+          $("#height-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#ContactFormName")){
+          $("#ContactFormName-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#ContactFormEmail")){
+          $("#ContactFormEmail-error").removeClass("error");
+        }
+
+        if($(".custom-product-form").validate().element("#ContactFormMessage")){
+          $("#ContactFormMessage-error").removeClass("error");
+        }
 
         var formValid = $('form.custom-product-form').valid();
         if(formValid){
-          $('form.custom-product-form').submit();
+          $('#product-main-form').attr('action', '/contact#contact_form');
+          $('#boxStyle').attr('name', 'contact[Box Style]');
+          $('#boardGrade').attr('name', 'contact[Board Grade]');
+          $('#length').attr('name', 'contact[Length]');
+          $('#width').attr('name', 'contact[Width]');
+          $('#height').attr('name', 'contact[Height]');
+          $('#yes').attr('name', 'contact[Include Lid]');
+          $('#no').attr('name', 'contact[Include Lid]');
+          $('#qty').attr('name', 'contact[Quantity]');
           localStorage.setItem('contact-form-posted', 'true');
+          $('#product-main-form').submit();
+         
+        }else{
+          $('html, body').animate({
+            scrollTop: $(".error").offset().top - 300
+          }, 1000);
         }
 
       }else{
@@ -57,11 +95,22 @@ function convertFormToJSON(form) {
         $('button.custom-save-quote').attr('disabled','true');
         $('button.custom-save-quote').html('<i class="fa fa-spinner fa-spin"></i>');
         //here comes the api link to save quote
-        let qty = $("#qty").val();
+        
+        let qty = Number($("#qty").val());
         let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
-        if(qty == 500){
+        let discountEnabled = $("#discount_enabled").val();
+        let minDiscountValue = Number($("#discount_minimum_quantity").val());
+        if(qty >= minDiscountValue && discountEnabled == "true"){
           totalPrice = $("#discounted_price").val();
         }
+
+        let includeLid = $("input[name='properties[includeLid]']:checked").val();
+          if(includeLid == "Yes"){
+            includeLid = true;
+          }else{
+            includeLid = false;
+          }
+        
         let quote = {
           "user_id": customerId,
           "box_style": $("#boxStyle").val(),
@@ -69,7 +118,7 @@ function convertFormToJSON(form) {
           "length": $("#length").val(),
           "width": $("#width").val(),
           "height": $("#height").val(),
-          "include_lid": $("input[name='properties[includeLid]']:checked").val(),
+          "include_lid": includeLid,
           "quantity": $("#qty").val(),
           "unit_price": $("#calculated_price").val(),
           "total_price": totalPrice,
@@ -107,7 +156,7 @@ function convertFormToJSON(form) {
       $("#length").val(currentSelection.length).change();
       $("#width").val(currentSelection.width).change();
       $("#height").val(currentSelection.height).change();
-      if(currentSelection.includeLid == true){
+      if(currentSelection.includeLid == "Yes"){
         $("#yes").prop("checked", true);  
       }else{
         $("#no").prop("checked", true);
@@ -115,6 +164,9 @@ function convertFormToJSON(form) {
       $("#qty").val(currentSelection.quantity).change();
       $("#calculated_price").val(currentSelection.unitPrice);
       $("#discounted_price").val(currentSelection.discountedPrice);
+      $("#discounted_price").val(currentSelection.discountedPrice);
+      $("#discount_enabled").val(currentSelection.discountEnabled);
+      $("#discount_minimum_quantity").val(currentSelection.discountMinimumQuantity);
       await $("#calculate_price").click();
         
       //here comes the api link to save quote
@@ -153,15 +205,24 @@ function convertFormToJSON(form) {
       saveQuote(customerId);
 
     }else{
+      let includeLid = $("input[name='properties[includeLid]']:checked").val();
+      if(includeLid == "Yes"){
+        includeLid = true;
+      }else{
+        includeLid = false;
+      }
       let currentSelection = {
         "boxStyle": $("#boxStyle").val(),
         "boardGrade": $("#boardGrade").val(),
         "length": $("#length").val(),
         "width": $("#width").val(),
         "height": $("#height").val(),
-        "includeLid": $("input[name='properties[includeLid]']:checked").val(),
+        "includeLid": includeLid,
         "quantity": $("#qty").val(),
-        "unitPrice": $("#calculated_price").val()
+        "unitPrice": $("#calculated_price").val(),
+        "discountedPrice": $("#discounted_price").val(),
+        "discountEnabled": $("#discount_enabled").val(),
+        "discountMinimumQuantity": $("#discount_minimum_quantity").val()
       }
       let currentSelectionString = JSON.stringify(currentSelection);
       localStorage.setItem("currentSelection", currentSelectionString);
@@ -172,11 +233,20 @@ function convertFormToJSON(form) {
 
   async function searchQuoteAndSetId(customerId){
     
-    let qty = $("#qty").val();
+    let qty = Number($("#qty").val());
     let totalPrice = ($("#calculated_price").val() * $("#qty").val()).toFixed(2);
-    if(qty == 500){
+    let discountEnabled = $("#discount_enabled").val();
+    let minDiscountValue = Number($("#discount_minimum_quantity").val());
+    if(qty >= minDiscountValue && discountEnabled == "true"){
       totalPrice = $("#discounted_price").val();
     }
+    let includeLid = $("input[name='properties[includeLid]']:checked").val();
+      if(includeLid == "Yes"){
+        includeLid = true;
+      }else{
+        includeLid = false;
+      }
+    
 
     let quoteObject = {
       "user_id": customerId,
@@ -185,7 +255,7 @@ function convertFormToJSON(form) {
       "length": $("#length").val(),
       "width": $("#width").val(),
       "height": $("#height").val(),
-      "include_lid": $("input[name='properties[includeLid]']:checked").val(),
+      "include_lid": includeLid,
       "quantity": $("#qty").val(),
       "unit_price": $("#calculated_price").val(),
       "total_price": totalPrice
@@ -207,19 +277,36 @@ function convertFormToJSON(form) {
       }
       return responce;
   }
-
+ 
   $( ".custom-product-submit" ).on( "click", async function( event ) {
 
-    $(".custom-product-form").validate().element("#boxStyle");
-    $(".custom-product-form").validate().element("#boardGrade");
-    $(".custom-product-form").validate().element("#length");
-    $(".custom-product-form").validate().element("#width");
-    $(".custom-product-form").validate().element("#height");
-    var formValid = $('form.custom-product-form').valid();
+    let boxStyleValidate = $(".custom-product-form").validate().element("#boxStyle");
+    let boardGradeValidate = $(".custom-product-form").validate().element("#boardGrade");
+    let lengthValidate = $(".custom-product-form").validate().element("#length");
+    let widthValidate = $(".custom-product-form").validate().element("#width");
+    let heightValidate = $(".custom-product-form").validate().element("#height");
     
-    if(formValid){
-      var errorCount = $('form.custom-product-form').data("errorcount");
 
+    if(boxStyleValidate){
+      $("#boxStyle-error").removeClass("error");
+    }
+    if(boardGradeValidate){
+      $("#boardGrade-error").removeClass("error");
+    }
+    if(lengthValidate){
+      $("#length-error").removeClass("error");
+    }
+    if(widthValidate){
+      $("#width-error").removeClass("error");
+    }
+    if(heightValidate){
+      $("#height-error").removeClass("error");
+    }
+    
+    
+    if(boxStyleValidate && boardGradeValidate && lengthValidate && widthValidate && heightValidate){
+      
+      var errorCount = $('form.custom-product-form').data("errorcount");
       if(!errorCount){
         $('p.price-error-message').html('');
         $('p.general-error-message').html('');
@@ -262,8 +349,8 @@ function convertFormToJSON(form) {
               $(".total-original-price").show();
               $(".total-original-price").html("$" + (calculatedUnitPrice*value.quantity).toFixed(2));
               $(".discount-badge").show();
-              $(".discount-badge").html(responce.discountPercentage + "% off, " + responce.discountMinimumQuantity + " quantity discount.");
-              $("#discounted_price").val(discounted_price);
+              $(".discount-badge").html(responce.discountPercentage + "% off, " + responce.discountMinimumQuantity + "+ quantity discount.");
+              $("#discounted_price").val(discounted_price.toFixed(2));
               
               
             }else{
@@ -286,9 +373,9 @@ function convertFormToJSON(form) {
             $('button.custom-product-submit').attr('disabled', false);
             $('button.custom-product-submit').html('Calculate Price');
             if(responce.totalRate == 0 || responce.totalRate == null ){
-              $('p.general-error-message').html("The dimensions entered do not fit the size of the board. <br> Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+              $('p.general-error-message').html("The dimensions entered do not fit the size of the board. <br> Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }else{
-              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }
 
           }
@@ -299,12 +386,16 @@ function convertFormToJSON(form) {
         }
 
       }else{
+        event.preventDefault();
         $('html, body').animate({
           scrollTop: $(".wrong-value").offset().top - 300
         }, 1000);
       }
     }else{
       event.preventDefault();
+      $('html, body').animate({
+        scrollTop: $(".error").offset().top - 300
+      }, 1000);
     }
     
   });
@@ -369,7 +460,7 @@ function convertFormToJSON(form) {
       }
       $("label.custom-length-field-label").html("Length mm");
       $("label.custom-width-field-label").html("Width mm");
-      $("label.custom-height-field-label").html("Depth mm");
+      $("label.custom-height-field-label").html("Height mm");
       if(selectedStyle){
         //length
         $("input.custom-length-field").data("min", minLength);
@@ -392,15 +483,15 @@ function convertFormToJSON(form) {
         $("input.custom-height-field").data("min", minHeight);
         $("input.custom-height-field").data("max", maxHeight);
         if(maxHeight == null){
-          $("label.custom-height-field-label").html("Depth mm <span>(Minimum Depth: " + minHeight + ")</span>");
+          $("label.custom-height-field-label").html("Height mm <span>(Minimum Height: " + minHeight + ")</span>");
         }else{
-          $("label.custom-height-field-label").html("Depth mm <span>(" + minHeight + " - " + maxHeight + ")</span>"); 
+          $("label.custom-height-field-label").html("Height mm <span>(" + minHeight + " - " + maxHeight + ")</span>"); 
         } 
       }
     }else{
       $("label.custom-length-field-label").html("Length mm");
       $("label.custom-width-field-label").html("Width mm");
-      $("label.custom-height-field-label").html("Depth mm"); 
+      $("label.custom-height-field-label").html("Height mm");
     }
   }
 
@@ -428,7 +519,7 @@ function convertFormToJSON(form) {
           errorCount += 1;
           $('form.custom-product-form').data("errorcount", errorCount);
           if(errorCount == 1){
-            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
           }
         }
       }else{ 
@@ -471,7 +562,7 @@ function convertFormToJSON(form) {
           errorCount += 1;
           $('form.custom-product-form').data("errorcount", errorCount);
           if(errorCount == 1){
-            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
           }
         }
       }else{
@@ -493,11 +584,11 @@ function convertFormToJSON(form) {
         height_value = height_value || 0;
         if((parseInt($("input.custom-width-field").val()) < height_value) || (parseInt($("input.custom-width-field").val()) + height_value) < 200 ){
           if(parseInt($("input.custom-width-field").val()) < height_value){
-            $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'The width must be greater than or equal to the depth.');
+            $('p.width-error-message').html($('p.width-error-message').html() + '<br>'+'The width must be greater than or equal to the height.');
           }
 
           if((parseInt($("input.custom-width-field").val()) + height_value) < 200){
-            $('p.width-error-message').html($('p.width-error-message').html() + '<br>' + 'The combined width and depth must be greater than or equal to 200mm.');
+            $('p.width-error-message').html($('p.width-error-message').html() + '<br>' + 'The combined width and height must be greater than or equal to 200mm.');
           }
           if(!$('input.custom-width-field').hasClass('wrong-value')){
             $('input.custom-width-field').addClass('wrong-value');
@@ -506,7 +597,7 @@ function convertFormToJSON(form) {
             errorCount += 1;
             $('form.custom-product-form').data("errorcount", errorCount);
             if(errorCount == 1){
-              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }
           }
         }else{
@@ -535,10 +626,10 @@ function convertFormToJSON(form) {
     $('p.height-error-message').html('');
     if(value < min || value > max){
       if(value < min){
-        $('p.height-error-message').html('Minimum Depth should be ' + min + ' mm.');
+        $('p.height-error-message').html('Minimum Height should be ' + min + ' mm.');
       }
       if(value > max){
-        $('p.height-error-message').html('Depth should not be greater then ' + max + ' mm.');
+        $('p.height-error-message').html('Height should not be greater then ' + max + ' mm.');
       }
       if(!$('input.custom-height-field').hasClass('wrong-value')){
         $('input.custom-height-field').addClass('wrong-value');
@@ -547,7 +638,7 @@ function convertFormToJSON(form) {
         errorCount += 1;
         $('form.custom-product-form').data("errorcount", errorCount);
         if(errorCount == 1){
-          $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+          $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
         }
       }
     }else{
@@ -567,13 +658,13 @@ function convertFormToJSON(form) {
       var lengthHalf = parseInt(parseInt($('input.custom-length-field').val()) * 0.5);
       if(parseInt($("input.custom-height-field").val()) > lengthHalf || value < min || value > max){
         if(parseInt($("input.custom-height-field").val()) > lengthHalf){
-          $('p.height-error-message').html('The depth must be less than half the length');
+          $('p.height-error-message').html('The height must be less than half the length');
         }
         if(value < min){
-          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Height should be ' + min + ' mm.');
         }
         if(value > max){
-          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
+          $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Height should not be greater then ' + max + ' mm.');
         }
 
         if(!$('input.custom-height-field').hasClass('wrong-value')){
@@ -583,7 +674,7 @@ function convertFormToJSON(form) {
           errorCount += 1;
           $('form.custom-product-form').data("errorcount", errorCount);
           if(errorCount == 1){
-            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+            $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
           }
         }
       }else{
@@ -602,25 +693,25 @@ function convertFormToJSON(form) {
     }
       if($('select.box-style').val() == '5PF'){
         if(value < 75){
-          $('p.height-note-message').html('NOTE: If the required depth is less than 75mm then we can produce a product down to a minimum of 20mm, however the flaps will join in the middle and not on the side. Please contact us if this is not suitable.');
+          $('p.height-note-message').html('NOTE: If the required height is less than 75mm then we can produce a product down to a minimum of 20mm, however the flaps will join in the middle and not on the side. Please contact us if this is not suitable.');
         }else{
           $('p.height-note-message').html('');
         }
         $('p.height-error-message').html('');
         if((parseInt($("input.custom-height-field").val()) > parseInt($('input.custom-width-field').val())) || ((parseInt($("input.custom-height-field").val()) + parseInt($('input.custom-width-field').val())) < 200) || value < min || value > max){
           if(parseInt($("input.custom-height-field").val()) > parseInt($('input.custom-width-field').val())){
-            $('p.height-error-message').html('The depth must be less than or equal to width');
+            $('p.height-error-message').html('The height must be less than or equal to width');
           }
           if((parseInt($("input.custom-height-field").val()) + parseInt($('input.custom-width-field').val())) < 200){
-            $('p.height-error-message').html('The combined width and depth must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
+            $('p.height-error-message').html('The combined width and height must be greater than or equal to 200mm.' + '<br>' + $('p.height-error-message').html());
           }
 
           if(value > max){
-            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Depth should not be greater then ' + max + ' mm.');
+            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'height should not be greater then ' + max + ' mm.');
           }
 
           if(value < min){
-            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Depth should be ' + min + ' mm.');
+            $('p.height-error-message').html($('p.height-error-message').html()+'<br>'+'Minimum Height should be ' + min + ' mm.');
           }
 
           if(!$('input.custom-height-field').hasClass('wrong-value')){
@@ -630,7 +721,7 @@ function convertFormToJSON(form) {
             errorCount += 1;
             $('form.custom-product-form').data("errorcount", errorCount);
             if(errorCount == 1){
-              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> CBoxSales@packprod.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
+              $('p.general-error-message').html("Don't give up! <br> We may be able to produce boxes outside these specifications. <br>Please contact <br> <span class='custombox-text'> sales@custombox.co.nz </span> or telephone us on <span class='custombox-text'>0508 334 466.</span>");
             }
           }
         }else{
@@ -663,8 +754,9 @@ function convertFormToJSON(form) {
     $(".tooltip-message").hide();
     onOptionsChange();
     var value = parseInt($(this).val());
-    if(value < 1 || value > 500 || (value > 250 && value < 500)){
-      if(value < 1){
+    
+    if((value < 1 || isNaN(value) || value > 500)){
+      if(value < 1 || isNaN(value)){
         $('p.quantity-error-message').html('Please enter the correct quantity value.');
         if(!$('input.custom-quantity-field').hasClass('wrong-value')){
           $('input.custom-quantity-field').addClass('wrong-value');
@@ -674,49 +766,12 @@ function convertFormToJSON(form) {
           $('form.custom-product-form').data("errorcount", errorCount);
         }
       }
-      
-      if(value > 250 && value < 500){
-        $(".tooltip-message").show();
-        $('#product-main-form').attr('action', '/cart/add');
-        $('#boxStyle').attr('name', 'properties[boxStyle]');
-        $('#boardGrade').attr('name', 'properties[boardGrade]');
-        $('#length').attr('name', 'properties[length]');
-        $('#width').attr('name', 'properties[width]');
-        $('#height').attr('name', 'properties[height]');
-        $('#yes').attr('name', 'properties[includeLid]');
-        $('#no').attr('name', 'properties[includeLid]');
-        $('#qty').attr('name', 'quantity');
-        $('.custom-contact-form-wrapper').hide();
-        $('.custom-button-wrapper').show();
-        $('.total-custom-price-wrapper').show();
-        $('.unit-custom-price-wrapper').show();
-
-        if($('input.custom-quantity-field').hasClass('wrong-value')){
-
-          $('p.quantity-error-message').html(''); 
-          $('input.custom-quantity-field').removeClass('wrong-value');
-          $('form.custom-product-form').removeClass('has-error');
-          var errorCount = $('form.custom-product-form').data("errorcount");
-          errorCount -= 1;
-          $('form.custom-product-form').data("errorcount", errorCount);
-
-        }
-      }
 
       if(value > 500){
-        $('#product-main-form').attr('action', '/contact#contact_form');
-        $('#boxStyle').attr('name', 'contact[Box Style]');
-        $('#boardGrade').attr('name', 'contact[Board Grade]');
-        $('#length').attr('name', 'contact[Length]');
-        $('#width').attr('name', 'contact[Width]');
-        $('#height').attr('name', 'contact[Height]');
-        $('#yes').attr('name', 'contact[Include Lid]');
-        $('#no').attr('name', 'contact[Include Lid]');
-        $('#qty').attr('name', 'contact[Quantity]');
+        $('.custom-contact-form-wrapper').show();
         $('.unit-custom-price-wrapper').hide();
         $('.total-custom-price-wrapper').hide();
         $('.custom-button-wrapper').hide();
-        $('.custom-contact-form-wrapper').show();
       }
 
     }else{
@@ -818,9 +873,9 @@ function convertFormToJSON(form) {
   });
 
   $(".tooltip-message").click(function(){
-    let includeLid = false;
+    let includeLid = "No";
         if($("#yes").is(':checked')){
-          includeLid = true;
+          includeLid = "Yes";
         }
         let customBoxDimentions = {
           "boxStyle": $("#boxStyle").val(),

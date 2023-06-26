@@ -9,8 +9,8 @@
       <div class="registered-users"> 
         <div class="form-vertical"> 
           <div class="row">
-            <div class="col-sm-6"> 
-              <div class="box-info f-right">
+            <div class="col-sm-12"> 
+              <div class="box-info">
                 <div id="CustomerLoginForm" class="login-user">
                   <div class="page-title">
                     <h2 {% if settings.language_enable %}data-translate="customer.login.title"{% endif %}>{{ 'customer.login.title' | t }}</h2>
@@ -37,7 +37,8 @@
                           <span class="reset-pass"><a href="#recover" id="RecoverPassword" {% if settings.language_enable %}data-translate="customer.login.forgot_password"{% endif %}>{{ 'customer.login.forgot_password' | t }}</a></span>
                           {% endif %}
                           <div class="buttons-set"> 
-                            <input type="submit" class="btn-button" {% if settings.language_enable %}data-translate="customer.login.log_in"{% endif %} value="{{ 'customer.login.log_in' | t }}">                    
+                            <input type="submit" class="custom-account-button btn-button" {% if settings.language_enable %}data-translate="customer.login.log_in"{% endif %} value="{{ 'customer.login.log_in' | t }}">
+                            <a href="/account/register" class="custom-button-link">Register</a>                    
                           </div> 
                         </li>
                       </ul> 
@@ -95,45 +96,7 @@
                 </div>
               </div> 
             </div>
-            <div class="col-sm-6 form-or">  
-              <div class="box-info">
-                <div class="new-user">
-                  <h2 {% if settings.language_enable %}data-translate="customer.login.register"{% endif %}>{{ 'customer.login.register' | t }}</h2>
-                  <p {% if settings.language_enable %}data-translate="customer.login.register_content"{% endif %}>{{ 'customer.login.register_content' | t }}</p>
-                  <div class="form-box">
-                    {% form 'create_customer' %} 
-                   
-                    {{ form.errors | default_errors }}
-                    <div class="content"> 
-                      <ul class="form-list">
-                        <li>
-                          <label for="FirstName" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.first_name"{% endif %}>{{ 'customer.register.first_name' | t }}</span><em>*</em></label>
-                          <input type="text" name="customer[first_name]" id="FirstName" class="input-full" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus required onkeydown="return /[a-z]/i.test(event.key)">
-                        </li>
-                        <li>
-                          <label for="LastName" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.last_name"{% endif %}>{{ 'customer.register.last_name' | t }}</span><em>*</em></label>
-                          <input type="text" name="customer[last_name]" id="LastName" class="input-full" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words" required onkeydown="return /[a-z]/i.test(event.key)">
-                        </li> 
-                        <li>
-                          <label for="Email" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.email"{% endif %}>{{ 'customer.register.email' | t }}</span><em>*</em></label>
-                          <input type="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off" required>
-                        </li>
-                        <li>
-                          <label for="CreatePassword" class="hidden-label"><span {% if settings.language_enable %}data-translate="customer.register.password"{% endif %}>{{ 'customer.register.password' | t }}</span><em>*</em></label>
-                          <input type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" required>
-                        </li>
-                        <li> 
-                          <div class="buttons-set">
-                            <input type="submit" {% if settings.language_enable %}data-translate="customer.register.submit"{% endif %} value="{{ 'customer.register.submit' | t }}" class="btn-button">
-                          </div>  
-                        </li>
-                      </ul> 
-                    </div>
-                    {% endform %}
-                  </div> 
-                </div>
-              </div>
-            </div>
+            
           </div> 
         </div> 
       </div>
