@@ -15,39 +15,43 @@ function convertFormToJSON(form) {
       var errorCount = $('form.custom-product-form').data("errorcount");
 
       if(!errorCount){
-      
-        if($(".custom-product-form").validate().element("#boxStyle")){
+
+        if($("#boxStyle").val()){
           $("#boxStyle-error").removeClass("error");
         }
 
-        if($(".custom-product-form").validate().element("#boardGrade")){
+        if($("#boardGrade").val()){
           $("#boardGrade-error").removeClass("error");
         }
 
-        if($(".custom-product-form").validate().element("#length")){
+        if($("#length").val()){
           $("#length-error").removeClass("error");
         }
 
-        if($(".custom-product-form").validate().element("#width")){
+        if($("#width").val()){
           $("#width-error").removeClass("error");
         }
 
-        if($(".custom-product-form").validate().element("#height")){
+        if($("#height").val()){
           $("#height-error").removeClass("error");
         }
 
-        if($(".custom-product-form").validate().element("#ContactFormName")){
+        if($("#ContactFormName").val()){
           $("#ContactFormName-error").removeClass("error");
         }
 
-        if($(".custom-product-form").validate().element("#ContactFormEmail")){
+        if($("#ContactFormEmail").val()){
           $("#ContactFormEmail-error").removeClass("error");
         }
-
-        if($(".custom-product-form").validate().element("#ContactFormMessage")){
+        if($(".custom-contact-form-field__address:visible").length){
+          if($("#ContactFormAddress").val()){
+            $("#ContactFormAddress-error").removeClass("error");
+          }
+        }
+        if($("#ContactFormMessage").val()){
           $("#ContactFormMessage-error").removeClass("error");
         }
-
+    
         var formValid = $('form.custom-product-form').valid();
         if(formValid){
           $('#product-main-form').attr('action', '/contact#contact_form');
