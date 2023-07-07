@@ -1,0 +1,36 @@
+.custom-icons{
+    max-width: 1722px;
+    margin: 0 auto;
+}
+
+.custom-icons__inner{
+    padding: 20px;
+    border: 1px solid black;
+}
+.custom-icons__blocks{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.custom-icons__block{
+    max-width: 240px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.custom-icons__image{
+    max-width: 140px;
+    margin: 0 auto;
+}
+
+.custom-icons__image > img{
+    width: 100%;
+}
+
+.custom-icons__text{
+    font-family: Rubik, arial, serif;
+    font-size: 16px;
+}

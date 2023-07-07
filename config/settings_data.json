@@ -1538,6 +1538,60 @@
           "margin_section": "10px 0 10px 0",
           "html_block": "<table>\n<tbody><tr>\n<td style=\"width: 10%; border: 0; \" class=\"hidden-xs\"><\/td>\n<td style=\"width: 60%; border: 0; \">\n<h2 style=\"padding-top:40px; padding-bottom:15px; text-align: center;\">Shop Custom Cardboard Boxes Now.<\/h2>\n<p style=\"font-size: 17px; padding-bottom:0px; padding-right:40px; text-align: left;\">\n<\/p>\n<a style=\"background-color: white; color: #f16321; border-radius: 4px; margin-bottom: 40px; margin-right: 10px; float:center;\" class=\"btn-button\" href=\"\/products\/custom-box\" target=\"_blank\">Buy A  Custom Box<\/a>\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\">\n<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0612\/4755\/3773\/files\/IMG_9177-scaled.jpg?v=1678928017\" alt=\"Custom Boxes\" width=\"400\" height=\"420\">\n<\/td>\n<td style=\"width: 10%; border: 0;\" class=\"hidden-xs\"><\/td>\n<\/tr><\/tbody>\n<\/table>"
         }
+      },
+      "2c435eba-42bd-430e-be10-dbbe58487849": {
+        "type": "custom-icons",
+        "blocks": {
+          "a08e8a74-e9e5-41e9-89dd-38118fb1a085": {
+            "type": "image",
+            "settings": {
+              "custom-icon": "shopify:\/\/shop_images\/1.png",
+              "icon-heading": "In Need of Boxes?",
+              "icon-desc": "<p>A few boxes to finish a large order?<\/p>"
+            }
+          },
+          "fff024fe-13c3-4f17-b205-d5e99710fba9": {
+            "type": "image",
+            "settings": {
+              "custom-icon": "shopify:\/\/shop_images\/2.png",
+              "icon-heading": "Custom Boxes",
+              "icon-desc": "<p>A special run of boxes for a 'one-off' order?<\/p>"
+            }
+          },
+          "6031b04a-8483-44f7-be1c-cb07d5578059": {
+            "type": "image",
+            "settings": {
+              "custom-icon": "shopify:\/\/shop_images\/3.png",
+              "icon-heading": "Bespoke Box",
+              "icon-desc": "<p>Only one box to meet a special requirement?<\/p>"
+            }
+          },
+          "36f27ce6-4511-443c-b536-4b7cfa50120a": {
+            "type": "image",
+            "settings": {
+              "custom-icon": "shopify:\/\/shop_images\/4.png",
+              "icon-heading": "Packaging Products",
+              "icon-desc": "<p>An exact quantity of boxes to pack your product<\/p>"
+            }
+          },
+          "7d714490-6f41-4739-9f87-e3de1e5c6667": {
+            "type": "image",
+            "settings": {
+              "custom-icon": "shopify:\/\/shop_images\/5.png",
+              "icon-heading": "Quick Turnaround",
+              "icon-desc": "<p>We specialise in small to medium run, quick turnaround production of corrugated boxes and sheet board.<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "a08e8a74-e9e5-41e9-89dd-38118fb1a085",
+          "fff024fe-13c3-4f17-b205-d5e99710fba9",
+          "6031b04a-8483-44f7-be1c-cb07d5578059",
+          "36f27ce6-4511-443c-b536-4b7cfa50120a",
+          "7d714490-6f41-4739-9f87-e3de1e5c6667"
+        ],
+        "settings": {
+        }
       }
     },
     "content_for_index": [
@@ -1555,7 +1609,8 @@
       "7e757b69-e0de-4325-9828-93f9acf2f28f",
       "05db7e35-517f-47ae-bbff-6521903940b4",
       "1498808587294",
-      "f759a3c1-d545-40e7-8cda-2b657b410b4e"
+      "f759a3c1-d545-40e7-8cda-2b657b410b4e",
+      "2c435eba-42bd-430e-be10-dbbe58487849"
     ],
     "blocks": {
       "558381514691908246": {
