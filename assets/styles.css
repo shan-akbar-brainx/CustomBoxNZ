@@ -31,3 +31,9 @@ a, i {
   -o-transition:all 500ms ease;
   transition:all 500ms ease;
 } 
+.thumb-link{
+    display:none !important;
+}
+#more-slides{
+  display:none !important;
+}

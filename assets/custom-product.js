@@ -335,7 +335,7 @@ function convertFormToJSON(form) {
           
           
           if((responce.totalRate != false && responce.totalRate != "false") && (responce.totalRate != 0 && responce.totalRate != null)){
-
+            console.log(responce);
             var calculatedUnitPrice = (responce.totalRate/value.quantity).toFixed(2);
 
             $("#calculated_price").val(calculatedUnitPrice);
