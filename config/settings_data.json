@@ -1541,6 +1541,7 @@
       },
       "2c435eba-42bd-430e-be10-dbbe58487849": {
         "type": "custom-icons",
+        "disabled": true,
         "blocks": {
           "a08e8a74-e9e5-41e9-89dd-38118fb1a085": {
             "type": "image",

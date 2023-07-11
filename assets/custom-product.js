@@ -413,12 +413,12 @@ function convertFormToJSON(form) {
   function boxStyleChange(){
     var selectedStyle = $('select.box-style').val();
     if(selectedStyle){
-      var maxLength = null;
-      var minLength = null;
-      var maxWidth = null;
-      var minWidth = null;
-      var maxHeight = null;
-      var minHeight = null;
+        var maxLength = null;
+        var minLength = null;
+        var maxWidth = null;
+        var minWidth = null;
+        var maxHeight = null;
+        var minHeight = null;
       if(selectedStyle == 'RSC'){
         maxLength = null;
         minLength = 65;
@@ -427,6 +427,7 @@ function convertFormToJSON(form) {
         maxHeight = 1500;
         minHeight = 55;
         $(".include-lid-field").addClass("display-hidden");
+        $("input#no").prop("checked", true);
       }else if(selectedStyle == 'HSC'){
         maxLength = null;
         minLength = 65;
@@ -444,6 +445,7 @@ function convertFormToJSON(form) {
         maxHeight = 1500;
         minHeight = 55;
         $(".include-lid-field").addClass("display-hidden");
+        $("input#no").prop("checked", true);
       }else if(selectedStyle == 'B&L'){
         maxLength = null;
         minLength = 130;
@@ -461,6 +463,7 @@ function convertFormToJSON(form) {
         maxHeight = 500;
         minHeight = 20;
         $(".include-lid-field").addClass("display-hidden");
+        $("input#no").prop("checked", true);
       }
       $("label.custom-length-field-label").html("Length mm");
       $("label.custom-width-field-label").html("Width mm");
