@@ -314,6 +314,7 @@
   </div>  
 </div> 
 <script>
+  const api_url = "https://custombox.mediagiant.co.nz";
   function customCheckout(){
     console.log("custom-checkout");
     var json_cart = {{ cart | json }};
@@ -331,7 +332,7 @@
       $('button.custom-cart-page-checkout-button').html('<i class="fa fa-spinner fa-spin"></i>');
     $.ajax({
         type: "POST",
-        url: "https://custombox.mediagiant.co.nz/api/v1/custom-box/get-checkout-link?shop=customboxnz.myshopify.com",
+        url: api_url + "/api/v1/custom-box/get-checkout-link?shop=customboxnz.myshopify.com",
         headers: {
           'Content-Type':'application/json'
         },
