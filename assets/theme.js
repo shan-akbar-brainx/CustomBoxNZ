@@ -185,7 +185,7 @@ theme.Header = (function() {
       } else {
         $(this).next().find('.side-menu').addClass("show");
       } 
-      if($(window).width()<=1200){
+      if($(window).width()<=991){
         if ($(".mobile-nav").hasClass("show")) {
           $(".mobile-nav").removeClass("show");
           $(".mobile-nav").slideUp();
